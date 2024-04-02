@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<head>
+    <title>Generate List</title>
+    <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+        th {text-transform: uppercase;}  
+        table, 
+        td {border: 1px solid black;height: 20px; text-transform: uppercase;}
+        body {text-align: center; background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; }
+        Name {text-transform: uppercase;}
+        findnama {text-transform: uppercase;}
+        .Yes{ background-color:green; color:white; }
+        .No{ background-color:red; color:white; }
+        h3 {text-align:left}
+        label{ font-size: 20px;}
+        select{ font-size: 20px;background-color: rgb(234, 156, 21);color: black;}
+        
+        
+    </style>
+<body>
+    <h1 style="color:black; font-size: 45px;">GENERATE LIST OF ALL JEMAAH </h1>
+    <label for="getdate">Choose Date:</label>
+    <select style="text-align: center;" id="chooseDate" name="chooseDate" onchange="changeDate()" ></select> 
+    <button style="padding:5px 15px; background-color: dodgerblue; color: white; border-radius: 10px;" onclick="window.location.href='homepage.html'"><i class="fa fa-home"></i> HOME</button><br/><br>
+    <h1 id="datechosen" style="display: none;"></h1>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getData" type="getData">Generate Registered Jemaah</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table1')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetData" type="resetgetData" class="fa fa-trash" > Clear Table </button>
+    <br/>
+
+    <div id="table1">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo1" >Senarai Nama Jemaah</p>
+      </div>
+      
+      <table id="dataTable" title=" List of Jemaah for "+getdate style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+        <th style="background-color:rgb(0, 75, 128); color: white">NO.</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">NAME</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">PHONE NO.</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">PASSPORT NO.</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">VISA NO.</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">IC NO.</th>
+        <th style="background-color:rgb(0, 75, 128); color: white">REMARKS</th>
+        </tr>
+      </table>
+    </div>
+
+    <br /><br/>
+
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataTrain" type="getDataTrain">Generate Train List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table2')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataTrain" type="resetgetDataTrain"class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table2">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo2" >   Senarai Nama Jemaah Train</p>
+      </div>
+      
+      <table id="dataTableTrain" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+        <th style="background-color:#C9DFEC">NO.</th>
+        <th style="background-color:#C9DFEC">NAME</th>
+        <th style="background-color:#C9DFEC">DATE OF BIRTH</th>
+        <th style="background-color:#C9DFEC">PASSPORT NO.</th>
+        <th style="background-color:#C9DFEC">PASSPORT EXPIRY DATE</th>
+        <th style="background-color:#C9DFEC">STATUS</th>
+        <th style="background-color:#C9DFEC">REMARK</th>
+        </tr>
+      </table>
+    </div>
+
+    <br /><br/>
+
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataMedicalcard" type="getDataMedicalcard">Generate Medical Card List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table3')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataMedicalCard" type="resetgetDataMedicalCard" class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table3">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo3" >Senarai Nama Jemaah Medical Card</p>
+      </div>
+      <table id="dataTableMedicalcard" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+        <th style="background-color:#5b76c4; color: white">NO.</th>
+        <th style="background-color:#5b76c4; color: white">NAME</th>
+        <th style="background-color:#5b76c4; color: white">PASSPORT NO.</th>
+        <th style="background-color:#5b76c4; color: white">IC NO.</th>
+        <th style="background-color:#5b76c4; color: white">DATE OF BIRTH</th>
+        <th style="background-color:#5b76c4; color: white">DATE OF DEPARTURE</th>
+        <th style="background-color:#5b76c4; color: white">DATE OF RETURN</th>
+        <th style="background-color:#5b76c4; color: white">PLAN</th>
+        </tr>
+      </table>
+    </div>
+    <br /><br/>
+
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataInsurance" type="getDataInsurance">Generate Insurance List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table4')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataInsurance" type="resetgetDataInsurance" class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table4">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo41" >Senarai Nama Jemaah Insurans (65 tahun kebawah)</p>
+      </div>
+      <table id="dataTableInsurance1" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+        <th style="background-color:#405ee4; color: white">NO.</th>
+        <th style="background-color:#405ee4; color: white">NAME</th>
+        <th style="background-color:#405ee4; color: white; width: 15%;">IC NO.</th>
+        <th style="background-color:#405ee4; color: white; width: 15%;">PHONE NO.</th>
+        <th style="background-color:#405ee4; color: white; width: 20%;">ADDRESS</th>
+        <th style="background-color:#405ee4; color: white">PASSPORT NO.</th>
+        <th style="background-color:#405ee4; color: white">AGE</th>
+        <th style="background-color:#405ee4; color: white">REMARKS</th>
+
+        </tr>
+      </table>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo42" >Senarai Nama Jemaah Insurans (65 tahun dan keatas)</p>
+      </div>
+      <table id="dataTableInsurance2" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+          <th style="background-color:#405ee4; color: white">NO.</th>
+          <th style="background-color:#405ee4; color: white">NAME</th>
+          <th style="background-color:#405ee4; color: white; width: 15%;">IC NO.</th>
+          <th style="background-color:#405ee4; color: white; width: 15%;">PHONE NO.</th>
+          <th style="background-color:#405ee4; color: white; ">ADDRESS</th>
+          <th style="background-color:#405ee4; color: white">PASSPORT NO.</th>
+          <th style="background-color:#405ee4; color: white">AGE</th>
+          <th style="background-color:#405ee4; color: white">REMARKS</th>
+
+        </tr>
+      </table>
+    </div>
+    <br/><br/>
+
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataInsuranceB" type="getDataInsuranceB">Generate Insurance List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table5')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataInsuranceB" type="resetgetDataInsuranceB" class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table5">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo3" >Senarai Nama Insurance (Non-Malaysian)</p>
+      </div>
+      <table id="dataTableInsurance3" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+          <th style="background-color:#405ee4; color: white">NO.</th>
+          <th style="background-color:#405ee4; color: white">NAME</th>
+          <th style="background-color:#405ee4; color: white; width: 15%;">IC NO.</th>
+          <th style="background-color:#405ee4; color: white; width: 15%;">PHONE NO.</th>
+          <th style="background-color:#405ee4; color: white; ">ADDRESS</th>
+          <th style="background-color:#405ee4; color: white">PASSPORT NO.</th>
+          <th style="background-color:#405ee4; color: white">AGE</th>
+          <th style="background-color:#405ee4; color: white">REMARKS</th>
+        </tr>
+      </table>
+    </div>
+    <br /><br/>
+
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataTaif" type="getDataTaif">Generate Taif List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table6')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataTaif" type="resetgetDataTaif" class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table6">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo6" >Senarai Nama Jemaah Taif</p>
+      </div>
+      <table id="dataTableTaif" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+          <th style="background-color:#000c3f; color: white">NO.</th>
+          <th style="background-color:#000c3f; color: white">NAME</th>
+          <th style="background-color:#000c3f; color: white; width: 15%;">REMARKS</th>
+          <th style="background-color:#000c3f; color: white; width: 15%;">OTHERS</th>
+        </tr>
+      </table>
+    </div>
+    <br /><br/>
+    
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataAll" type="getDataAll">Generate Registered Jemaah</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrintAll" onclick="createPDF('tableAll')" class="fa fa-print" > Print List</button>
+    <button style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataAll" type="resetgetDataAll" class="fa fa-trash" > Clear Table </button>
+    <br/>
+    <div id="tableAll">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="summary" >Summary Jemaah</p>
+      </div>
+      <table id="dataTableAll" title=" Summary Jemaah for "+getdate style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+        <th style="background-color:rgb(13, 58, 141); color:white">NO.</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">NAME</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">PHONE NO.</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">IC NO</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">PASSPORT NO</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">VISA NO</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">VISA TYPE</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">AGE</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">ROOM TYPE</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">FLIGHT</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">ADDITIONAL INSURANCE</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">MAKAN</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">KATIL</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">BEG</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">TAIF</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">MEDICAL CARD</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">TRAIN</th>
+        <th style="background-color:rgb(13, 58, 141); color:white">NATIONALITY</th>                
+        </tr>
+      </table>
+    </div>
+    <br/><br/>
+    <br/><br/><br/><br/><br/>
+    <script>
+      function changeDate() {
+          var selector = document.getElementsByName("chooseDate")[0];
+          var value = selector[selector.selectedIndex].value;
+          document.getElementById('datechosen').innerHTML = value;
+          document.getElementById("summary").innerHTML = "Summary Jemaah : " + value;
+          document.getElementById("demo1").innerHTML = "Senarai Nama Jemaah : " + value;
+          document.getElementById("demo2").innerHTML = "Senarai Nama Jemaah Train : " + value;
+          document.getElementById("demo3").innerHTML = "Senarai Nama Jemaah Medical Card : " + value;
+          document.getElementById("demo41").innerHTML = "Senarai Nama Jemaah Insurans (Jemaah berumur 65 tahun kebawah) : " + value;
+          document.getElementById("demo42").innerHTML = "Senarai Nama Jemaah Insurans (Jemaah berumur 65 tahun dan keatas) : " + value;
+          document.getElementById("demo6").innerHTML = "Senarai Nama Jemaah Taif : " + value;
+
+          }
+      document.addEventListener("load", changeDate);
+
+      function start(){  
+        row = event.target; 
+      }
+      function dragover(){
+        var e = event;
+        e.preventDefault(); 
+        
+        let children= Array.from(e.target.parentNode.parentNode.children);
+        
+        if(children.indexOf(e.target.parentNode)>children.indexOf(row))
+          e.target.parentNode.after(row);
+        else
+          e.target.parentNode.before(row);
+      }
+  </script>
+</body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+  import {getDatabase, ref, set, push,child, onValue,remove} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+  import { getAuth,  onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  const firebaseConfig = {
+    apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+    authDomain: "databaseezi.firebaseapp.com",
+    projectId: "databaseezi",
+    storageBucket: "databaseezi.appspot.com",
+    messagingSenderId: "500563704547",
+    appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+    measurementId: "G-TYSWSGNT29"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const analytics = getAnalytics(app);
+  //const udate = document.getElementById('getdate').value;
+
+  function checkuser(){
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+      } else {
+        alert("Please Sign In! ");
+        window.location.href= 'index.html';
+      }
+    });
+  }
+
+  window.addEventListener('load',checkuser);
+
+  function Getlist(){
+      const dbRef = ref(database, "Package");
+      onValue( dbRef, (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          const childkey = childSnapshot.key;
+          const childData = childSnapshot.val();
+          var row = `<option value="${childData.name}" class="${childData.name}" ">${childData.name}</option>`;
+            $(row).appendTo("#chooseDate");        
+        });
+      },
+      {
+        onlyOnce: true,
+      }
+      );
+    } 
+
+    window.addEventListener('load',Getlist);
+
+  resetgetDataAll.addEventListener("click", (e) =>{
+    $('#dataTableAll').find("tr:not(:first)").remove();
+  });  
+  resetgetData.addEventListener("click", (e) =>{
+    $('#dataTable').find("tr:not(:first)").remove();
+  });
+  resetgetDataTrain.addEventListener("click", (e) =>{
+    $('#dataTableTrain').find("tr:not(:first)").remove();
+  });
+  resetgetDataMedicalCard.addEventListener("click", (e) =>{
+    $('#dataTableMedicalcard').find("tr:not(:first)").remove();
+  });
+  resetgetDataInsurance.addEventListener("click", (e) =>{
+    $('#dataTableInsurance1').find("tr:not(:first)").remove();
+    $('#dataTableInsurance2').find("tr:not(:first)").remove();
+  });
+  resetgetDataInsuranceB.addEventListener("click", (e) =>{
+    $('#dataTableInsurance3').find("tr:not(:first)").remove();
+  });
+  resetgetDataTaif.addEventListener("click", (e) =>{
+    $('#dataTableTaif').find("tr:not(:first)").remove();
+  });
+
+  getDataAll.addEventListener("click", (e) =>{
+    
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+
+    $('#dataTableAll td').remove();
+    let no = 1;
+    const dbRef = ref(database, "Testing");
+    
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        var d = String(childData.id);
+        var d2 = d.substr(0,6)+"-"+d.substr(6,2)+"-"+d.substr(8,4);
+        let r = String(childData.no_telefon).split(" ").join("") ;
+        r =  r.split("-").join("");
+        r =  r.split("+6").join("");
+        r =  r.split("+").join("");
+
+        if(r[0] == "6"){
+          r = r.substring(1);
+        }
+
+        if(d2.length<14){
+          d2 = "NON MALAYSIAN";
+        }
+
+        var x = childData.roomtype;
+        var y = 0;
+        if(x == 5 ){
+          y = "4/5";
+        }
+        else{
+          y = x;
+        }
+
+        if (childData.pakej == value ){
+          var row = 
+          `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.nama_ic + "</td><td contenteditable='true'>" + r +
+          "</td><td contenteditable='true'>" + d2 + "</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ childData.visaNo + 
+          "</td><td contenteditable='true'>" + childData.visatype + "</td><td contenteditable='true'>" + childData.age +"</td><td contenteditable='true'>"+ y +
+          "</td><td contenteditable='true'>" + childData.flight + "</td><td contenteditable='true'>" + childData.insurance +"</td><td contenteditable='true'>"+ childData.makan +
+          "</td><td contenteditable='true'>" + childData.katil + "</td><td contenteditable='true'>" + childData.beg +"</td><td contenteditable='true'>"+ childData.taif +
+          "</td><td contenteditable='true'>" + childData.medicalcard + "</td><td contenteditable='true'>" + childData.train+ "</td><td contenteditable='true'>" + childData.nationality +"</td></tr>";
+          $(row).appendTo("#dataTableAll");
+          no++;
+        }
+        
+      });
+      //let doc = new jsPDF("p", "mm", [300, 300]);
+      //let makePDF = document.querySelector("#dataTable");
+ 
+      // fromHTML Method
+      //doc.fromHTML(makePDF);
+      //doc.save("output.pdf");
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getData.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    $('#dataTable td').remove();
+    let no = 1;
+    const dbRef = ref(database, "Testing");
+    
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        var d = String(childData.id);
+        var d2 = d.substr(0,6)+"-"+d.substr(6,2)+"-"+d.substr(8,4);
+        
+        if(d2.length<14){
+          d2 = "NON MALAYSIAN";
+        }
+
+        let r = String(childData.no_telefon).split(" ").join("") ;
+        r =  r.split("-").join("");
+        r =  r.split("+6").join("");
+        r =  r.split("+").join("");
+        
+        if(r[0] == "6"){
+          r = r.substring(1);
+        }
+
+        if (childData.pakej == value ){
+          var row = 
+          `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.NamePassport + "</td><td contenteditable='true'>" + r +
+          "</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ childData.visaNo + 
+          "</td><td contenteditable='true'>" + d2 + "</td><td contenteditable='true'>"+ "" + "</td><tr>";
+          $(row).appendTo("#dataTable");
+          no++;
+        }
+        
+      });
+      //let doc = new jsPDF("p", "mm", [300, 300]);
+      //let makePDF = document.querySelector("#dataTable");
+ 
+      // fromHTML Method
+      //doc.fromHTML(makePDF);
+      //doc.save("output.pdf");
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+    
+  });
+
+  getDataTrain.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no =1;
+    $('#dataTableTrain td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        if(childData.train == "Yes" && childData.pakej == value){
+          let a = new Date(childData.tarikh_lahir) ;
+          var b = a.toLocaleDateString();
+          var d2 = b.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,"$2$1$3");
+          let c = new Date(childData.tarikh_expired) ;
+          var d = c.toLocaleDateString();
+          var d1 = d.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,"$2$1$3");
+
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.NamePassport + 
+            "</td><td contenteditable='true'>" + d2  +"</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ d1 +
+            "</td><td contenteditable='true'>"+ "" + "</td><td contenteditable='true'>"+ "" + "</td><tr>";
+          $(row).appendTo("#dataTableTrain"); 
+          no++;
+        }
+        
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getDataInsurance.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no =1;
+    let number =1
+    $('#dataTableInsurance1 td').remove();
+    $('#dataTableInsurance2 td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        var d = String(childData.id);
+        var d2 = d.substr(0,6)+"-"+d.substr(6,2)+"-"+d.substr(8,4);
+        let r = String(childData.no_telefon).split(" ").join("") ;
+        r =  r.split("-").join("");
+        r =  r.split("+6").join("");
+        r =  r.split("+").join("");
+
+        if(d2.length<14){
+          d2 = "NON MALAYSIAN";
+        }
+
+        if(r[0] == "6"){
+          r = r.substring(1);
+        }
+
+        if(childData.nationality == "Malaysian" && childData.age < 65 && childData.pakej == value){
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.nama_ic + "</td><td contenteditable='true'>" + d2  +
+          "</td><td contenteditable='true'>" + r +`</td><td contenteditable='true' style="text-align:left">`+ childData.alamat +
+          "</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ childData.age +"</td><td contenteditable='true'>"+ ""+ "</td><tr>";
+          $(row).appendTo("#dataTableInsurance1");
+          no++; 
+        }
+        else if(childData.nationality == "Malaysian" && childData.age >= 65 && childData.pakej == value){
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ number +`</td><td contenteditable='true' style="text-align:left">` + childData.nama_ic + "</td><td contenteditable='true'>" + d2  +
+          "</td><td contenteditable='true'>" + r +`</td><td contenteditable='true' style="text-align:left">`+ childData.alamat +
+          "</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ childData.age +"</td><td contenteditable='true'>"+ ""+ "</td><tr>";
+          $(row).appendTo("#dataTableInsurance2");
+          number++; 
+        }
+        
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getDataInsuranceB.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no =1;
+    let number =1
+    $('#dataTableInsurance3 td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        var d = String(childData.id);
+        var d2 = d.substr(0,6)+"-"+d.substr(6,2)+"-"+d.substr(8,4);
+        let r = String(childData.no_telefon).split(" ").join("") ;
+        r =  r.split("-").join("");
+        r =  r.split("+6").join("");
+        r =  r.split("+").join("");
+
+        if(d2.length<14){
+          d2 = "NON MALAYSIAN";
+        }
+
+        if(r[0] == "6"){
+          r = r.substring(1);
+        }
+
+        if(childData.nationality == "Non-Malaysian" && childData.pakej == value){
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.nama_ic + "</td><td contenteditable='true'>" + d2  +
+          "</td><td contenteditable='true'>" + r +`</td><td contenteditable='true' style="text-align:left">`+ childData.alamat +
+          "</td><td contenteditable='true'>" + childData.passportNo +"</td><td contenteditable='true'>"+ childData.age +"</td><td contenteditable='true'>"+ ""+ "</td><tr>";
+          $(row).appendTo("#dataTableInsurance3");
+          no++; 
+        } 
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getDataTaif.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no =1;
+    let number =1
+    $('#dataTableTaif td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+
+        if(childData.taif == "Yes" && childData.pakej == value){
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.NamePassport + 
+            "</td><td contenteditable='true'></td><td contenteditable='true'></td><tr>";
+          $(row).appendTo("#dataTableTaif");
+          no++; 
+        } 
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getDataMedicalcard.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no=1;
+    $('#dataTableMedicalcard td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+
+        var d = String(childData.id);
+        var d4 = d.substr(0,6)+"-"+d.substr(6,2)+"-"+d.substr(8,4);
+
+        if(d4.length<14){
+          d4 = "NON MALAYSIAN";
+        }
+
+        if(childData.medicalcard != "No" && childData.pakej == value){
+          if(childData.medicalcard == "sekatan"){
+            return;
+          }
+          let a = new Date(childData.tarikh_lahir) ;
+          var b = a.toLocaleDateString();
+          var d1 = b.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,"$2$1$3");
+          let c = new Date(childData.tarikh_pergi) ;
+          var d = c.toLocaleDateString();
+          var d2 = d.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,"$2$1$3");
+          let e = new Date(childData.tarikh_balik) ;
+          var f = e.toLocaleDateString();
+          var d3 = f.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,"$2$1$3");
+
+          var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left" >` + childData.NamePassport + "</td><td contenteditable='true'>" + childData.passportNo  +
+          "</td><td contenteditable='true'>" + d4 +"</td><td contenteditable='true'>"+ d1 +"</td><td contenteditable='true'>" + d2 + "</td><td contenteditable='true'>"+ d3 + "</td><td contenteditable='true'>"+ childData.medicalcard + "</td><tr>";
+          $(row).appendTo("#dataTableMedicalcard");
+          no++; 
+        }        
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+</script>
+
+<script>
+    function createPDF(table) {
+        var sTable = document.getElementById(table).innerHTML;
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 12px Calibri; margin:10;}";
+        style = style + "table, th , td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>'+ table+'</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write('');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+        win.print();    // PRINT THE CONTENTS.
+    }
+</script>

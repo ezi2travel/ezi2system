@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Credit Note</title>
+        <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <style>
+        body { background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; text-align:left;}
+        label{
+            display:inline-block;
+            width: 30%;
+            font-size: 25px;
+            font-weight: bold;
+            margin-left: 5%;
+        }
+        p{
+            display:inline-block;
+            font-size: 25px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        input,textarea{
+            font-size: 25px;
+            width: 30%;
+        }
+        h1{
+            color:rgb(0, 60, 255); 
+            text-align: center; 
+            font-size: 45px; 
+            font-weight: bold; 
+            font-style: italic;
+        }
+        
+        
+    </style>
+    <body>
+        <h1>MAKE A CREDIT NOTE</h1>
+        <div>
+            <div >
+                <label>NAME : </label>
+                <input id="test1" placeholder="Enter name" onkeyup="this.value = this.value.toUpperCase();">
+            </div><br/>
+            <div>
+                <label>CREDIT NOTE NO : </label>
+                <input disabled id="test2">
+            </div><br/>
+            <div>
+                <label>RECEIPT CREDIT NOTE : </label>
+                <input disabled id="test3">
+            </div><br/>
+            <div>
+                <label>DATE : </label>
+                <input disabled id="test4">
+            </div><br/>
+            <div>
+                <label>AMOUNT : </label>
+                <input id="test5" placeholder="Enter amount" >
+            </div><br/>
+            <div>
+                <label>REFERENCES : </label>
+                <textarea id="test6"></textarea>
+            </div><br/><br/>
+        </div>
+
+        <div style="text-align: center;">
+            <div >
+                <button style="background-color: green ; color: white; padding: 10px 25px; border-radius: 10px" id="add_CN">Add Credit Note <i class="fa fa-plus"></i> </button>
+                <button onclick="pay()" style="background-color: rgb(0, 166, 255) ; color: black; padding: 10px 25px; border-radius: 10px" ><i class="fa fa-arrow-left"> BACK</i></button></br></br>            
+            </div> 
+            <br /><br/>
+        </div>
+
+        <div style="border: 1px solid white; width: 50%; margin-left: 5%;" >
+            <ul id="myUL" style="font-size: 25px;"></ul>
+        </div>
+
+        
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+        <script>
+            function pay(){
+                let y = document.getElementById("index").innerHTML;
+                window.history.go(-1);
+            }
+        </script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+            import {getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+            import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+            const firebaseConfig = {
+              apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+              authDomain: "databaseezi.firebaseapp.com",
+              projectId: "databaseezi",
+              storageBucket: "databaseezi.appspot.com",
+              messagingSenderId: "500563704547",
+              appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+              measurementId: "G-TYSWSGNT29"
+            };
+          
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            const analytics = getAnalytics(app);
+            
+            window.addEventListener('load',checkuser);
+
+            function checkuser(){
+                const auth = getAuth();
+                onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const uid = user.uid;
+                } else {
+                    alert("Please Sign In! ");
+                    window.location.href= 'index.html';
+                }
+                });
+            }
+
+            const queryString = window.location.search;
+            var x = queryString.substring(7);
+            let y = x.split("%20").join(" ").toUpperCase();
+            test1.value = y;
+
+            const dbref = ref(db);
+
+            function retData(){
+                if(test1.value == "" || test1.value == null || y == "" || y == null){
+                    test4.value = new Date().toLocaleDateString('en-GB');
+                    test5.value = "";
+                    test6.value = "";
+                    test2.value = "1";
+                    
+                    get(child(dbref, 'number')).then((snapshot)=>{
+                        let a = (Number(snapshot.val().creditNote_no)+1);
+                        let b = a.toString().padStart(9, '0');
+                        test3.value = "#CN" + b;
+                        document.getElementById("receipt_no").innerHTML = "RECEIPT NO : #CN" + b;
+                        document.getElementById("date_Pay").innerHTML ="DATE : " + new Date().toLocaleDateString('en-GB');
+                    })
+                }
+                else{
+                    test2.value ="1";
+                    test4.value = new Date().toLocaleDateString('en-GB');
+                    test5.value = "";
+                    test6.value = "";
+
+                    get(child(dbref, 'CreditNote/'+y)).then((snapshot)=>{
+                        test1.value = y;
+                        test2.value = (Number(snapshot.val().creditnote_no)+1);
+                        
+                        document.getElementById("date_Pay").innerHTML ="DATE : " + new Date().toLocaleDateString('en-GB'); 
+                    })
+                    
+                    get(child(dbref, 'number')).then((snapshot)=>{
+                        let a = (Number(snapshot.val().creditNote_no)+1);
+                        let b = a.toString().padStart(9, '0');
+                        test3.value = "#CN" + b;
+                        document.getElementById("receipt_no").innerHTML = "RECEIPT NO : #CN" + b;
+                    })
+                }
+                
+            }
+
+            window.addEventListener('load',GetCN);
+
+            let t_amount = 0;
+
+            function GetCN(){
+                const dbref = ref(db);
+                get(child(dbref,'CreditNote/'+ y +'/CreditNote')).then((snapshot)=>{
+                snapshot.forEach(std => {
+                    CNList(std);
+                    
+                });
+                });
+            }
+
+            function CNList(std){
+                let key = std.key;
+                let value = std.val();
+                let date = document.createElement('li');
+                if (key == 0){
+                date.innerHTML = "<p>LIST OF Credit Note</p>";
+                }
+                else{
+                date.innerHTML = '<a style = "color:white" href="CN.html?index='+y+'@'+key+'" style="text-align:left">CREDIT NOTE : '+ key + ' AMOUNT : RM ' + value.amount ;
+                }
+                myUL.append(date);
+                calculate(value.amount); 
+            }
+
+            function calculate(x){
+                const dbref = ref(db);
+                t_amount= Number(t_amount)  + Number(x);
+                //alert(x);
+                update(ref(db,'CreditNote/' + y), {
+                total_creditnote : t_amount,
+                })
+            }
+    
+            function ADD_CN(){
+                const dbref = ref(db);
+
+                if(test1.value =="" || test1.value==null ||test5.value =="" || test5.value==null ||test6.value =="" || test6.value==null){
+                    alert("Please fill all the details!");
+                    return;
+                }
+                else{
+                    get(child(dbref, 'CreditNote/' + y )).then((snapshot)=>{
+                        let a = (Number(snapshot.val().creditnote_no)+1);
+                        set(ref(db,'CreditNote/' + y + "/CreditNote/" + a), {
+                            amount : test5.value,
+                            reference : test6.value,
+                            date : test4.value,
+                            cn_no : test3.value,
+                        }).then(()=>{
+                            alert("Credit Note Added !");
+                            update(ref(db,'CreditNote/' + y), {
+                            creditnote_no : a,
+                            })
+                            window.location.href= 'CreateCreditNote.html?index=' + y;
+                        }).catch((error)=>{
+                            alert("unsucessful");
+                            console.log(error);
+                        })
+                    })
+                    get(child(dbref, 'number')).then((snapshot)=>{
+                    let a = (Number(snapshot.val().creditNote_no)+1);
+                    update(ref(db,'CreditNote/' + y ), {
+                        creditnote_no : a,                
+                    })
+                    update(ref(db,'number'), {
+                        creditNote_no : a,                
+                    })
+                })
+                }
+            }
+
+            add_CN.addEventListener('click', ADD_CN);   
+            window.addEventListener('load',retData);
+
+        </script>
+    </body>
+</html>

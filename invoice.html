@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Invoice for Jemaah</title>
+    <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        label{
+            display:inline-block;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 110px; 
+        }
+        input{
+            margin-left: 5%;
+            width: 50%;
+            height: 30px;
+            font-size: 20px;
+            word-wrap: break-word; 
+        }
+        textarea{
+          margin-left: 5%;
+          width: 50%;
+          height: 80px;
+          font-size: 20px;
+          word-wrap: break-word;
+        }
+      
+        button{
+            height:50px;
+            width:90px;
+        }
+        
+        body {text-align: left; background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed;}
+        
+        h3 {text-align:left}
+        .btn {
+          background-color: DodgerBlue;
+          border: none;
+          color: white;
+          padding: 12px 16px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        .btn:hover {
+          background-color: RoyalBlue;
+        }
+        .review{
+          margin-left:60%;
+          width: device-width;   
+        }
+        .form{
+          height:100%;
+          width:100%;
+          position: fixed; 
+          z-index: 1; 
+          top: 0; 
+          left: 10%;  
+          overflow-x: hidden;
+          padding-top: 20px;
+          text-align : left;
+        }
+        
+    </style>
+</head>
+
+<body>
+   
+<div class="review">
+  <h2 id="index" style="display: none;"></h2>
+</div>
+
+<div class="form" >
+  <h1 style="color:blue; font-size: 45px;">VIEW PAYMENT DETAILS HERE</h1>
+  <label>NAME : </label>
+  <input style="border-radius: 10px;" type="text" id="Name" name="Name" placeholder="Enter name" onkeyup="this.value = this.value.toUpperCase()"/><br><br>
+  <label>PHONE NO : </label>
+  <input style="border-radius: 10px;" type="number" id="no_telefon" name="no_telefon" placeholder="Enter Phone Number"/><br><br>
+  <label>ADDRESS : </label>
+  <textarea style="border-radius: 10px;" type="text" id="address" name="address" placeholder="Address" onkeyup="this.value = this.value.toUpperCase()" ></textarea><br><br>
+  <label>PAYMENT IN NAME : </label>
+  <textarea style="border-radius: 10px;" type="text" id="details" name="details" placeholder="Details" onkeyup="this.value = this.value.toUpperCase()" ></textarea><br><br>
+  <label>STATUS : </label>
+  <input style="border-radius: 10px;" type="text" id="status" name="status" disabled placeholder="Status" /><br><br>
+  <label>BALANCE : </label>
+  <input style="border-radius: 10px;" type="text" id="balance" name="balance" disabled placeholder="Balance"/><br><br>
+  <br/><br/>
+  <div style="display: inline-flexbox">
+    <button id="AddBtn" style="background-color :green; color:white; font-weight: bold; border-radius: 10px;">ADD</button>
+    <button id="UpdBtn" style="background-color :blue; color:white; font-weight: bold; border-radius: 10px;">UPDATE</button>
+    <button id="PayBtn" onclick=pay() style="background-color :rgb(29, 142, 95); color:black; font-weight: bold; border-radius: 10px;">SUMMARY</button>
+    <button id="btn" onclick="window.location.href='search_invoice.html'" style="background-color :yellow; font-weight: bold; border-radius: 10px;"><i class="fa fa-arrow-left" > </i> BACK</button>
+    <button onclick="window.location.href='homepage.html'" style="background-color :rgb(14, 163, 255); color:black; font-weight: bold; border-radius: 10px;"><i class="fa fa-home" > </i> HOME</button>
+    <br/><br/>
+  </div>
+  <p id="userid"></p>
+  <p id="date_payment" style="display: none;"></p> 
+  <div style="border: 1px solid white; width: 50%;" >
+    <ul id="myUL" style="font-size: 25px;"></ul>
+  </div>
+</div>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+  import {getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+  import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+    authDomain: "databaseezi.firebaseapp.com",
+    projectId: "databaseezi",
+    storageBucket: "databaseezi.appspot.com",
+    messagingSenderId: "500563704547",
+    appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+    measurementId: "G-TYSWSGNT29"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const analytics = getAnalytics(app);
+
+  function checkuser(){
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          if(user.email == "irhamfirdaus00@yahoo.com"){
+            userid.innerHTML= "ezi2s1";
+          }
+          else if(user.email == "ad.ezi2travel@gmail.com"){
+            userid.innerHTML= "ezi2s2";
+          }
+          else if(user.email == "ad2.ezi2travel@gmail.com"){
+            userid.innerHTML= "ezi2s3";
+          }
+        } 
+        else {
+          alert("Please Sign In! ");
+          window.location.href= 'index.html';
+        }
+      });
+  }
+
+  window.addEventListener('load',checkuser);
+
+  const queryString = window.location.search;
+  var x = queryString.substring(7);
+  document.getElementById("index").innerHTML = x.split("%20").join(" ").toUpperCase();
+  let y = x.split("%20").join(" ").toUpperCase();
+  document.getElementById("Name").value = y;
+
+  let name = document.getElementById('Name');
+  let no_telefon = document.getElementById('no_telefon');
+  let status = document.getElementById('status');
+  let balance = document.getElementById('balance');
+  let address = document.getElementById('address');
+  let details = document.getElementById('details');
+
+  let AddBtn = document.getElementById('AddBtn');
+  let UpdBtn = document.getElementById('UpdBtn');
+  let PayBtn = document.getElementById('PayBtn');
+
+  function pay(){
+    if(name.value == "" || name.value == null){
+      alert("Please fill name of Jemaah");
+    }
+    else if(no_telefon.value == "" || no_telefon.value == null){
+      alert("Please fill phone number of Jemaah");
+    }
+    else if(address.value == "" || address.value == null){
+      alert("Please fill address of Jemaah");
+    }
+    else{
+      const dbref = ref(db);
+      get(child(dbref, 'Payment/' + name.value)).then((snapshot)=>{
+        if(snapshot.exists()){
+          window.location.href='pay.html?index='+ y;
+        }
+        else{
+          alert("Jemaah does not exist!");
+          window.location.href='invoice.html';
+        }
+      })
+    }
+  }
+
+  function AddData(){
+    if(name.value =="" || name.value==null ||name.value =="" || no_telefon.value==null ){
+      alert("Please fill all the details!");
+      return;
+    }
+    else{
+      const dbref = ref(db);
+            
+      get(child(dbref, 'Payment/' + name.value)).then((snapshot)=>{
+        if(snapshot.exists()){
+          alert("Employee already exist, only can update!");
+        }
+        else{
+          set(ref(db,'Payment/' + name.value), {
+            name : name.value,
+            no_telefon : no_telefon.value,
+            payment_status : "UNPAID",
+            alamat : address.value,
+            details : details.value,
+            baki:0,
+            total:0,
+            payment_no : 0,
+                            
+          }).then(()=>{
+            alert("Jemaah Added Successfully !");
+            window.location.href= 'search_invoice.html';
+          }).catch((error)=>{
+            alert("Please add product");
+            console.log(error);
+          })
+
+          let d = document.getElementById("date_payment").innerHTML;
+          set(ref(db,'Payment/' + name.value + "/payment/"+"0"), {
+            amount:0,
+            reference:"",
+            date : d
+          })
+
+          set(ref(db,'CreditNote/' + name.value + "/CreditNote/"+"0"), {
+            amount:0,
+            reference:"",
+            date : d,
+          })
+          update(ref(db,'CreditNote/' + name.value ), {
+            creditnote_no:"0",
+          })
+          
+          
+        }
+      })
+
+      get(child(dbref, 'number')).then((snapshot)=>{
+        let a = (Number(snapshot.val().invoice_no)+1);
+        update(ref(db,'Payment/' + name.value), {
+            invoice_no : a,                
+        })
+        update(ref(db,'number'), {
+            invoice_no : a,                
+        })
+      })
+    }
+    
+  }
+
+    function UpdData(){
+      if(name.value =="" || name.value==null || no_telefon.value =="" || no_telefon.value==null ){
+      alert("Please fill all the details!");
+      return;
+      }
+      else{
+        update(ref(db,'Payment/' + name.value), {
+        name : name.value,
+        no_telefon : no_telefon.value,
+        alamat : address.value,
+        details : details.value,
+        
+        }).then(()=>{
+            alert("Data Updated Successfully !");
+        }).catch((error)=>{
+            alert(error);
+            console.log(error);
+        })
+      }
+      
+    }
+  
+  let t_amount = 0;
+    
+  function GetPackage(){
+    const dbref = ref(db);
+    get(child(dbref,'Payment/'+ y +'/payment')).then((snapshot)=>{
+      snapshot.forEach(std => {
+        PackageListItem(std);
+        
+      });
+    });
+  }
+
+  function PackageListItem(std){
+    let key = std.key;
+    let value = std.val();
+    let date = document.createElement('li');
+    if (key == 0){
+      date.innerHTML = "<p>LIST OF PAYMENT</p>";
+    }
+    else{
+      date.innerHTML = '<a style = "color:white" href="proof_payment.html?index='+y+'@'+key+'_'+value.amount+'&'+value.baki_after_payment+'$'+value.date+'" style="text-align:left">Payment : '+ key + ' Amount : RM ' + value.amount +" On : " + value.date;
+    }
+    calculate(value.amount,key);
+    myUL.append(date); 
+  } 
+
+  function calculate(x,p){
+    const dbref = ref(db);
+    t_amount= Number(t_amount)  + Number(x);
+    //alert(x);
+    update(ref(db,'Payment/' + y), {
+      total_payment : t_amount,
+    })
+
+    let x_discount = 0;
+
+    get(child(dbref, 'Payment/' + y +"/discount")).then((snapshot)=>{
+      x_discount = snapshot.val().amount;
+      let y = snapshot.val().remarks;
+      discount.innerHTML = "DISCOUNT : (- RM " + x_discount+ ")";
+    })
+
+    let cn = 0;
+    
+    get(child(dbref, 'CreditNote/' + y)).then((snapshot)=>{
+        cn = snapshot.val().total_creditnote;
+    })
+
+    get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+      name.value = snapshot.val().name;
+      no_telefon.value = snapshot.val().no_telefon;
+      address.value = snapshot.val().alamat;
+      details.value = snapshot.val().details;
+      if(snapshot.exists()){
+      let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment)+ Number(cn) -Number(x_discount);
+      if(N_baki == 0 && snapshot.val().total != 0){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "FULLY PAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "FULLY PAID";
+        balance.value = "RM " + N_baki;
+      }
+      else if(N_baki  < snapshot.val().total && N_baki > 0){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "PARTIALLY PAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "PARTIALLY PAID";
+        balance.value = "RM " + N_baki;
+      }
+      else if(N_baki  <  0){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "OVER PAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "OVER PAID";
+        balance.value = "RM " + N_baki;
+      }
+      else if(snapshot.val().total == 0){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "UNPAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "UNPAID";
+        balance.value = "RM " + N_baki;
+      }
+      else {
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "UNPAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "UNPAID";
+        balance.value = "RM " + N_baki;
+      }
+      } 
+    })
+    
+  }
+  function getDate(){
+    const result1 = new Date().toLocaleDateString('en-GB');
+    document.getElementById("date_payment").innerHTML = result1;
+  }
+
+
+  window.addEventListener('load',GetPackage);
+  AddBtn.addEventListener('click',AddData);
+  UpdBtn.addEventListener('click',UpdData);
+  PayBtn.addEventListener('click',pay);
+  window.addEventListener('load',getDate);
+
+
+    </script>
+</body>
+</html>
