@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EDIT PRODUCTS</title>
+<link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body{
+    margin-top: 5%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-image: linear-gradient(aliceblue, rgb(142, 195, 242));
+    background-attachment: fixed; 
+    
+  }
+
+  #country {
+    height: 40px;
+    max-width: 400px;
+  }
+  td {
+    border: 1px solid black;
+    background-color: white; 
+  }
+  th {border: 1px solid black; }
+  table {border: 1px solid black; }
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  h1{
+    font-size: 45px;
+    font-style: italic;
+    color: blue;
+    font-weight: bold;
+  }
+  h2{
+    color: green;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic ;
+  }
+  .option{
+    font-size: 25px;
+  }
+  
+</style>
+
+</head>
+
+<body >
+  <div style="text-align: center;">
+    <h1>EDIT OR ADD PRODUCTS FOR CUSTOMER : </h1><br/><br/>
+    <h2 id="index" ></h2><br/><br/>
+  </div>
+  
+
+  <div style="text-align: center" class="form-group"  >
+    <select class="form-control" id="country" name="country">  
+       <option value="">Search Items</option>  
+    </select>
+
+    <input  id="quantity" type="number" placeholder="Enter quantity" ><br/><br/>
+    <button style="padding:6px 25px; border-radius: 10px; background-color: blue; color: white" id="button_plus"><i class="fa fa-plus" ></i> ADD</button>
+    <button style="padding:6px 25px; border-radius: 10px; background-color: green; color: white" id="done_button" onclick="done_button()"><i class="fa fa-check" style="background-color: green; color: white"></i> DONE</button>
+    <button style="padding:6px 25px; border-radius: 10px; background-color: red; color: white" onclick="back()"><i class="fa fa-home" ></i> BACK</button>
+  </div><br>
+
+  <div >
+    <table class="center" id="ListItems" style="width: 80%; align-items: center; text-align: center;">
+      <tr>
+        <th style="background-color:cyan">NO</th>
+        <th style="background-color:cyan">PRODUCT</th>
+        <th style="background-color:cyan">QUANTITY</th>
+        <th style="background-color:cyan">UNIT PRICE</th>
+        <th style="background-color:cyan">AMOUNT</th>
+        <th style="background-color:cyan">ACTION</th>
+      </tr>
+    </table>
+  </div>
+<script>
+  $(function(){$("#country").select2();}); 
+
+  function setvalue(x){
+    let y = document.getElementById("index").innerHTML;
+    window.location.href= 'editProduct.html?index='+y+"/value="+x;
+  }
+  function done_button(){
+    let y = document.getElementById("index").innerHTML;
+    window.location.href= 'invoice.html?index='+y;
+  }
+  function back(){
+    let y = document.getElementById("index").innerHTML;
+    window.location.href= 'invoice.html?index='+y;
+  }
+
+  
+  
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+  import {getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+  import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+      authDomain: "databaseezi.firebaseapp.com",
+      projectId: "databaseezi",
+      storageBucket: "databaseezi.appspot.com",
+      messagingSenderId: "500563704547",
+      appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+      measurementId: "G-TYSWSGNT29"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const analytics = getAnalytics(app);
+
+  function checkuser(){
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+      } else {
+        alert("Please Sign In! ");
+        window.location.href= 'index.html';
+      }
+    });
+  }
+
+  window.addEventListener('load',checkuser);
+
+  let no = 1;
+  const queryString = window.location.search;
+  var x = queryString.substring(7);
+  let y = x.split("%20").join(" ").toUpperCase();
+  let button_plus = document.getElementById("button_plus");
+  let quantity = document.getElementById("quantity");
+  document.getElementById("index").innerHTML = y;
+  
+  function Getlist(){
+    const dbRef = ref(db, "Products");
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        var row = "<option class="+ childData.name + "value=" + childData.price+">"+childData.name+"</option>";
+          $(row).appendTo("#country");        
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  }   
+
+  function GetTable(){
+    $('#ListItems').find("tr:not(:first)").remove();
+    const dbref = ref(db);
+    get(child(dbref,'Payment/'+y+"/product")).then((snapshot)=>{
+      snapshot.forEach(std => {
+        GetTableList(std);
+        no ++;
+      }); 
+    });
+  }
+  let final_total = 0;
+
+  function GetTableList(std){
+    let key = std.key;
+    let value = std.val();
+    let date = document.createElement('tr');
+    let a = value.quantity*value.unit_price;
+    date.innerHTML = '<td>'+ no +"</td><td>"+ value.name +"</td><td>"+ value.quantity +"</td><td>RM "+ value.unit_price +"</td><td>RM "+ a +"</td>"+
+    `<td><button id="delete_item" onclick="setvalue('`+value.name+`')"><i class="fa fa-pencil" style="color:red"></i></button></td>`;
+    ListItems.append(date);
+    final_total = final_total + a;
+    update(ref(db,'Payment/' + y),{
+      total : final_total})             
+  }
+
+  function addItem(){
+    let number = 0;
+    var selector = document.getElementsByName("country")[0].value;
+
+    if(selector =="" || selector == null || quantity.value =="" || quantity.value == null || quantity.value <= 0){
+      alert("Please choose at least one product");
+      return;
+    }
+    else{
+      const dbref = ref(db);
+      get(child(dbref, 'Products/' + selector)).then((snapshot)=>{
+        if(snapshot.exists()){
+          get(child(dbref, 'Payment/' + y +"/product/"+ selector)).then((snapshot)=>{
+            let N_quantity = Number(snapshot.val().quantity) + Number(quantity.value);
+            update(ref(db,'Payment/' + y +"/product/"+ selector), {
+              quantity : N_quantity,
+            });
+          })
+        }
+        set(ref(db,'Payment/' + y +"/product/"+ selector), {
+          name : selector,
+          description : snapshot.val().description,
+          quantity : quantity.value,
+          unit_price :  snapshot.val().price
+              
+        }).then(()=>{
+            alert("Product/Package Added Successfully !");
+            window.location.href= 'products.html?index='+y;
+        }).catch((error)=>{
+            alert("unsucessful");
+            console.log(error);
+        })
+          
+      })
+    } 
+  }
+
+  window.addEventListener('load',Getlist);
+  window.addEventListener('load',GetTable);
+  button_plus.addEventListener('click',addItem);
+
+  </script>
+</body>
+</html>

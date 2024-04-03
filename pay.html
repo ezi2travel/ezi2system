@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SUMMARY INVOICE</title>
+        <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            td {border: 1px solid black; }
+            th {border: 1px solid black; }
+            table {border: 1px solid black; }
+            body { background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; text-align:left;}
+
+        </style>
+    </head>
+    <body>
+        <div id="invoice" class="invoice" >
+            <div id="company_info" style="margin: 5px; display: flex; ">
+                <img src="./Logo_Ezi2travel_2.png" style="width:100px; height:100px; margin-top: 30px;">
+                <div id="company_address" style="margin-left: 10px; margin-top: 20px;" >
+                    <p style="line-height: 0.5; font-weight: bold;">EZI2TRAVEL SDN BHD (759360-P)</p>
+                    <p style="line-height: 0.5; ">9G, JALAN DESA ARA,
+                    <p style="line-height: 0.5;">TAMAN DESA ARA,</p>
+                    <p style="line-height: 0.5;">13300 TASEK GELUGOR,</p>
+                    <p style="line-height: 0.5;">PULAU PINANG</p>
+                    <p style="line-height: 0.5;">PHONE : +604-5334834 / +60125770564</p>
+                    <p style="line-height: 0.5;">Email : ezi2travelsdnbhd@gmail.com /</p> 
+                    <p style="line-height: 0.5;">hq@ezi2travel.com</p>
+                </div>
+                <div id="invoice_title" style="margin-left: 100px;" >
+                    <div>
+                        <h1>INVOICE</h1>
+                        <p id="invoice_no">invoice number : </p>
+                        <p id="now_date"></p>
+                        <p id="userid2"></p>
+                    </div>
+                    <div id="paymentDiv" style="width:100px; height: 120px ; border: 1px solid black;">
+                        <p style="text-align: center;">PAYMENT STATUS</p>
+                        <h4 style="text-align: center;" id="status_payment"></h4>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div id="customer" >
+                    <h3 >CUSTOMER : </h3>
+                    <h4 id="index" ></h4>
+                    <h4 id="address"></h4>
+                    <h4 id="no_telefon" ></h4>
+                    <p id="text_summary"></p>
+                </div>
+            </div>
+            
+            <div id="table_product">
+                <table id="product" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center ; ">
+                    <tr>
+                        <th style="background-color:rgb(0, 255, 55)">NO</th>
+                        <th style="background-color:rgb(0, 255, 55)">DESCRIPTION</th>
+                        <th style="background-color:rgb(0, 255, 55)">QUANTITY</th>
+                        <th style="background-color:rgb(0, 255, 55)">UNIT PRICE</th>
+                        <th style="background-color:rgb(0, 255, 55)">AMOUNT</th>
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align: right; margin-right: 20px;" id="total_count" >
+                <p id="total" ></p>
+                <p id="total_payment" ></p>
+                <p id="creditnote"></p>
+                <p id="discount"></p>
+                <p id="baki" ></p>
+            </div>
+            
+            
+        </div>
+            <div id="test_discount" style="display: none; text-align: right; margin-right: 20px;">
+                <label>AMOUNT</label>
+                <input type="number" id="amount_discount"><br/><br/>
+                <label>REMARKS</label>
+                <textarea type="text" id="remark_discount"></textarea> 
+            </div>
+
+            <div style="display:flexbox; ">
+                <button id="add_payment" >ADD PAYMENT</button>
+                <button id="add_products"onclick="pay()">ADD / EDIT PRODUCT</button>
+                <button onclick="window.location.href='search_invoice.html'" ><i class="fa fa-arrow-left" style="color:blue"></i> Back</button>
+                <button onclick="window.location.href='homepage.html'"  ><i class="fa fa-home" style="color:blue"></i> Home</button>
+                <button id="print" ><i style=" color:blue;" class="fa fa-print" ></i> PRINT</button>
+            </div> 
+            
+            <div style="text-align: right; margin-right: 20px;">
+                <button id="add_Discount" onclick="myFunction()"><i style=" color:blue;" class="fa fa-plus" ></i> DISCOUNT</button>
+                <button id="save"><i style=" color:blue;" class="fa fa-save" ></i> SAVE</button>
+            </div>
+            
+            <div id="footer" style="display: inline-block; text-align: left;">
+                <p style="font-weight: bold;">Maklumat Bank :-</p>
+                <p>Nama Bank : Agrobank /Bank Pertanian Berhad</p>
+                <p>Nama Syarikat : Ezi2travel Sdn Bhd</p>
+                <p>No Akaun : 1007151000055020</p>
+                <p>Swift Code : AGOBMYKL</p><br>
+                <p style="font-weight: bold;">Jadual pembayaran adalah seperti di bawah:-</p>
+                <p>a. Pembayaran wang deposit/pendaftaran sebanyak RM1000.00 / seorang.</p>
+                <p>b. Pembayaran RM1000 seorang selepas pembayaran deposit/pendaftaran sebulan selepas tarikh pendaftaran</p>
+                <p>dan penyerahan pasport.</p>
+                <p>c. Pembayaran baki keseluruhan pakej harus dibayar/diselesaikan 2 bulan sebelum tarikh penerbangan.</p><br><br>
+                <p style="font-weight: bold;">Terma & Syarat:-</p>
+                <p>***Aturcara perjalanan, tarikh pernebangan, harga untuk penginapan, tiket penergangan, cukai lapangan terbang</p>
+                <p>dan surchage bahan api, tertakluk kepada pindaan dan perubahan semasa tanpa notis.</p>
+                <p>***Cukai penerbangan tertakluk kepada perubahan syarikat penerbangan dan pada kadar tukaran matawang</p>
+                <p>asing semasa tanpa sebarang notis.</p>
+                <p>***Harga Tiket Penerbangan, cukai lapangan dan Surcharge bahan api, tertakluk kepada pindaan dan perubahan</p>
+                <p>dari masa ke semasa tanpa notis.</p>
+                <p>***EZI2TRAVEL boleh menukar Terma dan Syarat ini, tambang yang diterbitkan, yuran, caj, jadual penerbangan,</p>
+                <p>laluan dan produk dan perkhidmatan yang ditempah awal pada bila-bila masa dan dari semasa ke semasa tanpa</p>
+                <p>sebarang notis awal.</p><br><br>
+                <p>Generated automatically. No signature is required.</p>
+            </div>
+
+            <script>
+                function myFunction() {
+                  var x = document.getElementById("test_discount");
+                  if (x.style.display === "none") {
+                    x.style.display = "block";
+                  } else {
+                    x.style.display = "none";
+                  }
+                }
+            </script>
+               
+        
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+            import {getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+            import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+            const firebaseConfig = {
+              apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+              authDomain: "databaseezi.firebaseapp.com",
+              projectId: "databaseezi",
+              storageBucket: "databaseezi.appspot.com",
+              messagingSenderId: "500563704547",
+              appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+              measurementId: "G-TYSWSGNT29"
+            };
+          
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            const analytics = getAnalytics(app);
+
+            const queryString = window.location.search;
+            var x = queryString.substring(7);
+            let y = x.split("%20").join(" ").toUpperCase();
+            document.getElementById("index").innerHTML = y;
+
+            function checkuser(){
+                const auth = getAuth();
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        if(user.email == "irhamfirdaus00@yahoo.com"){
+                            userid2.innerHTML= "By : ezi2s1";
+                        }
+                        else if(user.email == "ad.ezi2travel@gmail.com"){
+                            userid2.innerHTML= "By : ezi2s2";
+                        }
+                        else if(user.email == "ad2.ezi2travel@gmail.com"){
+                            userid2.innerHTML= "By : ezi2s3";
+                        }
+                    } 
+                    else {
+                        alert("Please Sign In! ");
+                        window.location.href= 'index.html';
+                    }
+                });
+            }
+
+            window.addEventListener('load',checkuser);
+            var print = document.getElementById("print");
+            print.addEventListener('click',createPDF);
+            save.addEventListener('click',SaveDiscount);
+
+            function SaveDiscount(){
+                if(amount_discount.value == '' || amount_discount.value == null || remark_discount.value == '' || remark_discount.value == null){
+                    alert("Please enter value");
+                }
+                else{
+                    alert("Discount updated");
+                    set(ref(db,'Payment/' + y + "/discount"), {
+                        amount : amount_discount.value,
+                        remarks : remark_discount.value
+                    })
+                    window.location.href= 'invoice.html?index='+y;
+                }   
+            }
+          
+            function createPDF(){
+                var sTable = document.getElementById('invoice').innerHTML;
+                var footer = document.getElementById('footer').innerHTML
+                var style = "<style>";
+                style = style + "table {border: 1px solid black; }";
+                style = style + " th {border: 1px solid black; }";
+                style = style + " td {border: 1px solid black; }";
+                style = style + " .status_payment {color:green; }";
+                style = style + "</style>";           
+            
+
+                // CREATE A WINDOW OBJECT.
+                var win = window.open('', '', 'height=800,width=800');
+
+                win.document.write('<html><head>');
+                win.document.write('<title>Credit Note</title>');   // <title> FOR PDF HEADER.
+                win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+                win.document.write('</head>');
+                win.document.write('<body>');
+                win.document.write(sTable); 
+                win.document.write(footer);        // THE TABLE CONTENTS INSIDE THE BODY TAG.
+                win.document.write('</body></html>');
+
+                //win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+                //win.print();    // PRINT THE CONTENTS.
+            }
+
+            let add_payment = document.getElementById("add_payment");
+            let add_products = document.getElementById("add_products");           
+            
+            const dbref = ref(db);
+            get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    total_payment.innerHTML = "TOTAL PAYMENT : RM "+ snapshot.val().total_payment;
+                    //baki.innerHTML = "BALANCE : RM " + snapshot.val().baki;
+                    let color = "red";
+                    let a = Number(snapshot.val().invoice_no) ;
+                    let b = a.toString().padStart(9, '0');
+                    invoice_no.innerHTML = "#S" + b; 
+                    address.innerHTML = snapshot.val().alamat;
+                    no_telefon.innerHTML = snapshot.val().no_telefon;
+                    text_summary.innerHTML = snapshot.val().details;
+                    if(snapshot.val().baki == 0 && snapshot.val().total != 0){
+                        color = "green";
+                        status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">FULLY PAID</div>`;
+                    }
+                    else if(snapshot.val().baki <  snapshot.val().total && snapshot.val().baki > 0){
+                        color = "yellow";
+                        status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">PARTIALLY PAID</div>`;
+                    }
+                    else if(snapshot.val().baki < 0){
+                        color = "blue";
+                        status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">OVER PAID</div>`;
+                    }
+                    else {
+                        color = "red"
+                        status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">UNPAID</div>`;
+                        // baki.innerHTML = "BALANCE : RM 0.00";
+                    }
+                    
+                }
+                else{
+                    alert("Employee does not exist");
+                    return;
+                }
+            })
+            .catch((error)=>{
+                alert("unsucessful");
+                console.log(error);
+            })
+
+            let index=1;
+            let final_total = 0;
+
+            function GetProduct(){
+                const dbref = ref(db);
+                get(child(dbref,'Payment/'+y+"/product")).then((snapshot)=>{
+                    snapshot.forEach(std => {
+                        ProductListItem(std);
+                        index ++;
+                    }); 
+                });
+                //getCreditNote();
+            }
+            function ProductListItem(std){
+                let key = std.key;
+                let value = std.val();
+                let date = document.createElement('tr');
+                let a = value.quantity*value.unit_price;
+
+                date.innerHTML = "<td>"+ index +"</td><td>"+ value.name +"</td><td>"+ value.quantity +
+                                "</td><td>RM "+ value.unit_price +"</td><td>RM "+ a +"</td>";
+                final_total = final_total + a;
+                total.innerHTML = "TOTAL PRICE : RM " + final_total;
+                update(ref(db,'Payment/' + y),{
+                    total : final_total})
+                product.append(date);
+
+                let cn = 0;
+    
+                get(child(dbref, 'CreditNote/' + y)).then((snapshot)=>{
+                    cn = snapshot.val().total_creditnote;
+                })
+
+                let x_discount = 0;
+
+                get(child(dbref, 'Payment/' + y +"/discount")).then((snapshot)=>{
+                    x_discount = snapshot.val().amount;
+                })
+
+                get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+                    userid2.innerHTML = "By : "+snapshot.val().user;
+                let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment) + Number(cn) - Number(x_discount);
+                    update(ref(db,'Payment/' + y), {
+                        baki : N_baki,
+                    });
+                baki.innerHTML = "BALANCE : RM " + N_baki;
+                //discount.innerHTML = N_baki; ///edit balik;
+                })
+                
+            } 
+
+            function getDate(){
+                const result1 = new Date().toLocaleDateString('en-GB');
+                document.getElementById("now_date").innerHTML = "Date : "+ result1;
+            }
+            function pay(){
+                if (y == 0 || y ==null){
+                    alert("please register the jemaah !");
+                    window.location.href = "invoice.html";
+                }
+                else{
+                    window.location.href = "products.html?index="+y;
+                }  
+            }
+            function payment(){
+                if (y == 0 || y ==null){
+                    alert("please register the jemaah !");
+                    window.location.href = "invoice.html";
+                }
+                else{
+                    window.location.href = "payment.html?index="+y;
+                }
+            }
+
+            function getCreditNote(){
+                const dbref = ref(db);
+                let x_discount = 0;
+                let x_remarks = "";
+                get(child(dbref, 'Payment/' + y +'/discount')).then((snapshot)=>{
+                    x_discount = snapshot.val().amount;
+                    x_remarks = snapshot.val().remarks;
+                    amount_discount.value = snapshot.val().amount;
+                    remark_discount.value = snapshot.val().remarks;
+                       
+                })
+
+                get(child(dbref, 'CreditNote/' + y)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                        let x = Number(snapshot.val().total_creditnote);
+                        get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+                            creditnote.innerHTML = "CREDIT NOTE : RM "+ x;
+                            //discount.innerHTML = "DISCOUNT : (- RM " + x_discount + ")";
+                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki);
+                            let n_baki = snapshot.val().payment_status;
+                            update(ref(db,'CreditNote/' + y), {
+                            baki : snapshot.val().baki,
+                            })
+                            if(n_baki == "FULLY PAID" ){
+                                status_payment.innerHTML = `<div style="color:green;font-weight:bold">FULLY PAID</div>`;
+                            }
+                            else if(n_baki == "PARTIALLY PAID" ){
+                                status_payment.innerHTML = `<div style="color:yellow;font-weight:bold">PARTIALLY PAID</div>`;
+                            }
+                            else if (n_baki == "OVER PAID" ) {
+                                status_payment.innerHTML = `<div style="color:blue;font-weight:bold">OVER PAID</div>`;
+                            }
+                            else if (n_baki == "UNPAID" ) {
+                                status_payment.innerHTML = `<div style="color:red;font-weight:bold">UNPAID</div>`;
+                            }
+
+                        });
+                    }
+                    else{
+                        get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki);
+                            //discount.innerHTML = "DISCOUNT : (- RM " + x_discount+ ")";
+                            let n_baki = (Number(snapshot.val().baki) - Number(x_discount));
+                            
+                            if(n_baki == 0 ){
+                                status_payment.innerHTML = `<div style="color:green;font-weight:bold">FULLY PAID</div>`;
+                            }
+                            else if(n_baki > 0 ){
+                                status_payment.innerHTML = `<div style="color:yellow;font-weight:bold">PARTIALLY PAID</div>`;
+                            }
+                            else if (n_baki < 0 ) {
+                                status_payment.innerHTML = `<div style="color:blue;font-weight:bold">OVER PAID</div>`;
+                            }
+
+                        });
+                        discount.innerHTML = "";
+                        creditnote.innerHTML ="";
+                    }
+
+                    if(x_discount != 0){
+                        let date = document.createElement('tr');
+                        date.innerHTML = "<td></td><td>"+x_remarks+"</td><td></td><td></td><td>RM "+ x_discount +"</td>";
+                        product.append(date);
+                        discount.innerHTML = "DISCOUNT : (- RM " + x_discount + ")";
+                    }
+                    
+                })
+                
+
+
+            }
+
+            
+            add_products.addEventListener('click',pay);
+            add_payment.addEventListener('click',payment);
+            window.addEventListener('load',GetProduct); 
+            window.addEventListener('load',getDate);
+            window.addEventListener('load',getCreditNote);
+
+
+        </script>
+    </body>
+</html>
