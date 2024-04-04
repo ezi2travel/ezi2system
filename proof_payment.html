@@ -191,7 +191,7 @@
             document.getElementById("index3").value = "RM " + f; // amount
             let g = queryString.substring(queryString.indexOf('&')+1, queryString.indexOf('$'));
             let h = g.split("%20").join(" ").toUpperCase();
-            document.getElementById("index4").value ="RM " h; // baki lepas payment
+            document.getElementById("index4").value ="RM " + h; // baki lepas payment
             let i = queryString.substring(queryString.indexOf('$')+1);
             let j = i.split("%20").join(" ").toUpperCase();
             document.getElementById("index5").value = j; // tarikh
