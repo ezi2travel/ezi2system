@@ -527,7 +527,7 @@
           $(row).appendTo("#dataTableInsurance1");
           no++; 
         }
-        else if(childData.nationality == "Malaysian" && childData.age >= 65 && childData.pakej == value){
+        else if(childData.nationality == "Malaysian" && childData.age >= 65 && childData.age <= 80 && childData.pakej == value){
            var row = 
            `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ number +`</td><td contenteditable='true' style="text-align:left">` + childData.nama_ic + "</td><td contenteditable='true'>" + d2  +
           "</td><td contenteditable='true'>" + r +`</td><td contenteditable='true' style="text-align:left">`+ childData.alamat +
