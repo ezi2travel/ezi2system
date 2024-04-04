@@ -297,7 +297,7 @@
       date.innerHTML = "<p>LIST OF PAYMENT</p>";
     }
     else{
-      date.innerHTML = '<a title="View Payment Details" style = "color:white" href="proof_payment.html?index='+y+'@'+key+'_'+value.amount+'&'+value.baki_after_payment+'$'+value.date+'" style="text-align:left">Payment : '+ key + ' Amount : RM ' + value.amount +" On : " + value.date;
+      date.innerHTML = '<a title="Click to View Payment Details" style = "color:white" href="proof_payment.html?index='+y+'@'+key+'_'+value.amount+'&'+value.baki_after_payment+'$'+value.date+'" style="text-align:left">Payment : '+ key + ' Amount : RM ' + value.amount +" On : " + value.date;
     }
     calculate(value.amount,key);
     myUL.append(date); 
