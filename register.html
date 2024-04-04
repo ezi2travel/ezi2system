@@ -237,13 +237,13 @@
     </div>
     <br/><br/>
 
-    <button id="AddBtn" style="background-color :green; color:white; border-radius: 10px; font-weight: bold; font-size: 18px; ">Add</button>
-    <button id="RetBtn" style="background-color :Yellow; color:black; border-radius: 10px; font-weight: bold; font-size: 18px;">Retrieve</button>
-    <button id="UpdBtn" style="background-color :lightcoral; color:black; border-radius: 10px; font-weight: bold; font-size: 18px;">Update</button>
-    <button id="DelBtn" style="background-color :Red; color:white; border-radius: 10px; font-weight: bold; font-size: 18px;">Delete</button>
-    <button id="CtcBtn" style="background-color :rgb(35, 141, 14); color:white; border-radius: 10px; font-size: 13px;"><i class="fa fa-whatsapp" ></i> Whatsapp</button>
-    <button id="btn" style="background-color :rgb(0, 21, 255); color:white; border-radius: 10px; font-weight: bold; font-size: 17px;" onclick="window.location.href='homepage.html'"><i class="fa fa-home" ></i> HOME</button>
-    <button id="btn" style="background-color :rgb(153, 0, 255); color:white; border-radius: 10px; font-weight: bold; font-size: 18px;" onclick="window.location.href='test.html'"><i class="fa fa-arrow-left" ></i> LIST</button>
+    <button title="Register New User" id="AddBtn" style="background-color :green; color:white; border-radius: 10px; font-weight: bold; font-size: 18px; ">Add</button>
+    <!--<button title="Register New User" id="RetBtn" style="background-color :Yellow; color:black; border-radius: 10px; font-weight: bold; font-size: 18px;">Retrieve</button> -->
+    <button title="Update User" id="UpdBtn" style="background-color :lightcoral; color:black; border-radius: 10px; font-weight: bold; font-size: 18px;">Update</button>
+    <button title="Delete User" id="DelBtn" style="background-color :Red; color:white; border-radius: 10px; font-weight: bold; font-size: 18px;">Delete</button>
+    <button title="WhatsApp User" id="CtcBtn" style="background-color :rgb(35, 141, 14); color:white; border-radius: 10px; font-size: 13px;"><i class="fa fa-whatsapp" ></i> Whatsapp</button>
+    <button title="Return to Homepage" id="btn" style="background-color :rgb(0, 21, 255); color:white; border-radius: 10px; font-weight: bold; font-size: 17px;" onclick="window.location.href='homepage.html'"><i class="fa fa-home" ></i> HOME</button>
+    <button title="Return to Search Jemaah" id="btn" style="background-color :rgb(153, 0, 255); color:white; border-radius: 10px; font-weight: bold; font-size: 18px;" onclick="window.location.href='test.html'"><i class="fa fa-arrow-left" ></i> BACK</button>
     <!-- <button id="ClrBtn" style="background-color :rgb(13, 95, 115); color:white; border-radius: 10px; font-weight: bold; font-size: 18px;" onclick="window.location.href='register.html'">CLEAR</button> -->
     <br/><br/><br/><br/>
 </div>
@@ -394,7 +394,7 @@
     var value11 = selector[selector.selectedIndex].value;
 
     let AddBtn = document.getElementById('AddBtn');
-    let RetBtn = document.getElementById('RetBtn');
+    // let RetBtn = document.getElementById('RetBtn');
     let UpdBtn = document.getElementById('UpdBtn');
     let DelBtn = document.getElementById('DelBtn');
     let ClrBtn = document.getElementById('ClrBtn');
