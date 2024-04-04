@@ -153,7 +153,7 @@
     <div id="table5">
       <div style="display: flex; align-items: center; justify-content: center;">
         <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
-        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo3" >Senarai Nama Insurance (Non-Malaysian)</p>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo5" >Senarai Nama Insurance (Non-Malaysian)</p>
       </div>
       <table id="dataTableInsurance3" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
         <tr>
@@ -185,6 +185,27 @@
           <th style="background-color:#000c3f; color: white">NO.</th>
           <th style="background-color:#000c3f; color: white">NAME</th>
           <th style="background-color:#000c3f; color: white; width: 15%;">REMARKS</th>
+          <th style="background-color:#000c3f; color: white; width: 15%;">OTHERS</th>
+        </tr>
+      </table>
+    </div>
+    <br /><br/>
+
+    <button title="Generate Wheelchair List Name" style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getDataWheelchair" type="getDataWheelchair">Generate Wheelchair List</button>
+    <button title="Print Wheelchair List Name" style=" padding:5px 25px; border-radius: 10px; background-color: rgb(2, 255, 7);color: black;" id="btPrint" onclick="createPDF('table7')" class="fa fa-print" > Print List</button>
+    <button title="Delete Wheelchair List Name" style=" padding:5px 25px; border-radius: 10px; background-color: rgb(255, 0, 0);color: white;" id="resetgetDataWheelchair" type="resetgetDataWheelchair" class="fa fa-trash" > Clear Table </button>
+    
+    <br />
+    <div id="table7">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="./Logo_Ezi2travel_2.png" name="slide" width="50px" height="50px"/>
+        <p style="font-size: 25px; color: black; margin-left: 10px;" id="demo7" >Senarai Nama Jemaah Wheelchair</p>
+      </div>
+      <table id="dataTableWheelchair" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+        <tr>
+          <th style="background-color:#000c3f; color: white">NO.</th>
+          <th style="background-color:#000c3f; color: white">NAME</th>
+          <th style="background-color:#000c3f; color: white; width: 15%;">WHEELCHAIR</th>
           <th style="background-color:#000c3f; color: white; width: 15%;">OTHERS</th>
         </tr>
       </table>
@@ -236,7 +257,9 @@
           document.getElementById("demo3").innerHTML = "Senarai Nama Jemaah Medical Card : " + value;
           document.getElementById("demo41").innerHTML = "Senarai Nama Jemaah Insurans (Jemaah berumur 65 tahun kebawah) : " + value;
           document.getElementById("demo42").innerHTML = "Senarai Nama Jemaah Insurans (Jemaah berumur 65 tahun - 80 tahun) : " + value;
+          document.getElementById("demo5").innerHTML = "Senarai Nama Insurance (Non-Malaysian) : " + value;
           document.getElementById("demo6").innerHTML = "Senarai Nama Jemaah Taif : " + value;
+          document.getElementById("demo7").innerHTML = "Senarai Nama Jemaah Wheelchair : " + value;
 
           }
       document.addEventListener("load", changeDate);
@@ -338,6 +361,9 @@
   });
   resetgetDataTaif.addEventListener("click", (e) =>{
     $('#dataTableTaif').find("tr:not(:first)").remove();
+  });
+  resetgetDataWheelchair.addEventListener("click", (e) =>{
+    $('#dataTableWheelchair').find("tr:not(:first)").remove();
   });
 
   getDataAll.addEventListener("click", (e) =>{
@@ -607,6 +633,35 @@
            `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.NamePassport + 
             "</td><td contenteditable='true'></td><td contenteditable='true'></td><tr>";
           $(row).appendTo("#dataTableTaif");
+          no++; 
+        } 
+      });
+    },
+    {
+      onlyOnce: true,
+    }
+    );
+  });
+
+  getDataWheelchair.addEventListener("click", (e) =>{
+    var selector = document.getElementsByName("chooseDate")[0];
+    var value = selector[selector.selectedIndex].value;
+    let no =1;
+    let number =1
+    $('#dataTableWheelchair td').remove();
+
+    const dbRef = ref(database, "Testing");
+
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+
+        if(childData.wheelchair != "Tidak" && childData.pakej == value){
+           var row = 
+           `<tr draggable="true" ondragstart="start()"  ondragover="dragover()"><td contenteditable='true'>`+ no +`</td><td contenteditable='true' style="text-align:left">` + childData.NamePassport + 
+            "</td><td contenteditable='true'>"+childData.wheelchair+"</td><td contenteditable='true'></td><tr>";
+          $(row).appendTo("#dataTableWheelchair");
           no++; 
         } 
       });
