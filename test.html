@@ -145,7 +145,7 @@ function PackageListItem(std){
 	let key = std.key;
 	let value = std.val();
 	let date = document.createElement('li');
-	date.innerHTML = '<a title="Click to View Details of'+value.name+'" href="register.html?index='+value.name+'"style="text-align:left">'+ value.name +
+	date.innerHTML = '<a title="Click to View Details of '+value.name+'" href="register.html?index='+value.name+'"style="text-align:left">'+ value.name +
     `<button title="Edit Details of Jemaah" id = index style="background-color:red; margin-left:95%; border-radius:10px" onclick="window.location.href='register.html?index=`+index+`'">EDIT</button>`;
 	  myUL.append(date);
   } 
