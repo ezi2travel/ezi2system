@@ -28,7 +28,7 @@
           return;
         }
         var output = "";
-        output = input.replace(/(?:\r\n|\r|\n)/g, 'hello');
+        output = input.replace(/(?:\r\n|\r|\n)/g, '\\n');
         document.getElementById("output").value = output;
       }
     </script>
