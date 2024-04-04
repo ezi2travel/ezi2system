@@ -62,10 +62,10 @@
           padding-top: 20px;
           text-align : left;
         }
-        a:link {color:#000000;}    /* unvisited link is black*/
-        a:visited {color:#000000;} /* visited link is black (reverse the color back to black)*/
-        a:hover {color:#0000FF;}   /* mouse over link (blue when mouse over)*/
-        a:active {color:#0000FF;}  /* selected link (blue in the split second which you loading the page.)*/
+        a:link {color:blue;}    /* unvisited link is black*/
+        a:visited {color:purple;} /* visited link is black (reverse the color back to black)*/
+        a:hover {color:red;cursor:pointer;}   /* mouse over link (blue when mouse over)*/
+        a:active {color:pink}  /* selected link (blue in the split second which you loading the page.)*/
         
     </style>
 </head>
@@ -301,7 +301,7 @@
       date.innerHTML = "<p>LIST OF PAYMENT</p>";
     }
     else{
-      date.innerHTML = '<a title="Click to View Payment Details" style = "color:white" href="proof_payment.html?index='+y+'@'+key+'_'+value.amount+'&'+value.baki_after_payment+'$'+value.date+'" style="text-align:left">Payment : '+ key + ' Amount : RM ' + value.amount +" On : " + value.date;
+      date.innerHTML = '<a title="Click to View Payment Details" href="proof_payment.html?index='+y+'@'+key+'_'+value.amount+'&'+value.baki_after_payment+'$'+value.date+'" style="text-align:left">Payment : '+ key + ' Amount : RM ' + value.amount +" On : " + value.date;
     }
     calculate(value.amount,key);
     myUL.append(date); 
