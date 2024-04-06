@@ -1,4 +1,4 @@
-<!doctpe html>
+<!doctype html>
 <html>
   <head>
     <style>
@@ -7,31 +7,106 @@
         width: 100%;
         height: 100px;
       }
+      textarea{
+        height:30%;
+        width:30%;
+      }
     </style>
   </head>
   <body>
     <div>
-      <h2>Input (text with linebreaks)</h2>
+      <h2>Input original text</h2>
       <textarea id="input"></textarea>
       <br><button id="process" onClick="onProcess()">Process</button>
     </div>
     
     <div>
-      <h2>Output</h2>
+      <h2>Processed input</h2>
       <textarea id="output"></textarea>
+      <br><button id="process2" onClick="onProcess2()">Process</button>
     </div>
-    <script>
-      function onProcess(){
-        var input = document.getElementById("input").value;
-        if (!input){
-          alert("Invalid input");
-          return;
-        }
-        var output = "";
-        output = input.replace(/(?:\r\n|\r|\n)/g, '\\n');
-        document.getElementById("output").value = output;
-      }
+
+    <div>
+        <h2>Output</h2>
+        <p id="output2"></p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>       
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+            import { getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+            import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+            
+            const firebaseConfig = {
+              apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+              authDomain: "databaseezi.firebaseapp.com",
+              projectId: "databaseezi",
+              storageBucket: "databaseezi.appspot.com",
+              messagingSenderId: "500563704547",
+              appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+              measurementId: "G-TYSWSGNT29"
+            };
+     
+
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            const analytics = getAnalytics(app);
+
+            let process = document.getElementById("process");
+            let process2 = document.getElementById("process2");
+
+            process.addEventListener('click',onProcess);
+            window.addEventListener('load',onProcess2);
+
+
+            function onProcess(){
+                var input = document.getElementById("input").value;
+                if (!input){
+                alert("Invalid input");
+                return;
+                }
+                var output = "";
+                output = input.replace(/(?:\r\n|\r|\n)/g, '\\n');
+                document.getElementById("output").value = output;
+
+                update(ref(db,'draft'), {
+                    invoice : output
+                }).then(()=>{
+                    alert("Invoice Enclosure Updated Successfully !");
+                    window.location.href='report.html';
+                }).catch((error)=>{
+                    alert(error);
+                })
+
+
+
+                var output = "";
+            }
+            function onProcess2(){
+                const dbref = ref(db);
+                get(child(dbref, 'draft')).then((snapshot)=>{
+                var input = snapshot.val().invoice;
+                var output = "";
+                var output2 = "";
+                output = input.replaceAll('\\n', '\n');
+                output2 = input.replaceAll('\\n', '<br>');
+                document.getElementById("output").value = input;
+                document.getElementById("output2").innerHTML = output2;
+                document.getElementById("input").value = output;
+            })
+                if (!input){
+                alert("Invalid input");
+                return;
+                }
+                // var output = "";
+                // output = input.replaceAll('\\n', '\n');
+                // document.getElementById("output2").value = output;
+                var output = "";
+            }
     </script>
+
   </body>
   
 </html>
