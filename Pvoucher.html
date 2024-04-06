@@ -136,7 +136,7 @@ function PackageListItem(std){
 	let value = std.val();
 	let date = document.createElement('li');
   
-	date.innerHTML = '<a href="editPVoucher.html?index='+ key +'"style="text-align:left; font-weight:bold ">'+ value.name +
+	date.innerHTML = '<a title="click to view payment voucher for '+key+'" href="editPVoucher.html?index='+ key +'"style="text-align:left; font-weight:bold ">'+ value.name +
     `<div style="color:green; font-weight:normal">Amount : RM `+ value.amount +
     `<div style="text-align:right; color:blue; font-weight:normal">By : `+ value.user   ;
 	  myUL.append(date);
