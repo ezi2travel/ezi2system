@@ -17,13 +17,14 @@
     <div>
       <h2>Input original text</h2>
       <textarea id="input"></textarea>
-      <br><button id="process" onClick="onProcess()">Process</button>
+      <br>
+      <button id="process" onClick="onProcess()">UPDATE</button>
+      <button id="back" onClick=window.location.href="homepage.html">UPDATE</button>
     </div>
     
     <div>
       <h2>Processed input</h2>
       <textarea id="output"></textarea>
-      <br><button id="process2" onClick="onProcess2()">Process</button>
     </div>
 
     <div>
@@ -55,7 +56,6 @@
             const analytics = getAnalytics(app);
 
             let process = document.getElementById("process");
-            let process2 = document.getElementById("process2");
 
             process.addEventListener('click',onProcess);
             window.addEventListener('load',onProcess2);
