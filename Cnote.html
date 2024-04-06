@@ -136,7 +136,7 @@ function PackageListItem(std){
 	let value = std.val();
 	let date = document.createElement('li');
   
-	'<a title="click to view credit note for '+key+'" href="CreateCreditNote.html?index='+key+'"style="text-align:left; ">'+ key;
+	date.innerHTML = '<a title="click to view credit note for '+key+'" href="CreateCreditNote.html?index='+key+'"style="text-align:left; ">'+ key;
     // +`<div id = index >Amount : RM `+value.amount+`</div>`; 
     // + `<div id = index style="background-color:`+color+`;text-align:center;padding:5px 10px;border-radius:10px; outline: 1px solid black;margin-left:80%">`+value.payment_status+`</div>`;
 	  myUL.append(date);
