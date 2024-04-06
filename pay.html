@@ -91,27 +91,7 @@
             </div>
             
             <div id="footer" style="display: inline-block; text-align: left;">
-                <p style="font-weight: bold;">Maklumat Bank :-</p>
-                <p>Nama Bank : Agrobank /Bank Pertanian Berhad</p>
-                <p>Nama Syarikat : Ezi2travel Sdn Bhd</p>
-                <p>No Akaun : 1007151000055020</p>
-                <p>Swift Code : AGOBMYKL</p><br>
-                <p style="font-weight: bold;">Jadual pembayaran adalah seperti di bawah:-</p>
-                <p>a. Pembayaran wang deposit/pendaftaran sebanyak RM1000.00 / seorang.</p>
-                <p>b. Pembayaran RM1000 seorang selepas pembayaran deposit/pendaftaran sebulan selepas tarikh pendaftaran</p>
-                <p>dan penyerahan pasport.</p>
-                <p>c. Pembayaran baki keseluruhan pakej harus dibayar/diselesaikan 2 bulan sebelum tarikh penerbangan.</p><br><br>
-                <p style="font-weight: bold;">Terma & Syarat:-</p>
-                <p>***Aturcara perjalanan, tarikh pernebangan, harga untuk penginapan, tiket penergangan, cukai lapangan terbang</p>
-                <p>dan surchage bahan api, tertakluk kepada pindaan dan perubahan semasa tanpa notis.</p>
-                <p>***Cukai penerbangan tertakluk kepada perubahan syarikat penerbangan dan pada kadar tukaran matawang</p>
-                <p>asing semasa tanpa sebarang notis.</p>
-                <p>***Harga Tiket Penerbangan, cukai lapangan dan Surcharge bahan api, tertakluk kepada pindaan dan perubahan</p>
-                <p>dari masa ke semasa tanpa notis.</p>
-                <p>***EZI2TRAVEL boleh menukar Terma dan Syarat ini, tambang yang diterbitkan, yuran, caj, jadual penerbangan,</p>
-                <p>laluan dan produk dan perkhidmatan yang ditempah awal pada bila-bila masa dan dari semasa ke semasa tanpa</p>
-                <p>sebarang notis awal.</p><br><br>
-                <p>Generated automatically. No signature is required.</p>
+                <p id="output2" ></p>
             </div>
 
             <script>
@@ -172,7 +152,24 @@
                 });
             }
 
+            function onProcess2(){
+                const dbref = ref(db);
+                get(child(dbref, 'draft')).then((snapshot)=>{
+                var input = snapshot.val().invoice;
+                var output2 = "";
+                output2 = input.replaceAll('\\n', '<br>');
+                document.getElementById("output2").innerHTML = output2;
+            })
+                if (!input){
+                alert("Invalid input");
+                return;
+                }
+                var output = "";
+            }
+
             window.addEventListener('load',checkuser);
+            window.addEventListener('load',onProcess2);
+
             var print = document.getElementById("print");
             print.addEventListener('click',createPDF);
             save.addEventListener('click',SaveDiscount);
