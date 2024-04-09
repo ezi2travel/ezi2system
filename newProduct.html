@@ -192,9 +192,18 @@
   }
 
 function AddData(){
+  var ProductDescription = document.getElementById("ProductDescription").value;
+  if (!ProductName.value){
+    alert("Invalid input");
+    return;
+  }
+
+  var output = "";
+  output = ProductDescription.replace(/(?:\r\n|\r|\n)/g, '\\n');
+
   set(ref(database,'Products/' + ProductName.value), {
     name : ProductName.value,
-    description : ProductDescription.value,
+    description : output,
     price :Price.value
   })
   
@@ -215,8 +224,13 @@ function RetData(){
   get(child(dbref, 'Products/' + ProductName.value)).then((snapshot)=>{
     if(snapshot.exists()){
       ProductName.value = snapshot.val().name;
-      ProductDescription.value = snapshot.val().description;
-      Price.value = snapshot.val().price
+      Price.value = snapshot.val().price;
+
+      var input = snapshot.val().description;
+      var output = "";
+      output = input.replaceAll('\\n', '\n');
+
+      ProductDescription.value = output;
     }
     else{
       alert("Package does not exist");
@@ -229,8 +243,18 @@ function RetData(){
 }
 
 function UpdateData(){
+
+  var ProductDescription = document.getElementById("ProductDescription").value;
+  if (!ProductName.value){
+    alert("Invalid input");
+    return;
+  }
+
+  var output = "";
+  output = ProductDescription.replace(/(?:\r\n|\r|\n)/g, '\\n');
+
   update(ref(database,'Products/' + ProductName.value), {
-    description : ProductDescription.value,
+    description : output,
     price :Price.value
 
   })
@@ -282,9 +306,14 @@ function DeleteData(){
 	  let description = document.createElement('li');
 	  let price = document.createElement('li');
 	  let heading = document.createElement('h3');
-	  description.innerHTML = "Description : " + value.description;
+	  
     price.innerHTML = "Price : RM " + value.price;
 	  heading.innerHTML = value.name;
+
+    var input = value.description;
+    var output = "";
+    output = input.replaceAll('\\n', '<br>');
+    description.innerHTML = "Description :<br> " + output;
 
 
 	  let ul = document.createElement('ul');
