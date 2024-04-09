@@ -24,14 +24,9 @@
         <div style="margin-left: 5%;">
           <label style="font-size: 20px; font-weight: bold;">Package Date : </label>
           <input style="font-size: 20px;"type="text" id="ProductName" name="ProductName" placeholder="Enter Product Name" onkeyup="this.value = this.value.toUpperCase();"/><br><br>
-          <label style="font-size: 20px; font-weight: bold;">Price : </label>
-          <input style="font-size: 20px;" type="number" id="ProductPrice" name="ProductPrice" placeholder="Enter Product Price"/><br><br>
-          <!-- <select id="option"></select><br/><br/> -->
         </div>
         <div style="margin-left: 5%;">
           <button title="Add New Package Date" id="AddBtn" style="background-color :green; color:white; padding: 10px 25px; border-radius: 10px; font-size: 15px; font-weight: bold;">Add</button>
-          <button title="Retrieve Package Date" id="RetBtn" style="background-color :Yellow; color:black; padding: 10px 25px; border-radius: 10px; font-size: 15px; font-weight: bold;">Retrieve</button>
-          <button title="Update Package Date" id="UpdBtn" style="background-color :lightcoral; color:black; padding: 10px 25px; border-radius: 10px; font-size: 15px; font-weight: bold;">Update</button>
           <button title="Delete Package Date" id="DelBtn" style="background-color :Red; color:white; padding: 10px 25px; border-radius: 10px; font-size: 15px; font-weight: bold;">Delete</button>
           <button title="Return to Homepage"style="padding :10px 25px; background-color:rgb(0, 166, 255); color: white; border-radius: 10px; font-size: 15px; font-weight: bold;" id="btn" onclick="window.location.href='homepage.html'"><i class="fa fa-home" > </i> HOME</button>
           <button title="Clear the Filled Information" style="padding :10px 25px; background-color:rgb(255, 128, 0); color: black; border-radius: 10px; font-size: 15px; font-weight: bold;" id="ClrBtn"><i class="fa fa-eraser"></i> CLEAR</button>
@@ -85,28 +80,13 @@
   //until here
 
   let ProductName = document.getElementById('ProductName');
-  let ProductPrice = document.getElementById('ProductPrice');
 
   let AddBtn = document.getElementById('AddBtn');
-  let RetBtn = document.getElementById('RetBtn');
-  let UpdBtn = document.getElementById('UpdBtn');
   let DelBtn = document.getElementById('DelBtn');
 
   function Interface(e){
     let BtnId = e.target.id;
-    const dbref = ref(database);
-
-    if(BtnId == "RetBtn"){
-      if(ProductName.value == "" || ProductName.value == null){
-        alert("Please fill name of the product !");
-        return;
-      }
-      else{
-        RetData();
-        return;
-      } 
-    }
-            
+    const dbref = ref(database);       
 
     get(child(dbref, 'Package/' + ProductName.value)).then((snapshot)=>{
       if(snapshot.exists()){
@@ -119,19 +99,6 @@
             alert("Product already exist, duplicate package not allowed");
             return; 
           } 
-        }
-                    
-        else if(BtnId == "UpdBtn" ){
-          if(ProductName.value =="" || ProductName.value == null ||
-            ProductPrice.value =="" || ProductPrice.value == null )
-            {
-              alert("Please enter all details of product");
-            }
-          else{
-            UpdateData();
-            return; 
-          }
-                    
         }
                     
         else if(BtnId == "DelBtn"){
@@ -147,25 +114,12 @@
       }
       else{
         if(BtnId == "AddBtn"){
-          if(ProductName.value =="" || ProductName.value == null ||
-          ProductPrice.value =="" || ProductPrice.value == null )
+          if(ProductName.value =="" || ProductName.value == null )
             {
               alert("Please enter all details of products");
             }
           else{
             AddData();
-            return; 
-          }
-        }
-                    
-        else if(BtnId == "UpdBtn"){
-          if(ProductName.value =="" || ProductName.value == null ||
-            ProductPrice.value =="" || ProductPrice.value == null )
-            {
-              alert("Please enter all details of product");
-            }
-          else{
-            alert("Cannot update, product does not exist");
             return; 
           }
         }
@@ -193,7 +147,6 @@
 function AddData(){
   set(ref(database,'Package/' + ProductName.value), {
     name : ProductName.value,
-    price : ProductPrice.value,
   })
   
   .then(()=>{
@@ -208,37 +161,6 @@ function AddData(){
   
 }
 
-function RetData(){
-  const dbref = ref(database);
-  get(child(dbref, 'Package/' + ProductName.value)).then((snapshot)=>{
-    if(snapshot.exists()){
-      ProductName.value = snapshot.val().name;
-      ProductPrice.value = snapshot.val().price;
-    }
-    else{
-      alert("Package does not exist");
-    }
-  })
-  .catch((error)=>{
-    alert("unsucessful");
-    console.log(error);
-  })
-}
-
-function UpdateData(){
-  update(ref(database,'Package/' + ProductName.value), {
-    price : ProductPrice.value,
-  })
-  .then(()=>{
-    alert("Package Updated Successfully !");
-    location.reload();
-  })
-  .catch((error)=>{
-    alert("unsucessful");;
-    location.reload();
-  })
-  
-}
 
 function DeleteData(){
   remove(ref(database,'Package/' + ProductName.value))
@@ -259,8 +181,6 @@ function clear(){
 }
 
     AddBtn.addEventListener('click',Interface);
-    RetBtn.addEventListener('click',Interface);
-    UpdBtn.addEventListener('click',Interface);
     DelBtn.addEventListener('click',Interface);
     ClrBtn.addEventListener('click',clear);
 
@@ -299,13 +219,12 @@ function clear(){
 	  let date = document.createElement('li');
 	  let heading = document.createElement('h3');
 	  date.innerHTML = "Date : " + value.name;
-    price.innerHTML = "Price : RM " + value.price;
 	  heading.innerHTML = "Package " + pno;
 
     
 
 	  let ul = document.createElement('ul');
-	  ul.append(heading, date, price);
+	  ul.append(heading, date);
 	  PackageList.append(ul);
 	  pno++;
     }
