@@ -278,7 +278,11 @@
                 let date = document.createElement('tr');
                 let a = value.quantity*value.unit_price;
 
-                date.innerHTML = "<td>"+ index +"</td><td>"+ value.name +"</td><td>"+ value.quantity +
+                var input = value.description;
+                var output = "";
+                output = input.replaceAll('\\n', '<br>');
+
+                date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><p style="font-weight:bold">'+ value.name+"</p>"+ output +"</td><td>"+ value.quantity +
                                 "</td><td>RM "+ value.unit_price +"</td><td>RM "+ a +"</td>";
                 final_total = final_total + a;
                 total.innerHTML = "TOTAL PRICE : RM " + final_total;
