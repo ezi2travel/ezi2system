@@ -21,6 +21,12 @@
         li{
           color: white;
         }
+        canvas {
+          height: 175px;
+          border-style: solid;
+          border-width: 1px;
+          border-color: black;
+        }
         
     </style>
     <body>
@@ -31,7 +37,10 @@
         <textarea style="border-radius: 5px; margin-left: 10%; font-size: 20px; width: 50%; height: 100px;" type="text" id="ProductDescription" name="ProductDescription" onkeyup="this.value = this.value.toUpperCase()"></textarea> <br><br>
         <label style="margin-left: 5%; font-size: 20px; font-weight: bold;">PRICE : </label>
         <input style="border-radius: 5px ;margin-left: 10%; font-size: 20px; width: 50%;" type="number" id="Price" name="Price" placeholder="Enter Product Price"/><br><br>
-        
+        <label style="margin-left: 5%; font-size: 20px; font-weight: bold;">IMAGE : </label>
+        <input style="border-radius: 5px ;margin-left: 10%; font-size: 20px; width: 50%;" type="file" id="imageLoader" name="imageLoader"/><br/><br/>
+        <canvas style="border-radius: 5px ;margin-left: 30%;" id="imageCanvas"></canvas><br/><br/>
+
         <div style="margin-left: 5%;">
           <button title="Add New Product" id="AddBtn" style="background-color :green; color:white; padding: 10px 25px; font-size: 15px; font-weight: bold; border-radius: 10px;">Create</button>
           <button title="Retrieve Product" id="RetBtn" style="background-color :Yellow; color:black; padding: 10px 25px; font-size: 15px; font-weight: bold; border-radius: 10px;">Retrieve</button>
@@ -65,6 +74,25 @@
     measurementId: "G-TYSWSGNT29"
   };
 
+  var imageLoader = document.getElementById('imageLoader');
+  imageLoader.addEventListener('change', handleImage, false);
+  var canvas = document.getElementById('imageCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function handleImage(e){
+      var reader = new FileReader();
+      reader.onload = function(event){
+        var img = new Image();
+        img.onload = function(){
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img,0,0);
+        }
+        img.src = event.target.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);     
+  }
+  
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
