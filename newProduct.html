@@ -98,11 +98,13 @@
 
   function uploadFile(){
     let a = document.getElementById("link").innerHTML;
-    alert(a);
+    //alert(a);
 
     update(ref(database,'Products/' + ProductName.value ), {
       image : a,                
     })
+
+    location.reload();
   }
 
   // Initialize Firebase
@@ -262,7 +264,7 @@ function AddData(){
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(url => {
         document.getElementById('link').innerHTML= url;
-        alert(url);
+        //alert(url);
         uploadFile();
         
       }).catch(console.error);
@@ -293,6 +295,19 @@ function RetData(){
       output = input.replaceAll('\\n', '\n');
 
       ProductDescription.value = output;
+
+      var myCanvas = document.getElementById("imageCanvas");
+      var ctx = myCanvas.getContext('2d');
+      var img = new Image;
+      img.onload = function(){
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img,0,0); // Or at whatever offset you like
+      };
+
+      img.src = snapshot.val().image;
+
+
     }
     else{
       alert("Package does not exist");
@@ -318,11 +333,30 @@ function UpdateData(){
   update(ref(database,'Products/' + ProductName.value), {
     description : output,
     price :Price.value
-
   })
   .then(()=>{
+    if(imageLoader.value == '' || imageLoader.value == null){
+        alert("item update without image");
+        return;
+      }
+      firebase.initializeApp(firebaseConfig);
+      const ref = firebase.storage().ref();
+      const file = document.getElementById("imageLoader").files[0];
+      const name = "PRODUCT" + "_" + ProductName.value;
+      const metadata = {
+        contentType: file.type
+      };
+      const task = ref.child(name).put(file, metadata);task
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(url => {
+        document.getElementById('link').innerHTML= url;
+        //alert(url);
+        uploadFile();
+        
+      }).catch(console.error);
+
     alert("Package Updated Successfully !");
-    location.reload();
+    //location.reload();
   })
   .catch((error)=>{
     alert("unsucessful");
