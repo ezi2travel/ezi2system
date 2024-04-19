@@ -398,7 +398,7 @@
 
                     if(x_discount != 0){
                         let date = document.createElement('tr');
-                        date.innerHTML = "<td></td><td>"+x_remarks+"</td><td></td><td></td><td>RM "+ x_discount +"</td>";
+                        date.innerHTML = "<td></td><td>Discount : "+x_remarks+"</td><td></td><td></td><td>RM -"+ x_discount +"</td>";
                         product.append(date);
                         discount.innerHTML = "DISCOUNT : (- RM " + x_discount + ")";
                     }
