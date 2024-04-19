@@ -203,19 +203,27 @@
             });
           })
         }
-        set(ref(db,'Payment/' + y +"/product/"+ selector), {
-          name : selector,
-          description : snapshot.val().description,
-          quantity : quantity.value,
-          unit_price :  snapshot.val().price
-              
-        }).then(()=>{
-            alert("Product/Package Added Successfully !");
-            window.location.href= 'products.html?index='+y;
-        }).catch((error)=>{
-            alert("unsucessful");
-            console.log(error);
+        let a = "";
+
+        get(child(dbref, 'Products/' + selector)).then((snapshot)=>{
+            a = snapshot.val().image
+          set(ref(db,'Payment/' + y +"/product/"+ selector), {
+            name : selector,
+            description : snapshot.val().description,
+            quantity : quantity.value,
+            unit_price :  snapshot.val().price,
+            image : a
+                
+          }).then(()=>{
+              alert("Product/Package Added Successfully !");
+              window.location.href= 'products.html?index='+y;
+          }).catch((error)=>{
+              alert("unsucessful");
+              console.log(error);
+          })
         })
+
+        
           
       })
     } 
