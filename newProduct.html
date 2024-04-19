@@ -39,6 +39,7 @@
         <input style="border-radius: 5px ;margin-left: 10%; font-size: 20px; width: 50%;" type="number" id="Price" name="Price" placeholder="Enter Product Price"/><br><br>
         <label style="margin-left: 5%; font-size: 20px; font-weight: bold;">IMAGE : </label>
         <input style="border-radius: 5px ;margin-left: 10%; font-size: 20px; width: 50%;" type="file" id="imageLoader" name="imageLoader"/><br/><br/>
+        <button  id="ClrImg" style="margin-left: 30%; font-size: 20px; font-weight: bold; color: red;"><i style="color: red;" class="fa fa-trash-o"></i> Remove Image</button><br/><br/>
         <canvas style="border-radius: 5px ;margin-left: 30%;" id="imageCanvas"></canvas><br/><br/>
         <p id="link"></p><br /><br/>
 
@@ -81,6 +82,24 @@
   imageLoader.addEventListener('change', handleImage, false);
   var canvas = document.getElementById('imageCanvas');
   var ctx = canvas.getContext('2d');
+  var ClrImg = document.getElementById("ClrImg");
+
+  ClrImg.addEventListener('click',ClearCanvas);
+
+  function ClearCanvas(){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+
+    if(ProductName.value == "" || ProductName.value == null){
+      return;
+    }
+    else{
+      update(ref(database,'Products/' + ProductName.value ), {
+      image : " ",                
+    })
+    }
+
+    
+  }
 
   function handleImage(e){
       var reader = new FileReader();
@@ -251,7 +270,7 @@ function AddData(){
     .then(()=>{
       if(imageLoader.value == '' || imageLoader.value == null){
         alert("item added without image");
-        return;
+        location.reload();
       }
       firebase.initializeApp(firebaseConfig);
       const ref = firebase.storage().ref();
@@ -275,7 +294,7 @@ function AddData(){
 
     })
     .catch((error)=>{
-      alert("unsucessful");
+      //alert("No Image");
       console.log(error);
       //location.reload();
     }) 
@@ -337,6 +356,7 @@ function UpdateData(){
   .then(()=>{
     if(imageLoader.value == '' || imageLoader.value == null){
         alert("item update without image");
+        location.reload();
         return;
       }
       firebase.initializeApp(firebaseConfig);
@@ -400,11 +420,13 @@ function DeleteData(){
 	  let key = std.key;
 	  let value = std.val();
 	  let description = document.createElement('li');
+    let image = document.createElement('li');
 	  let price = document.createElement('li');
 	  let heading = document.createElement('h3');
 	  
     price.innerHTML = "Price : RM " + value.price;
 	  heading.innerHTML = value.name;
+    image.innerHTML = "<img style='width:100px;height:100px' src="+value.image+">";
 
     var input = value.description;
     var output = "";
@@ -413,7 +435,7 @@ function DeleteData(){
 
 
 	  let ul = document.createElement('ul');
-	  ul.append(heading, description, price);
+	  ul.append(heading,image, description, price);
 	  ProductList.append(ul);
     }
 
