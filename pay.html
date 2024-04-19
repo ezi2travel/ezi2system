@@ -322,8 +322,11 @@
             } 
 
             function getDate(){
-                const result1 = new Date().toLocaleDateString('en-GB');
-                document.getElementById("now_date").innerHTML = "Date : "+ result1;
+                // const result1 = new Date().toLocaleDateString('en-GB');
+                // document.getElementById("now_date").innerHTML = "Date : "+ result1;
+                get(child(dbref, 'Payment/' + y +'/payment/0')).then((snapshot)=>{
+                    document.getElementById("now_date").innerHTML = "Date : "+ snapshot.val().date;                       
+                })
             }
             function pay(){
                 if (y == 0 || y ==null){
