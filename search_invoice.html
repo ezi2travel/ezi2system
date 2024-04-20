@@ -149,7 +149,7 @@ function PackageListItem(std){
   }
 	date.innerHTML = '<a href="invoice.html?index='+ value.name+'"style="text-align:left; font-weight:bold ">'+ value.name+
     `<div style="color:blue; font-weight:normal; text-align :right">By : `+ value.user +`</div>`+
-    `<div style="color:green;font-weight:normal;text-align :left">Balance : RM `+ value.baki +`</div>`+ 
+    `<div style="color:green;font-weight:normal;text-align :left">Balance : RM `+ Number(value.baki).toFixed(2) +`</div>`+ 
     `<div style="background-color:`+ color +`;text-align:center;padding:5px 10px;border-radius:10px; outline: 1px solid black;margin-left:80%">`+ value.payment_status +`</div>`;
 	  myUL.append(date);
   } 
