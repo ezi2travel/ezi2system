@@ -105,13 +105,13 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
         <a style=" font-weight: normal;" href="invoice.html">New Invoices</a>
         <a style=" font-weight: normal;" href="Pvoucher.html">Payment Voucher</a>
         <a style=" font-weight: normal;" href="Cnote.html">Credit Note</a>
+        <a style=" font-weight: normal;" href="homepage.html">Cash Sale</a>
       </div>
   <button class="dropdown-btn"><i class="fa fa-gear fa-spin" ></i> Admin Setting <i class="fa fa-caret-down"></i></button>
       <div class="dropdown-container">
+        <a style=" font-weight: normal;" href="manageUser.html">Manage Users</a>
+        <a style=" font-weight: normal;" href="homepage.html">Sales Report</a>
         <a style=" font-weight: normal;" href="report.html">Edit Footer</a>
-        <a style=" font-weight: normal;" >Setting1</a>
-        <a style=" font-weight: normal;" >Setting2</a>
-        <a style=" font-weight: normal;" >Setting3</a>
       </div>
   <a id=logoutbtn><i class="fa fa-sign-out" ></i> Log Out</a>
   
@@ -150,11 +150,25 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
   const auth = getAuth();
+  const dbref = ref(database);
+  let a = "";
 
   function checkuser(){
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
+          // a = user.email;
+
+          // get(child(dbref, 'user')).then((snapshot)=>{
+          //   if(snapshot.exists()){
+          //     get(child(dbref, 'Payment/' + y +"/product/"+ selector)).then((snapshot)=>{
+          //       let N_quantity = Number(snapshot.val().quantity) + Number(quantity.value);
+          //       update(ref(db,'Payment/' + y +"/product/"+ selector), {
+          //         quantity : N_quantity,
+          //       });
+          //     })
+          //   }
+          // })
           if(user.email == "irhamfirdaus00@yahoo.com"){
             userid.innerHTML= "USER : ezi2s1";
           }
