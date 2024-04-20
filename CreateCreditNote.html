@@ -136,6 +136,13 @@
 
             const dbref = ref(db);
 
+            let test5 = document.getElementById("test5");
+            function autoNumber(){
+                let x = test5.value;
+                test5.value= Number(x).toFixed(2)  
+            }
+            test5.addEventListener('change',autoNumber);
+
             function retData(){
                 if(test1.value == "" || test1.value == null || y == "" || y == null){
                     test4.value = new Date().toLocaleDateString('en-GB');
