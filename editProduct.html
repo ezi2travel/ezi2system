@@ -103,9 +103,9 @@
             function deleteItem(){
                 remove(ref(db,'Payment/' + x + "/product/" +z ))
                 .then(()=>{
+                    alert("Product " + z +" deleted successfully !");
                     get(child(dbref, 'Payment/' + x + "/product/")).then((snapshot)=>{
                     if(snapshot.exists()){
-                        alert("item not cleared");
                     }
                     else{
                         alert("no items in cart");
@@ -115,7 +115,7 @@
                     }
                     
                     })
-                    alert("Product " + z +" deleted successfully !");;
+                    
                     window.location.href= 'products.html?index='+x;
                 })
                 .catch((error)=>{
