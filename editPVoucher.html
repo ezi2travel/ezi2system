@@ -7,6 +7,9 @@
     </head>
     <style>
         body { background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; text-align:left;}
+        .Done{ background-color:green; color:white; }
+        .Pending{ background-color:orangered; color:white; }
+        .Rejected{ background-color:red; color:white; }
 
         label{
             display:inline-block;
@@ -86,6 +89,14 @@
                     <option class="purchases"  value="purchases">PURCHASES</option>
                     <option class="benefits"  value="benefits">STAFF BENEFITS</option> 
                 </select><br/>
+            </div><br/>
+            <div>
+                <label for="visa">PAYMENT STATUS :</label>
+                <select name="status" onchange="this.className=this.options[this.selectedIndex].className;" class="Done">
+                <option class="Done" value="Done" >Done</option>
+                <option class="Pending"  value="Pending" >Pending</option>
+                <option class="Rejected"  value="Rejected" >Rejected</option>
+                </select>
             </div>
         </div>
         <br><br>
@@ -236,7 +247,7 @@
                         nama.innerHTML = snapshot.val().name;
                         date_payment.innerHTML =  snapshot.val().date;
                         date_Pay.innerHTML = "DATE : " + snapshot.val().date;
-                        amount.value = "RM " + snapshot.val().amount;
+                        amount.value = Number(snapshot.val().amount).toFixed(2);
                         detail_payment.innerHTML = snapshot.val().details;
                         references.value = snapshot.val().details;
                         method_Pay.innerHTML = "PAYMENT METHOD : "+ snapshot.val().method;
@@ -251,9 +262,10 @@
                         document.getElementsByName('method')[0].value = snapshot.val().method;
                         document.getElementsByName('type')[0].className = snapshot.val().type;
                         document.getElementsByName('type')[0].value = snapshot.val().type;
-                        
+                        document.getElementsByName('status')[0].className = snapshot.val().status;
+                        document.getElementsByName('status')[0].value = snapshot.val().status;
                         let date = document.createElement("tr");
-                        date.innerHTML = "<td></td><td>Total Paid :</td><td>RM "+snapshot.val().amount+"</td>";
+                        date.innerHTML = "<td></td><td>Total Paid :</td><td>RM "+Number(snapshot.val().amount).toFixed(2)+"</td>";
                         dataTable.append(date);
                         return;
                     }                        
@@ -271,6 +283,8 @@
                 var method = selector[selector.selectedIndex].value;
                 var selector = document.getElementsByName("type")[0];
                 var type = selector[selector.selectedIndex].value;
+                var selector = document.getElementsByName("status")[0];
+                var status = selector[selector.selectedIndex].value;
                 
 
                 update(ref(db,'PaymentVoucher/' + x), {
@@ -282,6 +296,7 @@
                 reference_no : ref_no.value,
                 method : method,
                 type: type,
+                status : status,
                 user : userid1.value
                 
                 }).then(()=>{
