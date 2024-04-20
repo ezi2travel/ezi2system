@@ -203,7 +203,7 @@
                 var win = window.open('', '', 'height=800,width=800');
 
                 win.document.write('<html><head>');
-                win.document.write('<title>Credit Note</title>');   // <title> FOR PDF HEADER.
+                win.document.write('<title>Receipt</title>');   // <title> FOR PDF HEADER.
                 win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
                 win.document.write('</head>');
                 win.document.write('<body>');
@@ -221,7 +221,7 @@
             const dbref = ref(db);
             get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
                 if(snapshot.exists()){
-                    total_payment.innerHTML = "TOTAL PAYMENT : RM "+ snapshot.val().total_payment;
+                    total_payment.innerHTML = "TOTAL PAYMENT : RM "+ Number(snapshot.val().total_payment).toFixed(2);
                     //baki.innerHTML = "BALANCE : RM " + snapshot.val().baki;
                     let color = "red";
                     let a = Number(snapshot.val().invoice_no) ;
@@ -284,15 +284,15 @@
 
                 if(value.image =="" || value.image == null ){
                     date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><div style="text-align:left;justify-content:left"><div><p style="font-weight:bold">'+ value.name+"</p>"+ output +"</div></td><td>"+ value.quantity +
-                                "</td><td>RM "+ value.unit_price +"</td><td>RM "+ a +"</td>";
+                                "</td><td>RM "+ Number(value.unit_price).toFixed(2) +"</td><td>RM "+ Number(a).toFixed(2) +"</td>";
                 }
                 else{
                     date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><div style="text-align:left;justify-content:left"><div style="display:flex; align-items: center;justify-content: center"><img style="width:100px;height:100px;margin-right:5%; margin-left:5%" src="'+value.image+'"><div><p style="font-weight:bold">'+ value.name+"</p>"+ output +"</div></div></div></td><td>"+ value.quantity +
-                                "</td><td>RM "+ value.unit_price +"</td><td>RM "+ a +"</td>";
+                                "</td><td>RM "+ Number(value.unit_price).toFixed(2) +"</td><td>RM "+ Number(a).toFixed(2) +"</td>";
                 }
 
                 final_total = final_total + a;
-                total.innerHTML = "TOTAL PRICE : RM " + final_total;
+                total.innerHTML = "TOTAL PRICE : RM " + Number(final_total).toFixed(2);
                 update(ref(db,'Payment/' + y),{
                     total : final_total})
                 product.append(date);
@@ -363,9 +363,9 @@
                     if(snapshot.exists()){
                         let x = Number(snapshot.val().total_creditnote);
                         get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
-                            creditnote.innerHTML = "CREDIT NOTE : RM "+ x;
+                            creditnote.innerHTML = "CREDIT NOTE : RM "+ Number(x).toFixed(2);
                             //discount.innerHTML = "DISCOUNT : (- RM " + x_discount + ")";
-                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki);
+                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki).toFixed(2);
                             let n_baki = snapshot.val().payment_status;
                             update(ref(db,'CreditNote/' + y), {
                             baki : snapshot.val().baki,
@@ -387,7 +387,7 @@
                     }
                     else{
                         get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
-                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki);
+                            baki.innerHTML ="FINAL BALANCE : RM " + Number(snapshot.val().baki).toFixed(2);
                             //discount.innerHTML = "DISCOUNT : (- RM " + x_discount+ ")";
                             let n_baki = (Number(snapshot.val().baki) - Number(x_discount));
                             
@@ -408,9 +408,9 @@
 
                     if(x_discount != 0){
                         let date = document.createElement('tr');
-                        date.innerHTML = "<td></td><td>Discount : "+x_remarks+"</td><td></td><td></td><td>RM -"+ x_discount +"</td>";
+                        date.innerHTML = "<td></td><td>DISCOUNT : "+x_remarks+"</td><td></td><td></td><td>RM -"+ Number(x_discount).toFixed(2) +"</td>";
                         product.append(date);
-                        discount.innerHTML = "DISCOUNT : (- RM " + x_discount + ")";
+                        discount.innerHTML = "DISCOUNT : (- RM " + Number(x_discount).toFixed(2) + ")";
                     }
                     
                 })
