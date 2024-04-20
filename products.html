@@ -223,7 +223,7 @@
 
         get(child(dbref, 'Products/' + selector)).then((snapshot)=>{
             a = snapshot.val().image
-            set(ref(db,'Payment/' + y +"/product/"+ selector), {
+            update(ref(db,'Payment/' + y +"/product/"+ selector), {
             image : a    
           })
         })
