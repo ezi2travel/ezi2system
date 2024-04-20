@@ -135,10 +135,21 @@ function PackageListItem(std){
 	let key = std.key;
 	let value = std.val();
 	let date = document.createElement('li');
+  let color = "black"
+  if(value.status == "Done"){
+    color = "green"
+  }
+  else if(value.status == "Pending"){
+    color = "orange"
+  }
+  else if(value.status == "Rejected"){
+    color = "red"
+  }
   
 	date.innerHTML = '<a title="click to view payment voucher for '+value.name+'" href="editPVoucher.html?index='+ key +'"style="text-align:left; font-weight:bold ">'+ value.name +
-    `<div style="color:green; font-weight:normal">Amount : RM `+ value.amount +
-    `<div style="text-align:right; color:blue; font-weight:normal">By : `+ value.user   ;
+    `<div style="color:green; font-weight:normal">Amount : RM `+ Number(value.amount).toFixed(2) +
+    `<div style="text-align:right; color:blue; font-weight:normal">By : `+ value.user +
+    `<div style="text-align:left; color:`+color+`; font-weight:normal">Status : `+ value.status ;
 	  myUL.append(date);
   } 
 
