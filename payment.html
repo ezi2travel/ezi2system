@@ -66,7 +66,7 @@
     
         <div>
             <label>AMOUNT : </label>
-            <input style="border-radius: 5px" type="number" id="amount">
+            <input style="border-radius: 5px" type="number" id="amount" >
         </div><br><br>
 
         <div>
@@ -194,7 +194,7 @@
                 get(child(dbref, 'Payment/'+y )).then((snapshot)=>{
                     payment_no.innerHTML = (Number(snapshot.val().payment_no)+1);
                     no.innerHTML = (Number(snapshot.val().payment_no)+1);
-                    balance.innerHTML = "RM " + snapshot.val().baki
+                    balance.innerHTML = "RM " + Number(snapshot.val().baki).toFixed(2);
 
                 })
                 get(child(dbref, 'number')).then((snapshot)=>{
@@ -207,6 +207,14 @@
                 const result1 = new Date().toLocaleDateString('en-GB');
                 document.getElementById("date_payment").innerHTML = result1;
             }
+
+            let amount = document.getElementById("amount");
+            function autoNumber(){
+                let x = Number(amount.value);
+                x = x.toFixed(2);
+                amount.value=x;
+            }
+            amount.addEventListener('change',autoNumber);
 
 
             function submit(){   
