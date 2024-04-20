@@ -337,6 +337,7 @@
       userid1.value = snapshot.val().user;
       if(snapshot.exists()){
       let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment)+ Number(cn) -Number(x_discount);
+      N_baki = N_baki.toFixed(2);
       if(N_baki == 0 && snapshot.val().total != 0){
         update(ref(db,'Payment/' + y), {
           baki : N_baki,
