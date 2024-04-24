@@ -349,6 +349,18 @@
         status.value = "FULLY PAID";
         balance.value = "RM " + N_baki;
       }
+      else if(snapshot.val().total_payment == 0){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "UNPAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "UNPAID";
+        balance.value = "RM " + N_baki;
+      }
+
       else if(N_baki  < snapshot.val().total && N_baki > 0){
         update(ref(db,'Payment/' + y), {
           baki : N_baki,
