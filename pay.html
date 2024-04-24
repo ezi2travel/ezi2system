@@ -234,6 +234,10 @@
                         color = "green";
                         status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">FULLY PAID</div>`;
                     }
+                    else if(snapshot.val().total_payment == 0 ){
+                        color = "red"
+                        status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">UNPAID</div>`;
+                    }
                     else if(snapshot.val().baki <  snapshot.val().total && snapshot.val().baki > 0){
                         color = "yellow";
                         status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">PARTIALLY PAID</div>`;
@@ -282,7 +286,7 @@
                 var output = "";
                 output = input.replaceAll('\\n', '<br>');
 
-                if(value.image =="" || value.image == null ){
+                if(value.image =="" || value.image == null || value.image == "HELLO" ){
                     date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><div style="text-align:left;justify-content:left"><div><p style="font-weight:bold">'+ value.name+"</p>"+ output +"</div></td><td>"+ value.quantity +
                                 "</td><td>RM "+ Number(value.unit_price).toFixed(2) +"</td><td>RM "+ Number(a).toFixed(2) +"</td>";
                 }
