@@ -154,37 +154,21 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
   let a = "";
 
   function checkuser(){
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // a = user.email;
-
-          // get(child(dbref, 'user')).then((snapshot)=>{
-          //   if(snapshot.exists()){
-          //     get(child(dbref, 'Payment/' + y +"/product/"+ selector)).then((snapshot)=>{
-          //       let N_quantity = Number(snapshot.val().quantity) + Number(quantity.value);
-          //       update(ref(db,'Payment/' + y +"/product/"+ selector), {
-          //         quantity : N_quantity,
-          //       });
-          //     })
-          //   }
-          // })
-          if(user.email == "irhamfirdaus00@yahoo.com"){
-            userid.innerHTML= "USER : ezi2s1";
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+          if(snapshot.exists()){
+            userid.innerHTML = snapshot.val().userid;
           }
-          else if(user.email == "ad.ezi2travel@gmail.com"){
-            userid.innerHTML= "USER : ezi2s2";
-          }
-          else if(user.email == "ad2.ezi2travel@gmail.com"){
-            userid.innerHTML= "USER : ezi2s3";
-          }
-        } 
-        else {
-          alert("Please Sign In! ");
-          window.location.href= 'index.html';
-        }
-      });
-    }
+        })
+      } 
+      else {
+        alert("Please Sign In! ");
+        window.location.href= 'index.html';
+      }
+    });
+  }
 
   window.addEventListener('load',checkuser);
 
