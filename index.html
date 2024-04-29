@@ -24,6 +24,7 @@
             <input type="password" id="password" name="password" placeholder="  Password" style="width:50% ;font-size: 20px;height: 25px;"/><br><br>
             <input type="submit" id="login" name="login" value="Login" style="color:white; background-color: blue; padding: 10px 30px;font-size: 20px; font-weight: bold; font-style: italic; border-radius: 10px;"/>
         </div>
+    </div>
 </body>
 
 <script type="module">
@@ -60,6 +61,18 @@
         //update(ref(database,'user/' + user.uid), {
         //  Login:"Yes"
         // })
+
+        get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+          if(snapshot.exists()){
+            if(snapshot.val().userid == "ezi2s1"){
+                window.location.replace("./homepageAdmin.html"); 
+            }
+            else{
+                window.location.replace("./homepage.html");
+            }
+          }
+        })
+
         window.alert("Success! Welcome back!");
         window.location.replace("./homepage.html");
         })
