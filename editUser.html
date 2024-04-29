@@ -74,61 +74,29 @@
                 console.log(error);
             })
 
-            // function updateItem(){
-            //     if(quantity.value == 0 || quantity.value == null){
-
-            //     }
-            //     else {
-            //         update(ref(db,'Payment/' + x + "/product/" + z), {
-            //             quantity : quantity.value,
-            //         }).then(()=>{
-            //             alert("Product " + z +" updated successfully !");
-            //             window.location.href= 'products.html?index='+x;
-            //         }).catch((error)=>{
-            //             alert(error);
-            //         })
-            //     }
-            // }
 
             function deleteItem(){
                 const auth = getAuth();
                 const user = auth.currentUser ;
+
+                remove(ref(db,'user/' + w  ))
+                .then(()=>{
+                    alert("User " + w +" remove successfully !");
+                    window.location.href= 'manageUser.html';
+                })
+                .catch((error)=>{
+                    alert("unsucessful");
+                })
 
                 deleteUser(user).then(() => {
                 // User deleted.
                 }).catch((error) => {
                 // An error ocurred
                 // ...
-                });
-                // remove(ref(db,'user/' + w  ))
-                // .then(()=>{
-                //     alert("User " + w +" remove successfully !");
-                //     window.location.href= 'manageUser.html';
-                // })
-                // .catch((error)=>{
-                //     alert("unsucessful");
-                // })
-
-
-                // deleteUser(w).then(() => {
-                //     // remove(ref(db,'user/' + w  ))
-                //     // .then(()=>{
-                //     //     alert("User " + w +" remove successfully !");
-                //     //     window.location.href= 'manageUser.html';
-                //     // })
-                //     // .catch((error)=>{
-                //     //     alert("unsucessful");
-                //     // })
-                // // User deleted.
-                // }).catch((error) => {
-                // // An error ocurred
-                // // ...
-                // });
-                
+                });             
 
             }
 
-            // update_item.addEventListener('click',updateItem);
             delete_item.addEventListener('click',deleteItem);
 
         </script>
