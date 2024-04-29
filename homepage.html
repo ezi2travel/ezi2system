@@ -107,12 +107,6 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
         <a style=" font-weight: normal;" href="Cnote.html">Credit Note</a>
         <a style=" font-weight: normal;" href="homepage.html">Cash Sale</a>
       </div>
-  <button class="dropdown-btn"><i class="fa fa-gear fa-spin" ></i> Admin Setting <i class="fa fa-caret-down"></i></button>
-      <div class="dropdown-container">
-        <a style=" font-weight: normal;" href="manageUser.html">Manage Users</a>
-        <a style=" font-weight: normal;" href="homepage.html">Sales Report</a>
-        <a style=" font-weight: normal;" href="report.html">Edit Footer</a>
-      </div>
   <a id=logoutbtn><i class="fa fa-sign-out" ></i> Log Out</a>
   
 </div>
@@ -160,6 +154,9 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
         get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
           if(snapshot.exists()){
             userid.innerHTML = snapshot.val().userid;
+            if(snapshot.val().userid == "ezi2s1"){
+              window.location.replace("./homepageAdmin.html");
+            }
           }
         })
       } 
