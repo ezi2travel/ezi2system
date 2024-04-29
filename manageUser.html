@@ -40,7 +40,8 @@
                 <input type="text" id="email" name="email" placeholder="   E-mail" style="width:30%;font-size: 20px; height: 25px;"/><br><br>
                 <input type="password" id="password" name="password" placeholder="  Password" style="width:30% ;font-size: 20px;height: 25px;"/><br><br>
                 <input type="text" id="id" name="id" placeholder="   ID" style="width:30%;font-size: 20px; height: 25px;"/><br><br>
-                <input type="submit" id="create" name="create" value="create" style="color:white; background-color: blue; padding: 10px 30px;font-size: 20px; font-weight: bold; font-style: italic; border-radius: 10px;"/>
+                <input type="submit" id="create" name="create" value="CREATE" style="color:white; background-color: blue; padding: 10px 30px;font-size: 20px; font-weight: bold; font-style: italic; border-radius: 10px;"/>
+                <button title="Return to Homepage" onclick="window.location.href='homepage.html'" style="color:white; background-color: rgb(14, 140, 251); padding: 10px 30px;font-size: 20px; font-weight: bold; font-style: italic; border-radius: 10px;"><i class="fa fa-home" > </i> HOME</button>
             </div>
         </div>
         <script>
@@ -135,19 +136,17 @@
             let key = std.key;
             let value = std.val();
             let date = document.createElement('tr');
-            date.innerHTML = '<td>'+ no +"</td><td>"+ value.userid +"</td><td>"+ value.email +"</td>"+
+            if(value.userid == "ezi2s1"){
+                date.innerHTML = '<td>'+ no +"</td><td>"+ value.userid +"</td><td>"+ value.email +"</td>"+
+            `<td>ADMIN</td>`;
+            }
+            else{
+                date.innerHTML = '<td>'+ no +"</td><td>"+ value.userid +"</td><td>"+ value.email +"</td>"+
             `<td><button title="Edit" id="delete_user" onclick="deleteUser('`+key+`')"><i class="fa fa-pencil" style="color:red"></i></button></td>`;
+            }
+            
             ListofUser.append(date);
         }
-
-        // let test = document.getElementById("test");
-        // test.addEventListener('change',test);
-
-        // function test(){
-        //     let a = test.innerHTML
-        //     alert(a);
-        // }
-
         </script>
     </body>
 </html>
