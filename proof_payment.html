@@ -188,10 +188,10 @@
             document.getElementById("index2").value = d; // payment number
             let e = queryString.substring(queryString.indexOf('_')+1, queryString.indexOf('&'));
             let f = e.split("%20").join(" ").toUpperCase();
-            document.getElementById("index3").value = "RM " + f; // amount
+            document.getElementById("index3").value = "RM " + Number(f).toFixed(2); // amount
             let g = queryString.substring(queryString.indexOf('&')+1, queryString.indexOf('$'));
             let h = g.split("%20").join(" ").toUpperCase();
-            document.getElementById("index4").value ="RM " + h; // baki lepas payment
+            document.getElementById("index4").value ="RM " + Number(h).toFixed(2); // baki lepas payment
             let i = queryString.substring(queryString.indexOf('$')+1);
             let j = i.split("%20").join(" ").toUpperCase();
             document.getElementById("index5").value = j; // tarikh
@@ -214,7 +214,7 @@
                     document.getElementById("nama").innerHTML = snapshot.val().name;
                     document.getElementById("address").innerHTML = snapshot.val().alamat;
                     document.getElementById("no_telefon").innerHTML = snapshot.val().no_telefon;
-                    document.getElementById("total_payment").innerHTML = "TOTAL : RM "+ f;
+                    document.getElementById("total_payment").innerHTML = "TOTAL : RM "+ Number(f).toFixed(2);
                     document.getElementById("date_Pay").innerHTML = "Date : " + j;
                     
                 })    
@@ -252,7 +252,16 @@
                 let value = std.val();
                 let date = document.createElement('tr');
 
-                date.innerHTML = "<td>"+ index +"</td><td>"+ value.description +"</td></td>"+ "" +"</td>";
+                var input = value.description;
+                var output = "";
+                output = input.replaceAll('\\n', '<br>');
+
+                if(value.image =="" || value.image == null || value.image == "HELLO" ){
+                    date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><div style="text-align:left;justify-content:left"><div>'+ output +"</div></td><td></td>";
+                }
+                else{
+                    date.innerHTML = "<td>"+ index +'</td><td style="text-align:left"><div style="text-align:left;justify-content:left"><div style="display:flex; align-items: center;justify-content: center"><img style="width:100px;height:100px;margin-right:5%; margin-left:5%" src="'+value.image+'"><div>'+ output +"</div></div></div></td><td></td>";
+                }
                 dataTable.append(date);                
             } 
 
