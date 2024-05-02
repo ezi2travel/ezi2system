@@ -38,6 +38,7 @@
                 <th style="background-color:cyan">NO</th>
                 <th style="background-color:cyan">NAME</th>
                 <th style="background-color:cyan">PHONE NUMBER</th>
+                <th style="background-color:cyan">FREQUENCY</th>
               </tr>
             </table><br/><br/>
         </div>
@@ -115,7 +116,8 @@ function AddData(){
             x = x + 1;
             set(ref(database,'wasap/' + x), {
                 name : UserName,
-                number : UserNumber
+                number : UserNumber,
+                frequency : 0
             })   
             .then(()=>{
                 alert("Number Added Successfully !");
@@ -234,7 +236,7 @@ function ListUser(std){
     let key = std.key;
     let value = std.val();
     let date = document.createElement('tr');
-    date.innerHTML = '<td>'+ no +"</td><td>"+ value.name +"</td><td>"+ value.number +"</td>";
+    date.innerHTML = '<td>'+ no +"</td><td>"+ value.name +"</td><td>"+ value.number +"</td><td>"+ value.frequency +"</td>";
 
     ListofUser.append(date);
 }
