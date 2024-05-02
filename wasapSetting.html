@@ -42,6 +42,9 @@
               </tr>
             </table><br/><br/>
         </div>
+
+        <p id="total_click_link" style="font-size: 20px; font-weight: bold;"></p>
+                
         <p style="color: white;">EZI2TRAVEL SDN BHD</p>
     </body>
 </html>
@@ -215,6 +218,7 @@ function DeleteData(){
 }
 
 let no = 1;
+let total_click = 0;
 function GetListUser(){
     $('#ListofUser').find("tr:not(:first)").remove();
     const dbref = ref(database);
@@ -222,6 +226,7 @@ function GetListUser(){
         snapshot.forEach(std => {
             ListUser(std);
             no ++;
+
         });
     });
 }
@@ -230,8 +235,9 @@ function ListUser(std){
     let value = std.val();
     let date = document.createElement('tr');
     date.innerHTML = '<td>'+ no +"</td><td>"+ value.name +"</td><td>"+ value.number +"</td><td>"+ value.frequency +"</td>";
-
+    total_click = total_click + Number(value.frequency);
     ListofUser.append(date);
+    total_click_link.innerHTML = "Total Link Click : " + total_click + " times";
 }
 window.addEventListener('load', GetListUser);
     
