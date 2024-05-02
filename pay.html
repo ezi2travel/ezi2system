@@ -134,21 +134,17 @@
             function checkuser(){
                 const auth = getAuth();
                 onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        if(user.email == "irhamfirdaus00@yahoo.com"){
-                            userid2.innerHTML= "By : ezi2s1";
-                        }
-                        else if(user.email == "ad.ezi2travel@gmail.com"){
-                            userid2.innerHTML= "By : ezi2s2";
-                        }
-                        else if(user.email == "ad2.ezi2travel@gmail.com"){
-                            userid2.innerHTML= "By : ezi2s3";
-                        }
-                    } 
-                    else {
-                        alert("Please Sign In! ");
-                        window.location.href= 'index.html';
+                if (user) {
+                    get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                        userid2.innerHTML = "By : " + snapshot.val().userid;
                     }
+                    })
+                } 
+                else {
+                    alert("Please Sign In! ");
+                    window.location.href= 'index.html';
+                }
                 });
             }
 
@@ -226,7 +222,7 @@
                     let color = "red";
                     let a = Number(snapshot.val().invoice_no) ;
                     let b = a.toString().padStart(9, '0');
-                    invoice_no.innerHTML = "#S" + b; 
+                    invoice_no.innerHTML = "Invoice No : #S" + b; 
                     address.innerHTML = snapshot.val().alamat;
                     no_telefon.innerHTML = snapshot.val().no_telefon;
                     text_summary.innerHTML = snapshot.val().details;
