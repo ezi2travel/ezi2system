@@ -162,23 +162,20 @@
             function checkuser(){
                 const auth = getAuth();
                 onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        if(user.email == "irhamfirdaus00@yahoo.com"){
-                            userid1.value= "ezi2s1";
-                        }
-                        else if(user.email == "ad.ezi2travel@gmail.com"){
-                            userid1.value= "ezi2s2";
-                        }
-                        else if(user.email == "ad2.ezi2travel@gmail.com"){
-                            userid1.value= "ezi2s3";
-                        }
-                    } 
-                    else {
-                        alert("Please Sign In! ");
-                        window.location.href= 'index.html';
+                if (user) {
+                    get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                        userid1.value = snapshot.val().userid;
                     }
+                    })
+                } 
+                else {
+                    alert("Please Sign In! ");
+                    window.location.href= 'index.html';
+                }
                 });
             }
+
 
             window.addEventListener('load',checkuser);
 
