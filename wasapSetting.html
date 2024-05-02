@@ -38,7 +38,7 @@
                 <th style="background-color:cyan">NO</th>
                 <th style="background-color:cyan">NAME</th>
                 <th style="background-color:cyan">PHONE NUMBER</th>
-                <th style="background-color:cyan">FREQUENCY</th>
+                <th style="background-color:cyan">FREQUENCY(link clicked)</th>
               </tr>
             </table><br/><br/>
         </div>
@@ -78,11 +78,15 @@
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
-      } else {
-        alert("Please Sign In! ");
-        window.location.href= 'index.html';
-      }
+        get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+          if(snapshot.exists()){
+            if(snapshot.val().userid != "ezi2s1"){
+              alert("Please Sign In with admin account! ");
+              window.location.href= 'index.html';
+            }
+          }
+        })
+      } 
     });
   }
 
@@ -207,18 +211,7 @@ function DeleteData(){
       {
         onlyOnce: true,
       }
-      );
-//   remove(ref(database,'Products/' + ProductName.value))
-//     .then(()=>{
-//       alert("Package Deleted Successfully !");
-//       location.reload();
-//     })
-//     .catch((error)=>{
-//       alert("unsucessful");
-//       console.log(error);
-//       location.reload();
-//     })
-    
+      );    
 }
 
 let no = 1;
