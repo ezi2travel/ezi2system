@@ -46,8 +46,16 @@
                 rotation : b_new
             })
             get(child(dbref, 'wasap/'+ b)).then((snapshot)=>{
-                let c = snapshot.val().number;
-                window.location.href="https://wasap.my/"+c+"/nakpiumrah";
+                if(snapshot.exists()){
+                    let c = snapshot.val().number;
+                    window.location.href="https://wasap.my/"+c+"/nakpiumrah";
+                }
+                else{
+                    get(child(dbref, 'wasap/1' )).then((snapshot)=>{
+                        let c = snapshot.val().number;
+                        window.location.href="https://wasap.my/"+c+"/nakpiumrah";
+                    })
+                }
             }) 
         })
         
