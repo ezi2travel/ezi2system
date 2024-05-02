@@ -45,6 +45,15 @@
             update(ref(database,'number/'), {
                 rotation : b_new
             })
+
+            get(child(dbref, 'wasap/' + b)).then((snapshot)=>{
+                let a = Number(snapshot.val().frequency);
+                let a_new = a + 1;
+                update(ref(database,'wasap/' + b), {
+                    frequency : a_new
+                })
+            })
+
             get(child(dbref, 'wasap/'+ b)).then((snapshot)=>{
                 if(snapshot.exists()){
                     let c = snapshot.val().number;
