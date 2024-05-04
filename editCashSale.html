@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CASH SALE</title>
+        <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <style>
+        body { background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; text-align:left;}
+        .Done{ background-color:green; color:white; }
+        .Pending{ background-color:orangered; color:white; }
+        .Rejected{ background-color:red; color:white; }
+
+        label{
+            display:inline-block;
+            width: 30%;
+            font-size: 25px;
+            font-weight: bold;
+            margin-left: 5%;
+        }
+        p{
+            display:inline-block;
+            font-size: 25px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        input,select,textarea{
+            font-size: 20px;
+            width :30%
+        }
+        h1{
+            color:rgb(0, 60, 255); 
+            text-align: center; 
+            font-size: 45px; 
+            font-weight: bold; 
+            font-style: italic;
+        }
+        canvas {
+          height: 175px;
+          border-style: solid;
+          border-width: 1px;
+          border-color: black;
+        }
+        
+        
+    </style>
+    <body>
+        <h1>CASH SALE</h1>
+        <div>
+            <div>
+                <label>CASH SALE NO : </label>
+                <p id="payment_no" type="number" onkeyup="this.value = this.value.toUpperCase();"></p>
+            </div>
+            <div>
+                <label>BY :</label>            
+                <input type="text" disabled id="userid1"/><br/><br/>
+            </div>
+            <div>
+                <label>DATE OF PAYMENT : </label>
+                <p id="date_payment" type="date" onkeyup="this.value = this.value.toUpperCase();"></p>
+            </div>
+            <div >
+                <label>NAME : </label>
+                <input id="index" placeholder="Enter name" onkeyup="this.value = this.value.toUpperCase();">
+            </div><br/>
+            <div >
+                <label>PHONE NUMBER : </label>
+                <input type="text" id="phone_no" placeholder="Enter name" onkeyup="this.value = this.value.toUpperCase();">
+            </div><br/>
+            <div>
+                <label>AMOUNT : </label>
+                <input type="text" id="amount" placeholder="Enter amount" onkeyup="this.value = this.value.toUpperCase();">
+            </div><br/>
+            <div>
+                <label>DETAILS : </label>
+                <textarea type="text" id="references" placeholder="Enter references" ></textarea>
+            </div><br/>
+            <div>
+                <label>PAYMENT METHOD : </label>
+                <select type="number" name="method">
+                    <option class="cash"  value="cash" >CASH</option>
+                    <option class="bank" value="bank" >BANK</option>
+                    <option class="cheque" value="cheque" >CHEQUE</option>
+                </select>
+            </div><br/>
+            <input style="border-radius: 5px ;margin-left: 10%; font-size: 20px; width: 50%;" type="file" id="imageLoader" name="imageLoader"/><br/><br/>
+            <canvas style="border-radius: 5px ;margin-left: 30%;" id="imageCanvas"></canvas><br/><br/>
+            <button  id="ClrImg" style="margin-left: 30%; font-size: 20px; font-weight: bold; color: red;"><i style="color: red;" class="fa fa-trash-o"></i> Remove Image</button><br/><br/>
+            <p id="link" style="display: none;"></p>
+        </div>
+        <br><br>
+
+        <div style="text-align: center;">
+            <div >
+                <button title="Update Payment Voucher" id="updateBTN" style="background-color: green ; color: white; padding: 10px 25px; border-radius: 10px" ><i class="fa fa-pencil"></i> UPDATE </button>
+                <button title="Delete Payment Voucher" id="deleteBTN" style="background-color: red ; color: white; padding: 10px 25px; border-radius: 10px" ><i class="fa fa-trash"></i> DELETE </button>
+                <button title="Return to Main Payment Voucher Page" onclick="back()" style="background-color: rgb(0, 166, 255) ; color: black; padding: 10px 25px; border-radius: 10px" ><i class="fa fa-arrow-left"></i> BACK</button>
+                <button title="Print this Payment Voucher" id="print" style="background-color :rgb(255, 230, 0); color:black; padding: 10px 25px; border-radius: 10px""><i class="fa fa-print" ></i> PRINT</button>
+            </br></br>            
+            </div> 
+            <br /><br/>
+        </div>
+
+        <div id="table1" style="display: none;" >
+            <div id="company_info" style="margin: 5px; display: flex;">
+                <img src="./Logo_Ezi2travel_2.png" style="width:100px; height:100px; margin-top: 30px;">
+                <div id="company_address" style="margin-left: 5px; margin-top: 20px; width: 100%;" >
+                    <p style="line-height: 0.5;font-weight: bold;">EZI2TRAVEL SDN BHD (759360-P)</p>
+                    <p style="line-height: 0.5; ">9G, JALAN DESA ARA,
+                    <p style="line-height: 0.5;">TAMAN DESA ARA,</p>
+                    <p style="line-height: 0.5;">13300 TASEK GELUGOR,</p>
+                    <p style="line-height: 0.5;">PULAU PINANG</p>
+                    <p style="line-height: 0.5;">PHONE : +604-5334834 / </p>
+                    <p style="line-height: 0.5;">+60125770564</p>
+                    <p style="line-height: 0.5;">Email : ezi2travelsdnbhd@gmail.com /</p> 
+                    <p style="line-height: 0.5;">hq@ezi2travel.com</p>
+                </div>
+                <div id="PV_title" style="margin-left: 50px;" >
+                    <div>
+                        <h1>CASH SALE</h1>
+                        <p id="receipt_no"></p>
+                    </div>
+                    <div>
+                        <p id="date_Pay"></p>
+                    </div>
+                    <div>
+                        <p id="method_Pay"></p>
+                    </div>
+                    <div>
+                        <p id="type_Pay"></p>
+                    </div>
+                    <div>
+                        <p id="reference"></p>
+                    </div>
+                    <div>
+                        <p id="userid2"></p>
+                    </div>
+                </div>
+            </div>
+            <br/><br/><hr>
+            <div id="customer" >
+                <h3 >CUSTOMER : </h3>
+                <p id="nama" ></p>
+                <p id="no_telefon" ></p>
+                <p id="detail_payment"></p>
+            </div>
+            <hr><br/>
+            
+            <table id="dataTable" style="width: 100%; height: 30px; margin-left:auto;margin-right:auto; text-align:center">
+                <tr>
+                    <th style="background-color:white">NO.</th>
+                    <th style="background-color:white">ITEMS</th>
+                    <th style="background-color:white">AMOUNT</th>
+                </tr>
+            </table>
+            
+            <br/><hr/>
+            <p>Generated automatically. No signature is required.</p>
+        </div>
+        
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+        <script>
+            function back(){
+                let y = document.getElementById("index").innerHTML;
+                window.history.go(-1);
+            }
+        </script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+            import {getDatabase, get, ref, set, child, onValue, remove, update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+            import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+            const firebaseConfig = {
+              apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+              authDomain: "databaseezi.firebaseapp.com",
+              projectId: "databaseezi",
+              storageBucket: "databaseezi.appspot.com",
+              messagingSenderId: "500563704547",
+              appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+              measurementId: "G-TYSWSGNT29"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            const analytics = getAnalytics(app);
+            const dbref = ref(db);
+
+            var imageLoader = document.getElementById('imageLoader');
+            imageLoader.addEventListener('change', handleImage, false);
+            var canvas = document.getElementById('imageCanvas');
+            var ctx = canvas.getContext('2d');
+
+            var ClrImg = document.getElementById("ClrImg");
+
+            ClrImg.addEventListener('click',ClearCanvas);
+
+            function ClearCanvas(){
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+
+                if(index.value == "" || index.value == null){
+                return;
+                }
+                else{
+                update(ref(db,'CashSale/' + x ), {
+                image : " ",                
+                })
+                }
+
+                
+            }
+
+            function handleImage(e){
+                var reader = new FileReader();
+                reader.onload = function(event){
+                    var img = new Image();
+                    img.onload = function(){
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img,0,0);
+                    }
+                    img.src = event.target.result;
+                }
+                reader.readAsDataURL(e.target.files[0]);  
+            }
+
+            function checkuser(){
+                const auth = getAuth();
+                onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                        // userid1.value = snapshot.val().userid;
+                        // userid2.innerHTML = "By : " + snapshot.val().userid;
+                    }
+                    })
+                } 
+                else {
+                    alert("Please Sign In! ");
+                    window.location.href= 'index.html';
+                }
+                });
+            }
+
+            window.addEventListener('load',checkuser);
+            window.addEventListener('load',getDate);
+            window.addEventListener('load',retData);
+            
+            const queryString = window.location.search;
+            var x = queryString.substring(7);
+            
+            let text1 = "#CS";
+            let text2 = x.toString();
+            let result = text1.concat(text2);
+            document.getElementById("payment_no").innerHTML = result;
+            receipt_no.innerHTML ="RECEIPT NO : " + result;
+            
+            function getDate(){
+                const result1 = new Date().toLocaleDateString('en-GB');
+                document.getElementById("date_payment").innerHTML = result1;
+            }
+
+            function retData(){
+                get(child(dbref, 'CashSale/' + x)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                        index.value = snapshot.val().name;
+                        nama.innerHTML = snapshot.val().name;
+                        date_payment.innerHTML =  snapshot.val().date;
+                        date_Pay.innerHTML = "DATE : " + snapshot.val().date;
+                        amount.value = Number(snapshot.val().amount).toFixed(2);
+                        detail_payment.innerHTML = snapshot.val().reference;
+                        references.value = snapshot.val().reference;
+                        method_Pay.innerHTML = "PAYMENT METHOD : "+ snapshot.val().method;
+                        phone_no.value = snapshot.val().no_telefon;
+                        no_telefon.innerHTML = snapshot.val().no_telefon;
+                        userid1.value = snapshot.val().user;
+                        userid2.innerHTML ="By : " + snapshot.val().user;
+                        document.getElementsByName('method')[0].className = snapshot.val().method;
+                        document.getElementsByName('method')[0].value = snapshot.val().method;
+                        
+                        var myCanvas = document.getElementById("imageCanvas");
+                        var ctx = myCanvas.getContext('2d');
+                        var img = new Image;
+                        img.onload = function(){
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img,0,0); // Or at whatever offset you like
+                        };
+
+                        img.src = snapshot.val().image;
+                        
+                        let date = document.createElement("tr");
+                        date.innerHTML = "<td></td><td>Total Paid :</td><td>RM "+Number(snapshot.val().amount).toFixed(2)+"</td>";
+                        dataTable.append(date);
+                        return;
+                    }                        
+                })
+            }
+            let updateBTN = document.getElementById("updateBTN");
+            let deleteBTN = document.getElementById("deleteBTN");
+
+            updateBTN.addEventListener('click',updData);
+            deleteBTN.addEventListener('click',delData);
+
+            function uploadFile(){
+                let a = document.getElementById("link").innerHTML;
+                //alert(a);
+
+                update(ref(db,'CashSale/' + x ), {
+                image : a,                
+                })
+
+                window.location.href= 'cashSale.html';
+            }
+            
+            function updData(){
+                
+                var selector = document.getElementsByName("method")[0];
+                var method = selector[selector.selectedIndex].value;                
+
+                update(ref(db,'CashSale/' + x), {
+                
+                name: index.value,
+                no_telefon : phone_no.value,
+                amount : amount.value,
+                reference: references.value,
+                method : method,
+                
+                }).then(()=>{
+                    if(imageLoader.value == '' || imageLoader.value == null){
+                        alert("item update without new image");
+                        window.location.href= 'cashSale.html';
+                        return;
+                        
+                    }
+
+                    firebase.initializeApp(firebaseConfig);
+                    const ref = firebase.storage().ref();
+                    const file = document.getElementById("imageLoader").files[0];
+                    const name = "CashSale" + "_" + index.value;
+                    const metadata = {
+                        contentType: file.type
+                    };
+
+                    const task = ref.child(name).put(file, metadata);task
+                    .then(snapshot => snapshot.ref.getDownloadURL())
+                    .then(url => {
+                        document.getElementById('link').innerHTML= url;
+                        //alert(url);
+                        uploadFile();
+                        
+                    }).catch(console.error);
+                    
+                    alert("Cash Sale Updated Successfully !");
+                    
+                    //window.location.href= 'cashSale.html';
+                }).catch((error)=>{
+                    alert(error);
+                    //window.location.href= 'cashSale.html';
+                })
+                
+            }
+
+                    // const task = ref.child(name).put(file, metadata);task
+                    // .then(snapshot => snapshot.ref.getDownloadURL())
+                    // .then(url => {
+                    //     document.getElementById('link').innerHTML= url;
+                    //     alert(url);
+                    //     uploadFile();
+                        
+                    // }).catch(console.error);
+                    
+                    // alert('Receipt uploaded !');
+                    // alert("Cash Sale Created Successfully !");
+
+
+            function delData(){
+                remove(ref(db,'CashSale/' + x))
+                .then(()=>{
+                    alert("Data Deleted Successfully !");
+                    window.location.href= 'Pvoucher.html';
+                })
+                .catch((error)=>{
+                    alert("unsucessful");
+                    window.location.href= 'Pvoucher.html';
+                })
+                
+            }
+
+            var print = document.getElementById("print");
+            print.addEventListener('click',createPDF);
+            function createPDF(){
+                var sTable = document.getElementById('table1').innerHTML;
+                var style = "<style>";
+                style = style + "table {border: 1px solid black; width: 100%;font: 12px Calibri; margin:10;}";
+                style = style + " th {border: 1px solid black; font-size: 18px;text-align: center;}";
+                style = style + " td {font-size: 18px;text-align: center;}";
+                style = style + "</style>";
+
+                // CREATE A WINDOW OBJECT.
+                var win = window.open('', '', 'height=800,width=800');
+
+                win.document.write('<html><head>');
+                win.document.write('<title>Cash Sale</title>');   // <title> FOR PDF HEADER.
+                win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+                win.document.write('</head>');
+                win.document.write('<body>');
+                win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+                win.document.write('</body></html>');
+
+                //win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+                //win.print();    // PRINT THE CONTENTS.
+            }
+            
+
+        </script>
+    </body>
+</html>
