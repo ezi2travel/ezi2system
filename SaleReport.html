@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <ul id="myUL"></ul>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+        import {getDatabase, ref, set, push,child, onValue,remove,get,update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+        import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+        
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        const firebaseConfig = {
+            apiKey: "AIzaSyBK0s2IY344TSMqt1no1fySfcvgxozvSuQ",
+            authDomain: "databaseezi.firebaseapp.com",
+            projectId: "databaseezi",
+            storageBucket: "databaseezi.appspot.com",
+            messagingSenderId: "500563704547",
+            appId: "1:500563704547:web:15bd0c6a9df7a9ba44e3d6",
+            measurementId: "G-TYSWSGNT29"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const analytics = getAnalytics(app);
+        const dbref = ref(database);
+            function GetPackage(){
+                get(child(dbref,'Payment')).then((snapshot)=>{
+                snapshot.forEach(std => {
+                    PackageListItem(std);
+                }); 
+                });
+            }
+
+            function PackageListItem(std){
+                let key = std.key;
+                let value = std.val();
+                
+
+                
+                let no ;
+                let name = value.name;
+                let x ;
+                let y = value.payment_no;
+                //number =  number + `<p>Number Of Payment : ` + y +'</p>' ;
+
+                for(x = 1; x <= y ; x++){ 
+                let date = document.createElement('li');
+                let number = "";
+                let text = "";                     
+                    get(child(dbref,'Payment/'+ name +"/payment/"+x)).then((snapshot)=>{
+                        text =  `<p> Amount : RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
+                        number = `<p> Date Of Payment : ` + snapshot.val().date +`</p>` ;
+                        date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
+                        myUL.append(date);
+                    });
+                }
+
+                
+            } 
+
+            window.addEventListener('load',GetPackage);
+        </script>
+
+    </body>
+</html>
