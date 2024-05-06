@@ -1,9 +1,27 @@
-<!DOCTYPE html>
+
 <html>
     <head>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Sale Report</title>
+        <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
     </head>
     <body>
+        <h1></h1>
+        <label>Day</label>
+        <select id="chooseday" name="chooseday" onchange="this.className=this.options[this.selectedIndex].className" ></select>
+
+        <label>Month</label>
+        <select id="choosemonth" name="choosemonth" onchange="this.className=this.options[this.selectedIndex].className"></select>
+
+        <label>Year</label>
+        <select id="chooseyear" name="chooseyear" onchange="this.className=this.options[this.selectedIndex].className">
+            <option class="2023"  value="2023" >2023</option>
+            <option class="2024" value="2024" >2024</option>
+        </select>
+        <button id="getDateBtn"><i class="fa fa-search" ></i></button>
+        <br/><br/>
+        
         <ul id="myUL"></ul>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -31,20 +49,50 @@
         const database = getDatabase(app);
         const analytics = getAnalytics(app);
         const dbref = ref(database);
-            function GetPackage(){
-                get(child(dbref,'Payment')).then((snapshot)=>{
+
+        function generateoption(){
+            for(let x=1; x<=31; x++){
+                var row = "";
+                row = "<option class="+ String(x).padStart(2,'0') + "value=" + String(x).padStart(2,'0') +">"+ String(x).padStart(2,'0') +"</option>";
+                $(row).appendTo("#chooseday");
+            }
+            for(let x=1; x<=12; x++){
+                var row = "";
+                row = "<option class="+ String(x).padStart(2,'0') + "value=" + String(x).padStart(2,'0') +">"+ String(x).padStart(2,'0') +"</option>";
+                $(row).appendTo("#choosemonth");
+            }
+        }
+
+        window.addEventListener('load',generateoption);
+
+        
+
+        let getDateBtn = document.getElementById("getDateBtn");
+        getDateBtn.addEventListener('click',getDate);
+
+        function getDate(){
+            var selector = document.getElementsByName("chooseday")[0];
+            var value1 = selector[selector.selectedIndex].value;
+            var selector = document.getElementsByName("choosemonth")[0];
+            var value2 = selector[selector.selectedIndex].value;
+            var selector = document.getElementsByName("chooseyear")[0];
+            var value3 = selector[selector.selectedIndex].value;
+            alert(value1+value2+value3);
+        }
+
+        
+
+        function GetPackage(){
+            get(child(dbref,'Payment')).then((snapshot)=>{
                 snapshot.forEach(std => {
                     PackageListItem(std);
                 }); 
-                });
-            }
+            });
+        }
 
             function PackageListItem(std){
                 let key = std.key;
                 let value = std.val();
-                
-
-                
                 let no ;
                 let name = value.name;
                 let x ;
