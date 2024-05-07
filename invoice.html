@@ -135,7 +135,7 @@
       if (user) {
         get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
           if(snapshot.exists()){
-            userid1.value = snapshot.val().userid;
+            document.getElementById("userid1").value = snapshot.val().userid;
           }
         })
       } 
@@ -333,7 +333,7 @@
       details.value = snapshot.val().details;
       userid1.value = snapshot.val().user;
       if(snapshot.exists()){
-      let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment)+ Number(cn) -Number(x_discount);
+      let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment)+ Number(cn) - Number(x_discount);
       N_baki = N_baki.toFixed(2);
       if(N_baki == 0 && snapshot.val().total != 0){
         update(ref(db,'Payment/' + y), {
@@ -358,7 +358,18 @@
         balance.value = "RM " + N_baki;
       }
 
-      else if(N_baki  < snapshot.val().total && N_baki > 0){
+      else if(N_baki  < snapshot.val().total && N_baki > 0 ){
+        update(ref(db,'Payment/' + y), {
+          baki : N_baki,
+          payment_status : "PARTIALLY PAID"
+        });
+        update(ref(db,'Payment/' + y +"/payment/"+p), {
+          baki_after_payment : N_baki,
+        });
+        status.value = "PARTIALLY PAID";
+        balance.value = "RM " + N_baki;
+      }
+      else if(N_baki  > snapshot.val().total && N_baki != 0 ){
         update(ref(db,'Payment/' + y), {
           baki : N_baki,
           payment_status : "PARTIALLY PAID"
