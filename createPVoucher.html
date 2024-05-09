@@ -223,13 +223,18 @@
                 var selector = document.getElementsByName("status")[0];
                 var status = selector[selector.selectedIndex].value;
 
+                var output = "";
+                var references = document.getElementById("references").value;
+                output = references.replace(/(?:\r\n|\r|\n)/g, '\\n');
+                
+
                 set(ref(db,'PaymentVoucher/'+n ), {
         
                     date : date_payment.innerHTML,
                     name: index.value,
                     phone_no : phone_no.value,
                     amount : amount.value,
-                    details: references.value,
+                    details: output,
                     reference_no : ref_no.value,
                     method: method,
                     type: type,
