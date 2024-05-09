@@ -275,14 +275,18 @@
             function retData(){
                 get(child(dbref, 'PaymentVoucher/' + x)).then((snapshot)=>{
                     if(snapshot.exists()){
+                        var input = snapshot.val().details;
+                        var output = "";
+                        output = input.replaceAll('\\n', '\n');
+                        var output2 = input.replaceAll('\\n', '<br>');
                         //payment_no.innerHTML = x;
                         index.value = snapshot.val().name;
                         nama.innerHTML = snapshot.val().name;
                         date_payment.innerHTML =  snapshot.val().date;
                         date_Pay.innerHTML = "DATE : " + snapshot.val().date;
                         amount.value = Number(snapshot.val().amount).toFixed(2);
-                        detail_payment.innerHTML = snapshot.val().details;
-                        references.value = snapshot.val().details;
+                        detail_payment.innerHTML = output2;
+                        references.value = output;
                         method_Pay.innerHTML = "PAYMENT METHOD : "+ snapshot.val().method;
                         type_Pay.innerHTML = "PAYMENT TYPE  : "+ snapshot.val().type;
                         phone_no.value = snapshot.val().phone_no;
@@ -314,10 +318,15 @@
                 
                 var selector = document.getElementsByName("method")[0];
                 var method = selector[selector.selectedIndex].value;
+                
                 var selector = document.getElementsByName("type")[0];
                 var type = selector[selector.selectedIndex].value;
                 var selector = document.getElementsByName("status")[0];
-                var status = selector[selector.selectedIndex].value;
+                var status = selector[selector.selectedIndex].value; 
+    
+                var output = "";
+                var references = document.getElementById("references").value;
+                output = references.replace(/(?:\r\n|\r|\n)/g, '\\n');
                 
 
                 update(ref(db,'PaymentVoucher/' + x), {
@@ -325,7 +334,7 @@
                 name: index.value,
                 phone_no : phone_no.value,
                 amount : amount.value,
-                details: references.value,
+                details: output,
                 reference_no : ref_no.value,
                 method : method,
                 type: type,
