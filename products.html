@@ -163,10 +163,18 @@
     $('#ListItems').find("tr:not(:first)").remove();
     const dbref = ref(db);
     get(child(dbref,'Payment/'+y+"/product")).then((snapshot)=>{
-      snapshot.forEach(std => {
-        GetTableList(std);
-        no ++;
-      }); 
+      if(snapshot.exists()){
+        snapshot.forEach(std => {
+          GetTableList(std);
+          no ++;
+        });
+      }
+      else{
+        alert("no products!");
+        update(ref(db,'Payment/' + y),{
+          total : 0})
+        }
+       
     });
   }
   let final_total = 0;
