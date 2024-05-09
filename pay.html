@@ -175,11 +175,16 @@
                     alert("Please enter value");
                 }
                 else{
-                    alert("Discount updated");
+                    var x = document.getElementById("remark_discount").value;
+                    var output = "";
+                    output = x.replace(/(?:\r\n|\r|\n)/g, '\\n');
+
                     set(ref(db,'Payment/' + y + "/discount"), {
                         amount : amount_discount.value,
-                        remarks : remark_discount.value
+                        remarks : output
                     })
+
+                    alert("Discount updated");
                     window.location.href= 'invoice.html?index='+y;
                 }   
             }
@@ -361,9 +366,16 @@
                 let x_remarks = "";
                 get(child(dbref, 'Payment/' + y +'/discount')).then((snapshot)=>{
                     x_discount = snapshot.val().amount;
-                    x_remarks = snapshot.val().remarks;
+
+                    var input = snapshot.val().remarks;
+                    var output = "";
+                    output = input.replaceAll('\\n', '<br>');
+
+                    x_remarks = output;
                     amount_discount.value = snapshot.val().amount;
-                    remark_discount.value = snapshot.val().remarks;
+                    var output2 = input.replaceAll('\\n', '\n');
+                    
+                    remark_discount.value = output2;
                        
                 })
 
@@ -416,7 +428,7 @@
 
                     if(x_discount != 0){
                         let date = document.createElement('tr');
-                        date.innerHTML = "<td></td><td>DISCOUNT : "+x_remarks+"</td><td></td><td></td><td>RM -"+ Number(x_discount).toFixed(2) +"</td>";
+                        date.innerHTML = "<td></td><td>DISCOUNT : <br>"+x_remarks+"</td><td></td><td></td><td>RM -"+ Number(x_discount).toFixed(2) +"</td>";
                         product.append(date);
                         discount.innerHTML = "DISCOUNT : (- RM " + Number(x_discount).toFixed(2) + ")";
                     }
