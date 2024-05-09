@@ -217,15 +217,23 @@
             const dbref = ref(db);
             get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
                 if(snapshot.exists()){
+
+                    var input = snapshot.val().alamat;
+                    var input1 = snapshot.val().details;
+                    var output = "";
+                    var output1 = "";
+                    output = input.replaceAll('\\n', '<br>');
+                    output1 = input1.replaceAll('\\n', '<br>');
+
                     total_payment.innerHTML = "TOTAL PAYMENT : RM "+ Number(snapshot.val().total_payment).toFixed(2);
                     //baki.innerHTML = "BALANCE : RM " + snapshot.val().baki;
                     let color = "red";
                     let a = Number(snapshot.val().invoice_no) ;
                     let b = a.toString().padStart(9, '0');
                     invoice_no.innerHTML = "Invoice No : #S" + b; 
-                    address.innerHTML = snapshot.val().alamat;
+                    address.innerHTML = output ;
                     no_telefon.innerHTML = snapshot.val().no_telefon;
-                    text_summary.innerHTML = snapshot.val().details;
+                    text_summary.innerHTML = output1 ;
                     if(snapshot.val().baki == 0 && snapshot.val().total != 0){
                         color = "green";
                         status_payment.innerHTML = `<div style="color:`+color+`;font-weight:bold">FULLY PAID</div>`;
