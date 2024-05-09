@@ -203,12 +203,20 @@
           return;
         }
         else{
+          var output = "";
+          var details = document.getElementById("details").value;
+          output = details.replace(/(?:\r\n|\r|\n)/g, '\\n');
+
+          var output1 = "";
+          var address = document.getElementById("address").value;
+          output1 = address.replace(/(?:\r\n|\r|\n)/g, '\\n');
+
           set(ref(db,'Payment/' + name.value), {
             name : name.value,
             no_telefon : no_telefon.value,
             payment_status : "UNPAID",
-            alamat : address.value,
-            details : details.value,
+            alamat : output1,
+            details : output,
             baki:0,
             total:0,
             payment_no : 0,
@@ -262,11 +270,17 @@
       return;
       }
       else{
+        var output = "";
+        var output1 = "";
+        var details = document.getElementById("details").value;
+        var address = document.getElementById("address").value;
+        output = details.replace(/(?:\r\n|\r|\n)/g, '\\n');
+        output1 = address.replace(/(?:\r\n|\r|\n)/g, '\\n');
         update(ref(db,'Payment/' + name.value), {
         name : name.value,
         no_telefon : no_telefon.value,
-        alamat : address.value,
-        details : details.value,
+        alamat : output1,
+        details : output,
         
         }).then(()=>{
             alert("Data Updated Successfully !");
@@ -327,10 +341,19 @@
     })
 
     get(child(dbref, 'Payment/' + y)).then((snapshot)=>{
+
+      var input = snapshot.val().details;
+      var output = "";
+      output = input.replaceAll('\\n', '\n');
+
+      var input1 = snapshot.val().alamat;
+      var output1 = "";
+      output1 = input1.replaceAll('\\n', '\n');
+
       name.value = snapshot.val().name;
       no_telefon.value = snapshot.val().no_telefon;
-      address.value = snapshot.val().alamat;
-      details.value = snapshot.val().details;
+      address.value = output1;
+      details.value = output;
       userid1.value = snapshot.val().user;
       if(snapshot.exists()){
       let N_baki = Number(snapshot.val().total)  - Number(snapshot.val().total_payment)+ Number(cn) - Number(x_discount);
