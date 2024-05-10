@@ -99,6 +99,7 @@
     <button title="View Summary Invoice" id="PayBtn" onclick=pay() style="background-color :rgb(29, 142, 95); color:black; font-weight: bold; border-radius: 10px;">SUMMARY</button>
     <button title="Return to Main Invoice Page" id="btn" onclick="window.location.href='search_invoice.html'" style="background-color :yellow; font-weight: bold; border-radius: 10px;"><i class="fa fa-arrow-left" > </i> BACK</button>
     <button title="Return to Homepage" onclick="window.location.href='homepage.html'" style="background-color :rgb(14, 163, 255); color:black; font-weight: bold; border-radius: 10px;"><i class="fa fa-home" > </i> HOME</button>
+    <button title="Delete Invoice" id="DelBtn" style="background-color :rgb(224, 23, 23); color:white; font-weight: bold; border-radius: 10px;"><i class="fa fa-trash" ></i> DELETE</button>
     <br/><br/>
   </div>
   <p id="userid"></p>
@@ -164,6 +165,7 @@
   let AddBtn = document.getElementById('AddBtn');
   let UpdBtn = document.getElementById('UpdBtn');
   let PayBtn = document.getElementById('PayBtn');
+  let DelBtn = document.getElementById('DelBtn');
 
   function pay(){
     if(name.value == "" || name.value == null){
@@ -445,12 +447,30 @@
     document.getElementById("date_payment").innerHTML = result1;
   }
 
+  function DelInv(){
+    remove(ref(db,'Payment/' + name.value ))
+    .then(()=>{
+      remove(ref(db,'CreditNote/' + name.value ))
+      .then(()=>{
+        alert("Invoice for " + name.value +" deleted successfully !");          
+        window.location.href= 'search_invoice.html';
+      })
+      .catch((error)=>{
+        alert("unsucessful");
+      })          
+    })
+    .catch((error)=>{
+      alert("unsucessful");
+    })
+  }
+
 
   window.addEventListener('load',GetPackage);
   AddBtn.addEventListener('click',AddData);
   UpdBtn.addEventListener('click',UpdData);
   PayBtn.addEventListener('click',pay);
   window.addEventListener('load',getDate);
+  DelBtn.addEventListener('click',DelInv);
 
 
     </script>
