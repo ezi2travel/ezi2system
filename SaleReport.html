@@ -6,23 +6,51 @@
         <title>Sale Report</title>
         <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
     </head>
+    <style>
+        td {border: 1px solid black;text-align: left; }
+        th {border: 1px solid black; }
+        table {border: 1px solid black; }
+    </style>
     <body>
         <h1></h1>
+        <p id="datechoose"></p>
+
         <label>Day</label>
-        <select id="chooseday" name="chooseday" onchange="this.className=this.options[this.selectedIndex].className" ></select>
+        <select id="chooseday" name="chooseday" onchange="this.className=this.options[this.selectedIndex].className" >
+            <option>-</option>
+        </select>
+        
 
         <label>Month</label>
-        <select id="choosemonth" name="choosemonth" onchange="this.className=this.options[this.selectedIndex].className"></select>
+        <select id="choosemonth" name="choosemonth" onchange="this.className=this.options[this.selectedIndex].className">
+            <option>-</option>
+        </select>
 
         <label>Year</label>
         <select id="chooseyear" name="chooseyear" onchange="this.className=this.options[this.selectedIndex].className">
+            <option>-</option>
             <option class="2023"  value="2023" >2023</option>
             <option class="2024" value="2024" >2024</option>
+            <option class="2025" value="2025" >2025</option>
+            <option class="2026" value="2026" >2026</option>
+            <option class="2027" value="2027" >2027</option>
         </select>
         <button id="getDateBtn"><i class="fa fa-search" ></i></button>
+        <button title="Return to Homepage" onclick="window.location.href='homepage.html'"><i class="fa fa-home"></i> HOME</button>
         <br/><br/>
+
+        <div style="align-content: center;">
+            <table class="center" id="ListofUser" style="margin-right: 5%; width: 100%; align-items: center; text-align: center;">
+              <tr>
+                <th style="background-color:cyan">NO</th>
+                <th style="background-color:cyan">NAME</th>
+                <th style="background-color:cyan">DATE</th>
+                <th style="background-color:cyan">AMOUNT </th>
+              </tr>
+            </table><br/><br/>
+        </div>
         
-        <ul id="myUL"></ul>
+        <!-- <ul id="myUL"></ul> -->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script type="module">
@@ -69,6 +97,7 @@
 
         let getDateBtn = document.getElementById("getDateBtn");
         getDateBtn.addEventListener('click',getDate);
+        getDateBtn.addEventListener('click',GetPackage);
 
         function getDate(){
             var selector = document.getElementsByName("chooseday")[0];
@@ -77,12 +106,28 @@
             var value2 = selector[selector.selectedIndex].value;
             var selector = document.getElementsByName("chooseyear")[0];
             var value3 = selector[selector.selectedIndex].value;
-            alert(value1+value2+value3);
+            if (value3 == "" || value3 == null || value3 == "-"){ // no date choose
+                datechoose.innerHTML = "";
+            }
+            else if (value2 == "" || value2 == null || value2 == "-"){ // only choose year
+                datechoose.innerHTML = value3;
+            }
+            else if(value1 == "" || value1 == null || value1 == "-"){ // choose year and month
+                datechoose.innerHTML = value2+"/"+value3;
+            }
+            else{
+                datechoose.innerHTML = value1+"/"+value2+"/"+value3; // choose year, month and day
+            }
+
+            
         }
 
         
-
+        let no = 1;
         function GetPackage(){
+            no = 1;
+            //document.getElementById("myUL").innerHTML = "";
+            $('#ListofUser').find("tr:not(:first)").remove();
             get(child(dbref,'Payment')).then((snapshot)=>{
                 snapshot.forEach(std => {
                     PackageListItem(std);
@@ -90,31 +135,100 @@
             });
         }
 
-            function PackageListItem(std){
-                let key = std.key;
-                let value = std.val();
-                let no ;
-                let name = value.name;
-                let x ;
-                let y = value.payment_no;
-                //number =  number + `<p>Number Of Payment : ` + y +'</p>' ;
-
+        function PackageListItem(std){
+            let key = std.key;
+            let value = std.val();
+            // let no ;
+            let name = value.name;
+            let x ;
+            let y = value.payment_no;
+            //number =  number + `<p>Number Of Payment : ` + y +'</p>' ;
+            if (datechoose.innerHTML == "" || datechoose.innerHTML == null){
                 for(x = 1; x <= y ; x++){ 
-                let date = document.createElement('li');
-                let number = "";
-                let text = "";                     
+                    //let date = document.createElement('li');
+                    let date1 = document.createElement('tr');
+                    let number = "";
+                    let text = "";                     
                     get(child(dbref,'Payment/'+ name +"/payment/"+x)).then((snapshot)=>{
-                        text =  `<p> Amount : RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
-                        number = `<p> Date Of Payment : ` + snapshot.val().date +`</p>` ;
-                        date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
-                        myUL.append(date);
+                        var print_date = snapshot.val().date;
+                        var new_date = print_date[6] + print_date[7] + print_date[8] + print_date[9];
+                        text =  `<p>RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
+                        number = `<p>` + print_date +`</p>` ;
+                        //date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
+                        //myUL.append(date);
+                        date1.innerHTML = "<td>"+no+".</td><td>"+ key +"</td><td>"+ print_date +"</td><td>RM "+ Number(snapshot.val().amount).toFixed(2) +"</td>";
+                        ListofUser.append(date1);
+                        no++;
                     });
                 }
+            }
+            else if(((datechoose.innerHTML).length) == 4){
+                for(x = 1; x <= y ; x++){ 
+                    //let date = document.createElement('li');
+                    let date1 = document.createElement('tr');
+                    let number = "";
+                    let text = "";                     
+                    get(child(dbref,'Payment/'+ name +"/payment/"+x)).then((snapshot)=>{
+                        var print_date = snapshot.val().date;
+                        var new_date = print_date[6] + print_date[7] + print_date[8] + print_date[9];
+                        if(datechoose.innerHTML == new_date){
+                            text =  `<p>RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
+                            number = `<p>` + new_date +`</p>` ;
+                            //date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
+                            //myUL.append(date);
+                            date1.innerHTML = "<td>"+no+".</td><td>"+ key +"</td><td>"+ print_date +"</td><td>RM "+ Number(snapshot.val().amount).toFixed(2) +"</td>";
+                            ListofUser.append(date1);
+                            no++;
+                        }  
+                    });
+                }
+            }
+            else if(((datechoose.innerHTML).length) == 7){
+                for(x = 1; x <= y ; x++){ 
+                    //let date = document.createElement('li');
+                    let date1 = document.createElement('tr');
+                    let number = "";
+                    let text = "";                     
+                    get(child(dbref,'Payment/'+ name +"/payment/"+x)).then((snapshot)=>{
+                        var print_date = snapshot.val().date;
+                        var new_date = print_date[3] + print_date[4] + print_date[5] + print_date[6] + print_date[7] + print_date[8] + print_date[9]
+                        if(datechoose.innerHTML == new_date){
+                            text =  `<p>RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
+                            number = `<p>` + new_date +`</p>` ;
+                            // date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
+                            // myUL.append(date);
+                            date1.innerHTML = "<td>"+no+".</td><td>"+ key +"</td><td>"+ print_date +"</td><td>RM "+ Number(snapshot.val().amount).toFixed(2) +"</td>";
+                            ListofUser.append(date1);
+                            no++;
+                        }        
+                    });
+                }
+            }
+            else if(((datechoose.innerHTML).length) == 10){
+                for(x = 1; x <= y ; x++){ 
+                    //let date = document.createElement('li');
+                    let date1 = document.createElement('tr');
+                    let number = "";
+                    let text = "";                     
+                    get(child(dbref,'Payment/'+ name +"/payment/"+x)).then((snapshot)=>{
+                        var print_date = snapshot.val().date;
+                        var new_date = print_date[0] +print_date[1] +print_date[2] + print_date[3] + print_date[4] + print_date[5] + print_date[6] + print_date[7] + print_date[8] + print_date[9]
+                        if(datechoose.innerHTML == new_date){
+                            text =  `<p>RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
+                            number = `<p>` + new_date +`</p>` ;
+                            // date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
+                            // myUL.append(date);
+                            date1.innerHTML = "<td>"+no+".</td><td>"+ key +"</td><td>"+ print_date +"</td><td>RM "+ Number(snapshot.val().amount).toFixed(2) +"</td>";
+                            ListofUser.append(date1);
+                            no++;
+                        }
+                    });
+                }
+            }  
+        } 
 
-                
-            } 
+        window.addEventListener('load',GetPackage);
 
-            window.addEventListener('load',GetPackage);
         </script>
 
     </body>
