@@ -207,9 +207,9 @@
                         var new_date = print_date[6] + print_date[7] + print_date[8] + print_date[9];
                         if(datechoose.innerHTML == new_date){
                             date.innerHTML = "<td>"+no+".</td><td>#PV"+std.key+"</td><td>"+ std.val().name +"</td><td>"+ print_date 
-                                +"</td><td></td><td style='color:red; text-align : right'>RM "+ Number(std.val().amount).toFixed(2) +"</td>"+
-                                `<td style="text-align:center"><button title="View details" onclick="window.location.href='editPVoucher.html?index=`
-                                        +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
+                            +"</td><td></td><td style='color:red; text-align : right'>RM "+ Number(std.val().amount).toFixed(2) +"</td>"+
+                            `<td style="text-align:center"><button title="View details" onclick="window.location.href='editPVoucher.html?index=`
+                                    +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
                         }
@@ -396,10 +396,9 @@
                             //myUL.append(date);
                             var receipt_no = snapshot.val().receipt_no;
                             receipt_no ="#S" + receipt_no.toString().padStart(9, '0');
-
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
-                                    +`</td><td></td><td style="text-align:center><button title="View details" onclick="window.location.href='proof_payment.html?index=`
+                                    +`</td><td></td><td style="text-align:center"><button title="View details" onclick="window.location.href='proof_payment.html?index=`
                                         +name+"@"+a+"_"+snapshot.val().amount+"&"+snapshot.val().baki_after_payment+"$"+print_date
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
@@ -428,7 +427,7 @@
 
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
-                                    +`</td><td></td><td style="text-align:center><button title="View details" onclick="window.location.href='proof_payment.html?index=`
+                                    +`</td><td></td><td style="text-align:center"><button title="View details" onclick="window.location.href='proof_payment.html?index=`
                                         +name+"@"+a+"_"+snapshot.val().amount+"&"+snapshot.val().baki_after_payment+"$"+print_date
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
@@ -457,7 +456,7 @@
                             
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
-                                    +`</td><td></td><td style="text-align:center><button title="View details" onclick="window.location.href='proof_payment.html?index=`
+                                    +`</td><td></td><td style="text-align:center"><button title="View details" onclick="window.location.href='proof_payment.html?index=`
                                         +name+"@"+a+"_"+snapshot.val().amount+"&"+snapshot.val().baki_after_payment+"$"+print_date
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
