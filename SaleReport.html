@@ -7,7 +7,8 @@
         <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
     </head>
     <style>
-        td {border: 1px solid black;text-align: left; }
+        p{text-align: left; font-weight: bold ;}
+        td {border: 1px solid black;text-align: left; width: auto;}
         th {border: 1px solid black; }
         table {border: 1px solid black; }
         body {font-family: "Lato", sans-serif; text-align: center; background-image: linear-gradient(aliceblue, rgb(142, 195, 242));background-attachment: fixed; margin: 5%;}
@@ -41,19 +42,27 @@
         <button title="Return to Homepage" onclick="window.location.href='homepage.html'"><i class="fa fa-home"></i> HOME</button>
         <br/><br/>
 
-        <div style="align-content: center;">
-            <table class="center" id="ListofUser" style="margin-right: 5%; width: 100%; align-items: center; text-align: center;">
-              <tr>
-                <th style="background-color:rgb(12, 105, 255); color: white;">NO</th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">RECEIPT NO.</th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">NAME</th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">DATE</th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">DEBIT </th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">CREDIT </th>
-                <th style="background-color:rgb(12, 105, 255); color: white;">VIEW </th>
-              </tr>
+        <div style="align-content: center;width: auto; height:50%;overflow:auto; border: 0.5px solid black;">
+            <table class="center" id="ListofUser" style=" width: 100%; align-items: center; text-align: center;">
+                <tr>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">NO</th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">RECEIPT NO.</th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">NAME</th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">DATE</th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">DEBIT </th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">CREDIT </th>
+                    <th style="background-color:rgb(12, 105, 255); color: white;">VIEW </th>
+                </tr>
             </table><br/><br/>
         </div>
+        <!-- <label>Total Sale : RM </label> -->
+        <p id="TOTAL1"></p>
+        <!-- <label>Total Payment Voucher : RM </label> -->
+        <p id="TOTAL2"></p>
+        <!-- <label>Total Credit Note : RM </label> -->
+        <p id="TOTAL3"></p>
+        <!-- <label>Total Cash Sale : RM </label> -->
+        <p id="TOTAL4"></p>
         
         <!-- <ul id="myUL"></ul> -->
 
@@ -64,7 +73,6 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
         import {getDatabase, ref, set, push,child, onValue,remove,get,update} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
         import { getAuth, setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-        
 
         // TODO: Add SDKs for Firebase products that you want to use
         const firebaseConfig = {
@@ -107,7 +115,12 @@
         getDateBtn.addEventListener('click',GetPackage);
         getDateBtn.addEventListener('click',GetCS);
 
-        
+        let TOTAL = 0;
+        let TOTAL_SALE = 0;
+        let TOTAL_PV = 0;
+        let TOTAL_CN = 0;
+        let TOTAL_CS = 0;
+
         function getDate(){
             var selector = document.getElementsByName("chooseday")[0];
             var value1 = selector[selector.selectedIndex].value;
@@ -132,6 +145,8 @@
         }
 
         function GetCS(){
+            //TOTAL_CS = 0;
+            let x_CS = 0;
             const dbref = ref(database);
             get(child(dbref,'CashSale')).then((snapshot)=>{
                 snapshot.forEach(std => {
@@ -145,6 +160,7 @@
                                 
                         ListofUser.append(date);
                         no++;
+                        x_CS = Number(x_CS) + Number(std.val().amount);
                     }
                     else if(((datechoose.innerHTML).length) == 4){
                         var print_date = std.val().date;
@@ -156,6 +172,7 @@
                                         +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_CS = Number(x_CS) + Number(std.val().amount);
                         }
                     }
                     else if(((datechoose.innerHTML).length) == 7){
@@ -168,6 +185,7 @@
                                             +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_CS = Number(x_CS) + Number(std.val().amount);
                         }
 
                     }
@@ -181,15 +199,19 @@
                                             +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_CS = Number(x_CS) + Number(std.val().amount);
                         }
 
                     }
+                    TOTAL4.innerHTML = "Total Cash Sale : RM " +Number(x_CS).toFixed(2);
 
                 }); 
             });
         }
 
         function GetPV(){
+            TOTAL_PV = 0;
+            let x_PV = 0;
             const dbref = ref(database);
             get(child(dbref,'PaymentVoucher')).then((snapshot)=>{
                 snapshot.forEach(std => {
@@ -203,6 +225,7 @@
                                 
                         ListofUser.append(date);
                         no++;
+                        x_PV = Number(x_PV) + Number(std.val().amount);
                     }
                     else if(((datechoose.innerHTML).length) == 4){
                         var print_date = std.val().date;
@@ -214,7 +237,9 @@
                                     +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_PV = Number(x_PV) + Number(std.val().amount);
                         }
+                        
                     }
                     else if(((datechoose.innerHTML).length) == 7){
                         var print_date = std.val().date;
@@ -226,8 +251,8 @@
                                             +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_PV = Number(x_PV) + Number(std.val().amount);
                         }
-
                     }
                     else if(((datechoose.innerHTML).length) == 10){
                         var print_date = std.val().date;
@@ -239,12 +264,12 @@
                                             +std.key+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date);
                             no++;
+                            x_PV = Number(x_PV) + Number(std.val().amount);
                         }
-
                     }
-
+                    TOTAL2.innerHTML = "Total Payment Voucher : RM " + Number(x_PV).toFixed(2);
                 }); 
-            });
+            });            
         }
 
         function GetCN(){
@@ -256,6 +281,7 @@
         }
 
         function CNList(std){
+            let x_CN = 0;
             let key = std.key;
             let value = std.val();
             let x ;
@@ -273,6 +299,8 @@
                                         +key+"@"+a+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                         ListofUser.append(date1);
                         no++;
+                        x_CN = Number(x_CN) + Number(snapshot.val().amount);
+                        TOTAL3.innerHTML = "Total Credit Note : RM " + Number(x_CN).toFixed(2);
                     });
                 }
             }
@@ -291,6 +319,10 @@
                                         +key+"@"+a+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
+                            x_CN = Number(x_CN) + Number(snapshot.val().amount);
+                            TOTAL3.innerHTML = "Total Credit Note : RM " + Number(x_CN).toFixed(2);
+                        }else{
+                            TOTAL3.innerHTML = "Total Credit Note : RM 0.00";
                         }  
                     });
                 }
@@ -310,6 +342,10 @@
                                         +key+"@"+a+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
+                            x_CN = Number(x_CN) + Number(snapshot.val().amount);
+                            TOTAL3.innerHTML = "Total Credit Note : RM " + Number(x_CN).toFixed(2);
+                        }else{
+                            TOTAL3.innerHTML = "Total Credit Note : RM 0.00";
                         }  
                     });
                 }
@@ -329,17 +365,25 @@
                                         +key+"@"+a+`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
+                            x_CN = Number(x_CN) + Number(snapshot.val().amount);
+                            TOTAL3.innerHTML = "Total Credit Note : RM " + Number(x_CN).toFixed(2);
+                        }else{
+                            TOTAL3.innerHTML = "Total Credit Note : RM 0.00";
                         }  
                     });
                     
                 }
-            }  
+            } 
+            
+            
         }
 
         let no = 1;
+        let x_SALE = 0;
         function GetPackage(){
+            TOTAL1.innerHTML = "Total Sale : RM 0.00" ;
+            x_SALE = 0;
             no = 1;
-            //document.getElementById("myUL").innerHTML = "";
             $('#ListofUser').find("tr:not(:first)").remove();
             get(child(dbref,'Payment')).then((snapshot)=>{
                 snapshot.forEach(std => {
@@ -378,6 +422,8 @@
                                     +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                         ListofUser.append(date1);
                         no++;
+                        x_SALE = Number(x_SALE) + Number(snapshot.val().amount);
+                        TOTAL1.innerHTML = "Total Sale : RM " + Number(x_SALE).toFixed(2);
                     });
                 }
             }
@@ -405,7 +451,9 @@
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
-                        }  
+                            x_SALE = Number(x_SALE) + Number(snapshot.val().amount);
+                            TOTAL1.innerHTML = "Total Sale : RM " + Number(x_SALE).toFixed(2);
+                        } 
                     });
                 }
             }
@@ -434,7 +482,9 @@
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
-                        }        
+                            x_SALE = Number(x_SALE) + Number(snapshot.val().amount);
+                            TOTAL1.innerHTML = "Total Sale : RM " + Number(x_SALE).toFixed(2);
+                        }      
                     });
                 }
             }
@@ -463,7 +513,9 @@
                                         +`'"><i class="fa fa-chevron-right" style="color:blue"></i></button></td>`;
                             ListofUser.append(date1);
                             no++;
-                        }
+                            x_SALE = Number(x_SALE) + Number(snapshot.val().amount);
+                            TOTAL1.innerHTML = "Total Sale : RM " + Number(x_SALE).toFixed(2);
+                        } 
                     });
                 }
             }  
