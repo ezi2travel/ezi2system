@@ -273,6 +273,7 @@
         }
 
         function GetCN(){
+            TOTAL3.innerHTML = "Total Credit Note : RM 0.00";
             get(child(dbref,'CreditNote')).then((snapshot)=>{
                 snapshot.forEach(std => {
                     CNList(std);
