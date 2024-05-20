@@ -76,8 +76,10 @@
 
 
             function deleteItem(){
+                
                 const auth = getAuth();
-                const user = auth.currentUser ;
+                const user = auth.currentUser;
+                alert(user.uid);
 
                 remove(ref(db,'user/' + w  ))
                 .then(()=>{
@@ -88,8 +90,9 @@
                     alert("unsucessful");
                 })
 
-                deleteUser(user).then(() => {
-                // User deleted.
+                deleteUser(w).then(() => {
+                    window.location.href= 'manageUser.html';
+                    // User deleted.
                 }).catch((error) => {
                 // An error ocurred
                 // ...
