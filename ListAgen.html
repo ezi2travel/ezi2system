@@ -409,7 +409,7 @@ function AddData(){
     
     alert('Agent image uploaded !');
     alert("Agent Added Successfully !");
-    //location.reload();
+    location.reload();
 
     })
     .catch((error)=>{
@@ -445,6 +445,16 @@ function RetData(){
 
       img.src = snapshot.val().image;
 
+      var myCanvas1 = document.getElementById("imageCanvas1");
+      var ctx1 = myCanvas1.getContext('2d');
+      var img1 = new Image;
+      img1.onload = function(){
+        canvas1.width = img1.width;
+        canvas1.height = img1.height;
+        ctx1.drawImage(img1,0,0); // Or at whatever offset you like
+      };
+
+      img1.src = snapshot.val().image1;
 
     }
     else{
@@ -459,52 +469,78 @@ function RetData(){
 
 function UpdateData(){
 
-    var selector = document.getElementsByName("chooselevel")[0];
-    var level = selector[selector.selectedIndex].value;
-
   if (!Name.value){
     alert("Invalid input");
     return;
   }
 
   update(ref(database,'Agent/' + Name.value), {
-    no_telefon : no_telefon.value,
-    level : level,
+    area : Area.value,
     date : Date.value,
-    area: Area.value,
-    detail : Detail.value
+    detail : Detail.value,
+    level : level,
+    no_telefon : no_telefon.value
   })
   .then(()=>{
     if(imageLoader.value == '' || imageLoader.value == null){
-        alert("item update without new image !");
+      if(imageLoader1.value == '' || imageLoader1.value == null){
+        alert("Item update without new Image and new Signature Image !");
         location.reload();
         return;
       }
-      firebase.initializeApp(firebaseConfig);
-      const ref = firebase.storage().ref();
-      const file = document.getElementById("imageLoader").files[0];
-      const name = "Agent" + "_" + Name.value;
-      const metadata = {
-        contentType: file.type
-      };
-      const task = ref.child(name).put(file, metadata);task
-      .then(snapshot => snapshot.ref.getDownloadURL())
-      .then(url => {
-        document.getElementById('link').innerHTML= url;
-        //alert(url);
-        uploadFile();
-        
-      }).catch(console.error);
+      else{
+        firebase.initializeApp(firebaseConfig);
+        const ref = firebase.storage().ref();
+        const file = document.getElementById("imageLoader1").files[0];
+        const name = "Sign" + "_" + Name.value;
+        const metadata = {
+          contentType: file.type
+        };
 
-    alert("Agent Updated Successfully !");
-    //location.reload();
+        const task = ref.child(name).put(file, metadata);task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url => {
+          document.getElementById('link1').innerHTML= url;
+          //alert(url);
+          uploadFile1();
+          
+        }).catch(console.error);
+
+        alert("Agent Updated Successfully !");
+        location.reload();
+      }  
+    }
+    else if(imageLoader1.value == '' || imageLoader1.value == null){
+      if(imageLoader.value != '' || imageLoader.value != null){
+        firebase.initializeApp(firebaseConfig);
+        const ref = firebase.storage().ref();
+        const file = document.getElementById("imageLoader").files[0];
+        const name = "Agent" + "_" + Name.value;
+        const metadata = {
+          contentType: file.type
+        };
+
+        const task = ref.child(name).put(file, metadata);task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url => {
+          document.getElementById('link').innerHTML= url;
+          //alert(url);
+          uploadFile();
+          
+        }).catch(console.error);
+
+        alert("Agent Updated Successfully !");
+        location.reload();
+      }
+       
+    }
   })
   .catch((error)=>{
     alert("unsucessful");
     console.log(error);
     location.reload();
   })
-  
+
 }
 
 function DeleteData(){
