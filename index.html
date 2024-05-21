@@ -63,14 +63,18 @@
         // })
 
         get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
-          if(snapshot.exists()){
-            if(snapshot.val().userid == "ezi2s1"){
-                window.location.replace("./homepageAdmin.html"); 
+            if(snapshot.exists()){
+                if(snapshot.val().userid == "ezi2s1"){
+                    window.location.replace("./homepageAdmin.html"); 
+                }
+                else{
+                    window.location.replace("./homepage.html");
+                }
             }
             else{
-                window.location.replace("./homepage.html");
+                alert("user not registered");
+                window.location.replace("./index.html");
             }
-          }
         })
 
         window.alert("Success! Welcome back!");
