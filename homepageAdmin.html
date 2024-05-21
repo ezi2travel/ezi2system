@@ -164,6 +164,10 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
           if(snapshot.exists()){
             userid.innerHTML = "ADMIN : " + snapshot.val().userid;
           }
+          else{
+            alert("user nor registered!")
+            window.location.replace("./index.html");
+          }
         })
       } 
       else {
