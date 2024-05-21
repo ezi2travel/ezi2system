@@ -153,13 +153,16 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        //alert(user.uid);
+        alert(user.uid);
         get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
           if(snapshot.exists()){
             userid.innerHTML = snapshot.val().userid;
             if(snapshot.val().userid == "ezi2s1"){
               window.location.replace("./homepageAdmin.html");
             }
+          }else{
+            alert("user nor registered!")
+            window.location.replace("./index.html");
           }
         })
       } 
