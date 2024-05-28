@@ -226,8 +226,10 @@
     <br/><br/>
 
     <label>AGENT NAME : </label>
-    <input type="text" id="agent" name="agent" placeholder="Enter Agent Name"/>
-    <br><br>
+    <select id="chooselevel" name="chooselevel"  class="Agent">
+        <option class="Agent" value="Agent" >Agent</option>
+        <!-- <option class="Sub-Agent"  value="Sub-Agent" >Sub-Agent</option> -->
+    </select><br><br>
     
     <div>
         <label>INVOICE BEHALF : </label>
@@ -351,6 +353,24 @@
       );
     } 
     window.addEventListener('load',Getlist);
+
+    function GetlistAgent(){
+      const dbRef = ref(db, "Agent");
+      onValue( dbRef, (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          const childkey = childSnapshot.key;
+          const childData = childSnapshot.val();
+          var row = `<option value="Sub-Agent ${childData.name}" class="Sub-Agent ${childData.name}" ">Sub-Agent ${childData.name}</option>`;
+            $(row).appendTo("#chooselevel");        
+        });
+      },
+      {
+        onlyOnce: true,
+      }
+      );
+    } 
+
+    window.addEventListener('load',GetlistAgent);
 
     const queryString = window.location.search;
     var x = queryString.substring(7);
@@ -543,6 +563,8 @@
         var value10 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("invoice")[0];
         var value11 = selector[selector.selectedIndex].value;
+        var selector = document.getElementsByName("chooselevel")[0];
+        var value12 = selector[selector.selectedIndex].value;
 
         set(ref(db,'Testing/' + name.value), {
             id : id.value,
@@ -567,7 +589,7 @@
             makan : value7,
             beg : value8,
             katil : value9,
-            agent : agent.value,
+            agent : value12,
             no_telefon : phone_number.value,
             nationality : value10,
             invoice : value11
@@ -619,6 +641,8 @@
         var value10 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("invoice")[0];
         var value11 = selector[selector.selectedIndex].value;
+        var selector = document.getElementsByName("chooselevel")[0];
+        var value12 = selector[selector.selectedIndex].value;
         const dbref = ref(db);
         
         get(child(dbref, 'Testing/' + name.value)).then((snapshot)=>{
@@ -633,7 +657,7 @@
               status.value = snapshot.val().status;
               pekerjaan.value = snapshot.val().pekerjaan;
               alamat.value = snapshot.val().alamat;
-              agent.value = snapshot.val().agent;
+              //agent.value = snapshot.val().agent;
               let x = String(snapshot.val().no_telefon).split(" ").join("") ;
               x =  x.split("-").join("");
               x =  x.split("+").join("");
@@ -678,6 +702,8 @@
               document.getElementsByName('invoice')[0].className = snapshot.val().invoice;
               document.getElementsByName('invoice')[0].value = snapshot.val().invoice;
               
+              document.getElementsByName('chooselevel')[0].className = snapshot.val().agent;
+              document.getElementsByName('chooselevel')[0].value = snapshot.val().agent;
 
               if(snapshot.val().nationality == "Non-Malaysian" || snapshot.val().age > 80){
                 document.getElementsByName('chooseInsurance')[0].className = "umrah";
@@ -780,6 +806,8 @@
         var value10 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("invoice")[0];
         var value11 = selector[selector.selectedIndex].value;
+        var selector = document.getElementsByName("chooselevel")[0];
+        var value12 = selector[selector.selectedIndex].value;
 
         if(date == null || date ==""){
             update(ref(db,'Testing/' + name.value), {
@@ -802,7 +830,7 @@
                 makan : value7,
                 beg : value8,
                 katil : value9,
-                agent : agent.value,
+                agent : value12,
                 no_telefon : phone_number.value,
                 nationality : value10,
                 invoice : value11
@@ -838,7 +866,7 @@
                 makan : value7,
                 beg : value8,
                 katil : value9,
-                agent : agent.value,
+                agent : value12,
                 nationality : value10,
                 invoice : value11
                 
