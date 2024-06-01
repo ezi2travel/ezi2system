@@ -415,7 +415,7 @@
                         text =  `<p>RM ` +  Number(snapshot.val().amount).toFixed(2)+`</p>` ;
                         number = `<p>` + print_date +`</p>` ;
                         var receipt_no = snapshot.val().receipt_no;
-                        receipt_no ="#S" + receipt_no.toString().padStart(9, '0');
+                        receipt_no ="#RCP" + receipt_no.toString().padStart(9, '0');
                         //date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
                         //myUL.append(date);
                         date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
@@ -446,7 +446,7 @@
                             //date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
                             //myUL.append(date);
                             var receipt_no = snapshot.val().receipt_no;
-                            receipt_no ="#S" + receipt_no.toString().padStart(9, '0');
+                            receipt_no ="#RCP" + receipt_no.toString().padStart(9, '0');
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
                                     +`</td><td></td><td style="text-align:center"><button title="View details" onclick="window.location.href='proof_payment.html?index=`
@@ -476,7 +476,7 @@
                             // date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
                             // myUL.append(date);
                             var receipt_no = snapshot.val().receipt_no;
-                            receipt_no ="#S" + receipt_no.toString().padStart(9, '0');
+                            receipt_no ="#RCP" + receipt_no.toString().padStart(9, '0');
 
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
@@ -507,7 +507,7 @@
                             // date.innerHTML = `<p style="font-weight:bold">`+key+`</p>` + text + number;
                             // myUL.append(date);
                             var receipt_no = snapshot.val().receipt_no;
-                            receipt_no ="#S" + receipt_no.toString().padStart(9, '0');
+                            receipt_no ="#RCP" + receipt_no.toString().padStart(9, '0');
                             
                             date1.innerHTML = "<td>"+no+".</td><td>"+receipt_no+"</td><td>"+ key +"</td><td>"+ print_date 
                                 +"</td><td style='color:green; text-align : right'>RM "+ Number(snapshot.val().amount).toFixed(2) 
