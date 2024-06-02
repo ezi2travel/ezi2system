@@ -360,8 +360,10 @@
         snapshot.forEach((childSnapshot) => {
           const childkey = childSnapshot.key;
           const childData = childSnapshot.val();
-          var row = `<option value="Sub-Agent ${childData.name}" class="Sub-Agent ${childData.name}" ">Sub-Agent ${childData.name}</option>`;
-            $(row).appendTo("#chooselevel");        
+          var row1 = `<option value="Agent ${childData.name}" class="Agent ${childData.name}" ">Agent ${childData.name}</option>`;
+          //var row = `<option value="Sub-Agent ${childData.name}" class="Sub-Agent ${childData.name}" ">Sub-Agent ${childData.name}</option>`;
+          $(row1).appendTo("#chooselevel");  
+          //$(row).appendTo("#chooselevel");        
         });
       },
       {
