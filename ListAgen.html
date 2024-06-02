@@ -356,6 +356,9 @@
   }
 
 function AddData(){
+  var selector = document.getElementsByName("chooselevel")[0];
+  var level = selector[selector.selectedIndex].value;
+
   if (!Name.value ){
     alert("Invalid input / receipt");
     return;
@@ -468,6 +471,9 @@ function RetData(){
 }
 
 function UpdateData(){
+
+  var selector = document.getElementsByName("chooselevel")[0];
+  var level = selector[selector.selectedIndex].value;
 
   if (!Name.value){
     alert("Invalid input");
