@@ -44,6 +44,9 @@
         </div>
 
         <p id="total_click_link" style="font-size: 20px; font-weight: bold;"></p>
+        <p id="Last_reset" style="font-size: 20px; font-weight: bold;"></p>
+        
+        <button id="reset_counter">RESET</button>
                 
         <p style="color: white;">EZI2TRAVEL SDN BHD</p>
     </body>
@@ -76,6 +79,39 @@
   const database = getDatabase(app);
   const analytics = getAnalytics(app);
   const dbref = ref(database);
+
+  let reset_counter = document.getElementById("reset_counter");
+
+  function reset(){
+    var offset = 8;
+    const d = new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" )
+
+    update(ref(database,'reset'), {
+      date_time : d,                
+    })
+
+    const dbRef = ref(database, "wasap");
+    onValue( dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childkey = childSnapshot.key;
+        const childData = childSnapshot.val();
+          update(ref(database,'wasap/'+ childkey), {
+              frequency : '0',                
+          })
+          
+          location.reload();     
+      });
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+    alert("data reset !");
+
+
+  }
+
+  reset_counter.addEventListener('click', reset);
 
   function checkuser(){
     const auth = getAuth();
@@ -244,5 +280,14 @@ function ListUser(std){
     total_click_link.innerHTML = "Total Link Click : " + total_click + " times";
 }
 window.addEventListener('load', GetListUser);
+
+window.addEventListener('load', GetLastReset);
+
+function GetLastReset(){
+  const dbref = ref(database);
+  get(child(dbref,'reset')).then((snapshot)=>{
+    Last_reset.innerHTML = "Last Reset is on : " + snapshot.val().date_time; 
+  });
+}
     
 </script>
