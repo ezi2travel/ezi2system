@@ -22,7 +22,9 @@
 <body>
     <h1 style="color:black; font-size: 45px;">GENERATE LIST OF ALL JEMAAH </h1>
     <label for="getdate">Choose Date:</label>
-    <select title="Choose Date of Package Here" style="text-align: center;" id="chooseDate" name="chooseDate" onchange="changeDate()" ></select> 
+    <select title="Choose Date of Package Here" style="text-align: center;" id="chooseDate" name="chooseDate" onchange="changeDate()" >
+        <option > Choose date of package</option>
+    </select> 
     <button title="Return to Homepage" style="padding:5px 15px; background-color: dodgerblue; color: white; border-radius: 10px;" onclick="window.location.href='homepage.html'"><i class="fa fa-home"></i> HOME</button><br/><br>
     <h1 id="datechosen" style="display: none;"></h1>
     <button title="Generate List Name" style=" padding:5px 25px; border-radius: 10px; background-color: rgb(0, 115, 255);color: white;" id="getData" type="getData">Generate Registered Jemaah</button>
