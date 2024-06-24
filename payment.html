@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Payment</title>
-        <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+        <link rel="icon" href="./LogoNBendera.png" type="image/x-icon">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <style>
@@ -74,12 +74,12 @@
             <input style="border-radius: 5px" type="text" id="reference">
         </div>
         <div style="text-align: center;">
-            <p id="receipt" style="display: none;"></p><br /><br/>
+            <p id="receipt" ></p><br /><br/>
             <input title="Choose File to Upload" style=" color: white ; border-radius:10px" type="file" id="photo" accept="image/jpeg, image/png, application/pdf" /><br/><br /><br/>
 
             <div>
                 <button title="Submit Payment" style="background-color: green ; color: white; padding: 10px 25px; border-radius: 10px" id="sumbit_payment">SUBMIT <i class="fa fa-send-o"></i> </button>
-                <button title="Upload File" style="background-color: rgb(0, 13, 128) ; color: white; padding: 10px 25px; border-radius: 10px" id="upload">UPLOAD FILE <i class="fa fa-upload"></i></button>
+                <!-- <button title="Upload File" style="background-color: rgb(0, 13, 128) ; color: white; padding: 10px 25px; border-radius: 10px" id="upload">UPLOAD FILE <i class="fa fa-upload"></i></button> -->
                 <button title="Return to Summary" onclick="pay()" style="background-color: rgb(0, 166, 255) ; color: black; padding: 10px 25px; border-radius: 10px" ><i class="fa fa-arrow-left"> BACK</i></button></br></br>            
             </div> 
             <br /><br/>
@@ -129,30 +129,7 @@
                     }
                 }
             input.addEventListener('change', previewPhoto);
-            let upload = document.getElementById('upload');
-
-            function uploadImage() {
-                firebase.initializeApp(firebaseConfig);
-                const ref = firebase.storage().ref();
-                const file = document.getElementById("photo").files[0];
-                if (input.value == '' || input.value == null){
-                    alert("Please choose the receipt !");
-                    return;
-                }
-                const name = "RECEIPT_" + no.innerHTML + "_"+ index.innerHTML;
-                const metadata = {
-                    contentType: file.type
-                };
-                const task = ref.child(name).put(file, metadata);task
-                .then(snapshot => snapshot.ref.getDownloadURL())
-                .then(url => {
-                    document.getElementById('receipt').innerHTML= url;
-                    alert('Receipt uploaded !');
-                    document.querySelector("#image").src = url;
-                }).catch(console.error);
-                
-                //submit();
-            }
+            // let upload = document.getElementById('upload');
             const errorMsgElement = document.querySelector('span#errorMsg');
           
             const app = initializeApp(firebaseConfig);
@@ -218,7 +195,7 @@
                 let b = document.getElementById("amount");  
                 let c = document.getElementById("reference");
                 let d = document.getElementById("date_payment").innerHTML;
-                let e = document.getElementById("receipt").innerHTML; 
+                //let e = document.getElementById("receipt").innerHTML; 
 
                 if(b.value == "" || b.value ==null ||c.value == "" || c.value==null){
                     alert("Please insert the amount and reference!");
@@ -228,48 +205,106 @@
                     alert("Please insert proof of payment!");
                     return;
                 }
-                if(e == '' || e==null){
-                    alert("Please click upload button first!");
-                    return;
-                }         
+                // if(e == '' || e==null){
+                //     alert("Please click upload button first!");
+                //     return;
+                // }         
                 get(child(dbref, 'Payment/'+y )).then((snapshot)=>{
                     let a = Number(snapshot.val().payment_no)+1;
                     set(ref(db,'Payment/' + y + "/payment/" + a), {
                     amount : b.value,
                     reference : c.value,
                     date : d,
-                    receipt : e,
+                    receipt : "hello",
                     user : userid1.value
                     
                     }).then(()=>{
+                        if(input.value == '' || input.value == null){
+                            alert("Please choose the receipt !");
+                            return;
+                        }
+
+                        firebase.initializeApp(firebaseConfig);
+                        const ref = firebase.storage().ref();
+                        const file = document.getElementById("photo").files[0];
+                        const name = "RECEIPT_" + no.innerHTML + "_"+ index.innerHTML;
+                        const metadata = {
+                            contentType: file.type
+                        };
+                        const task = ref.child(name).put(file, metadata);task
+                        .then(snapshot => snapshot.ref.getDownloadURL())
+                        .then(url => {
+                            document.getElementById('receipt').innerHTML= url;
+                            uploadFile(); 
+                            document.querySelector("#image").src = url;
+                        }).catch(console.error);
+
+                            
+                            
+                        }).catch(console.error);
                         alert("Payment Added !");
                         update(ref(db,'Payment/' + y), {
                            payment_no : a,
                         })
 
-                        window.location.href= 'invoice.html?index=' + y;
-
-                    }).catch((error)=>{
+                }).catch((error)=>{
                         alert("unsucessful");
                         console.log(error);
-                    })
                 })
+                
+
                 get(child(dbref, 'number')).then((snapshot)=>{
-                    let a = (Number(snapshot.val().receipt_no)+1);
+                    let a = (Number(snapshot.val().receipt_no)+1); 
+ 
                     update(ref(db,'Payment/' + y +"/payment/"+payment_no.innerHTML), {
-                        receipt_no : a,                
+                        receipt_no : a,                 
                     })
                     update(ref(db,'number'), {
                         receipt_no : a,                
                     })
                 })
             }
+
+            function uploadFile(){
+                let x_rcp = document.getElementById("receipt").innerHTML;
+                //alert(x_rcp);
+
+                update(ref(db,'Payment/' + y +"/payment/"+payment_no.innerHTML), {
+                receipt : x_rcp,                
+                })
+
+                window.location.href= 'invoice.html?index=' + y;
+                //location.reload();
+            }
                
             window.addEventListener('load',retData);
             window.addEventListener('load',getDate);
-            upload.addEventListener('click',uploadImage);
+            //upload.addEventListener('click',uploadImage);
             sumbit_payment.addEventListener('click',submit);
 
         </script>
     </body>
 </html>
+
+<!-- // function uploadImage() {
+    //     firebase.initializeApp(firebaseConfig);
+    //     const ref = firebase.storage().ref();
+    //     const file = document.getElementById("photo").files[0];
+    //     if (input.value == '' || input.value == null){
+    //         alert("Please choose the receipt !");
+    //         return;
+    //     }
+    //     const name = "RECEIPT_" + no.innerHTML + "_"+ index.innerHTML;
+    //     const metadata = {
+    //         contentType: file.type
+    //     };
+    //     const task = ref.child(name).put(file, metadata);task
+    //     .then(snapshot => snapshot.ref.getDownloadURL())
+    //     .then(url => {
+    //         document.getElementById('receipt').innerHTML= url;
+    //         alert('Receipt uploaded !');
+    //         document.querySelector("#image").src = url;
+    //     }).catch(console.error);
+        
+    //     //submit();
+    // } -->
