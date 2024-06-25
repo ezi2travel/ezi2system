@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Register Jemaah</title>
-    <link rel="icon" href="./Logo_Ezi2travel_2.png" type="image/x-icon">
+    <link rel="icon" href="./LogoNBendera.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -415,8 +415,8 @@
     var value9 = selector[selector.selectedIndex].value;
     var selector = document.getElementsByName("choosewarganegara")[0];
     var value10 = selector[selector.selectedIndex].value;
-    var selector = document.getElementsByName("invoice")[0];
-    var value11 = selector[selector.selectedIndex].value;
+    // var selector = document.getElementsByName("invoice")[0];
+    // var value11 = selector[selector.selectedIndex].value;
 
     let AddBtn = document.getElementById('AddBtn');
     // let RetBtn = document.getElementById('RetBtn');
@@ -520,7 +520,7 @@
             }
         })
         .catch((error)=>{
-            alert("unsucessful");
+            alert("unsucessful1");
             console.log(error);
         })
 
@@ -563,8 +563,8 @@
         var value9 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("choosewarganegara")[0];
         var value10 = selector[selector.selectedIndex].value;
-        var selector = document.getElementsByName("invoice")[0];
-        var value11 = selector[selector.selectedIndex].value;
+        // var selector = document.getElementsByName("invoice")[0];
+        // var value11 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("chooselevel")[0];
         var value12 = selector[selector.selectedIndex].value;
 
@@ -594,12 +594,12 @@
             agent : value12,
             no_telefon : phone_number.value,
             nationality : value10,
-            invoice : value11
+            //invoice : value11
 
         }).then(()=>{
             alert("Jemaah Added Successfully !");
         }).catch((error)=>{
-            alert("unsucessful");
+            alert("unsucessful2");
             console.log(error);
         })
     }
@@ -641,8 +641,8 @@
         var value9 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("choosewarganegara")[0];
         var value10 = selector[selector.selectedIndex].value;
-        var selector = document.getElementsByName("invoice")[0];
-        var value11 = selector[selector.selectedIndex].value;
+        // var selector = document.getElementsByName("invoice")[0];
+        // var value11 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("chooselevel")[0];
         var value12 = selector[selector.selectedIndex].value;
         const dbref = ref(db);
@@ -701,8 +701,8 @@
               document.getElementsByName('choosewarganegara')[0].className = snapshot.val().nationality;
               document.getElementsByName('choosewarganegara')[0].value = snapshot.val().nationality;
 
-              document.getElementsByName('invoice')[0].className = snapshot.val().invoice;
-              document.getElementsByName('invoice')[0].value = snapshot.val().invoice;
+            //   document.getElementsByName('invoice')[0].className = snapshot.val().invoice;
+            //   document.getElementsByName('invoice')[0].value = snapshot.val().invoice;
               
               document.getElementsByName('chooselevel')[0].className = snapshot.val().agent;
               document.getElementsByName('chooselevel')[0].value = snapshot.val().agent;
@@ -722,29 +722,27 @@
               document.getElementById("test4").innerHTML = snapshot.val().gambar_passport;
               document.getElementById("test5").innerHTML = snapshot.val().gambar_visa;
 
-              var selector = document.getElementsByName("invoice")[0];
-              var value11 = selector[selector.selectedIndex].value;
+            //   var selector = document.getElementsByName("invoice")[0];
+            //   var value11 = selector[selector.selectedIndex].value;
 
-              get(child(dbref, 'Payment/' + value11)).then((snapshot)=>{
-                let x = String(snapshot.val().payment_status);
+        //       get(child(dbref, 'Payment/' + value11)).then((snapshot)=>{
+        //         let x = String(snapshot.val().payment_status);
 
-                if(x == "UNPAID"){
-                    status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:red; ">UNPAID</p></div>`;
-                }
-                else if(x == "PARTIALLY PAID"){
-                    status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:yellow; ">PARTIALLY PAID</p></div>`;
-                }
-                else if(x == "FULLY PAID"){
-                    status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:green; ">FULLY PAID</p></div>`;
-                }
-                else if(x == "OVER PAID"){
-                    status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:blue; ">OVER PAID</p></div>`;
-                }
+        //         if(x == "UNPAID"){
+        //             status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:red; ">UNPAID</p></div>`;
+        //         }
+        //         else if(x == "PARTIALLY PAID"){
+        //             status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:yellow; ">PARTIALLY PAID</p></div>`;
+        //         }
+        //         else if(x == "FULLY PAID"){
+        //             status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:green; ">FULLY PAID</p></div>`;
+        //         }
+        //         else if(x == "OVER PAID"){
+        //             status_pay.innerHTML = `<div style="text-align:center; margin-left:10%; outline:1px solid black; border-radius:5px " ><p style="color:blue; ">OVER PAID</p></div>`;
+        //         }
 
-        })
+        // })
         
-
-
               generate_ic();
 
               if(name.value == "undefined"){
@@ -764,7 +762,7 @@
             }
         })
         .catch((error)=>{
-            alert("unsucessful");
+            alert("unsucessful3");
             console.log(error);
         })
     }
@@ -806,8 +804,8 @@
         var value9 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("choosewarganegara")[0];
         var value10 = selector[selector.selectedIndex].value;
-        var selector = document.getElementsByName("invoice")[0];
-        var value11 = selector[selector.selectedIndex].value;
+        // var selector = document.getElementsByName("invoice")[0];
+        // var value11 = selector[selector.selectedIndex].value;
         var selector = document.getElementsByName("chooselevel")[0];
         var value12 = selector[selector.selectedIndex].value;
 
@@ -835,7 +833,7 @@
                 agent : value12,
                 no_telefon : phone_number.value,
                 nationality : value10,
-                invoice : value11
+                //invoice : value11
 
             }).then(()=>{
                 alert("Data Updated Successfully !");
@@ -870,7 +868,7 @@
                 katil : value9,
                 agent : value12,
                 nationality : value10,
-                invoice : value11
+               //invoice : value11
                 
             }).then(()=>{
                 alert("Data Updated Successfully !");
@@ -888,7 +886,7 @@
             alert("Data Deleted Successfully !");
         })
         .catch((error)=>{
-            alert("unsucessful");
+            alert("unsucessful4");
             console.log(error);
         })
     }
