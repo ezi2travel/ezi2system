@@ -157,7 +157,7 @@ body {font-family: "Lato", sans-serif; text-align: center; background-image: lin
         get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
           if(snapshot.exists()){
             userid.innerHTML = snapshot.val().userid;
-            if(snapshot.val().userid == "ezi2s2"){
+            if(snapshot.val().userid == "ezi2s1"){
               window.location.replace("./homepageAdmin.html");
             }
           }else{
