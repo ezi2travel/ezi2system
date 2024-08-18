@@ -87,7 +87,7 @@
             if (user) {
                 get(child(dbref, 'user/'+user.uid)).then((snapshot)=>{
                 if(snapshot.exists()){
-                    if(snapshot.val().userid != "ezi2s1"){
+                    if(snapshot.val().userid != "ezi2s2"){
                         alert("Please Sign In with admin account! ");
                         window.location.href= 'index.html';
                     }
